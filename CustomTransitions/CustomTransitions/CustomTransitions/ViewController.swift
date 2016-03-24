@@ -28,6 +28,7 @@ class ViewController: UIViewController, UIViewControllerTransitioningDelegate {
         tVC.modalPresentationStyle = .FullScreen
         self.view.addGestureRecognizer(interactiveTransitionRecognizer)
         
+        
     }
     
     @IBAction func 跳转(sender: AnyObject) {

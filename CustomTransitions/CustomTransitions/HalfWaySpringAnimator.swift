@@ -8,6 +8,12 @@
 
 import UIKit
 
+func after(time: Double,  action: dispatch_block_t?) {
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(time * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
+    action?()
+  })
+}
+
 class HalfWaySpringAnimator: NSObject, UIViewControllerAnimatedTransitioning {
   
   var image: UIImageView
@@ -25,7 +31,6 @@ class HalfWaySpringAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)
     let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)
     let containerView = transitionContext.containerView()
-    
     var fromView = fromViewController?.view
     var toView = toViewController?.view
     if transitionContext.respondsToSelector(#selector(transitionContext.viewForKey(_:))) {
@@ -33,7 +38,6 @@ class HalfWaySpringAnimator: NSObject, UIViewControllerAnimatedTransitioning {
       toView = transitionContext.viewForKey(UITransitionContextToViewKey)
     }
     let isPresenting = (toViewController?.presentingViewController == fromViewController)
-    
     var imageFromFame = CGRectZero
     var imageToFame = CGRectZero
     fromView?.alpha = 1
@@ -53,6 +57,7 @@ class HalfWaySpringAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
     self.image.removeFromSuperview()
     containerView?.addSubview(self.image)
+    
     func addShadow(comp: dispatch_block_t?) {
       UIView.animateWithDuration(0.2, animations: {
         self.image.layer.shadowOffset = CGSizeMake(1, 1)
@@ -90,7 +95,7 @@ class HalfWaySpringAnimator: NSObject, UIViewControllerAnimatedTransitioning {
       maskLayer.addAnimation(animation, forKey: "path")
     }
     
-    func start() {
+    func presentMaskLayerAnimation() {
       let minw = min(imageToFame.size.width, imageToFame.size.height) / 2
       let w = imageToFame.width
       let h = imageToFame.height
@@ -103,7 +108,7 @@ class HalfWaySpringAnimator: NSObject, UIViewControllerAnimatedTransitioning {
       maskLayer(toView!, start: startCycle.CGPath, end: endCycle.CGPath)
     }
     
-    func end() {
+    func dismissMaskLayerAnimation() {
       let a = containerView!.frame.size.height * containerView!.frame.size.height + containerView!.frame.size.width * containerView!.frame.size.width
       let radius = sqrtf(Float(a)) / 2
       let startCycle = UIBezierPath(arcCenter: containerView!.center, radius: CGFloat(radius), startAngle: 0, endAngle: CGFloat(M_PI * 2), clockwise: true)
@@ -115,42 +120,44 @@ class HalfWaySpringAnimator: NSObject, UIViewControllerAnimatedTransitioning {
       maskLayer(fromView!, start: startCycle.CGPath, end: endCycle.CGPath)
     }
     
+    func endTransition() {
+      self.image.removeFromSuperview()
+      toView?.addSubview(self.image)
+      let wasCancelled = transitionContext.transitionWasCancelled()
+      transitionContext.completeTransition(!wasCancelled)
+    }
+    
     if isPresenting {
       toView?.frame = transitionContext.finalFrameForViewController(toViewController!)
       addShadow({
         UIView.animateWithDuration(0.5, animations: {
           self.image.frame = imageToFame
-          }, completion: { (finish) in
+          }, completion: { _ in
             removeShadow({
-              UIView.animateWithDuration(maskLayerTime, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .CurveLinear, animations: {
+              presentMaskLayerAnimation()
+              UIView.animateWithDuration(maskLayerTime, animations: {
                 toView?.alpha = 1.0
-                start()
-              }) { (finidshed) in
-                self.image.removeFromSuperview()
-                toView?.addSubview(self.image)
-                let wasCancelled = transitionContext.transitionWasCancelled()
-                transitionContext.completeTransition(!wasCancelled)
+              }) { _ in
+                endTransition()
               }
             })
         })
       })
     } else {
       fromView?.frame = toView!.frame
-      end()
-      dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64((maskLayerTime - 0.15) * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
+      dismissMaskLayerAnimation()
+      after(maskLayerTime - 0.15, action: {
         addShadow({
           fromView?.alpha = 0
           UIView.animateWithDuration(0.5, animations: {
             self.image.frame = imageToFame
-            }, completion: { (f) in
+            }, completion: { _ in
               removeShadow(nil)
-              self.image.removeFromSuperview()
-              toView?.addSubview(self.image)
-              let wasCancelled = transitionContext.transitionWasCancelled()
-              transitionContext.completeTransition(!wasCancelled)
+              endTransition()
           })
         })
       })
     }
   }
 }
+

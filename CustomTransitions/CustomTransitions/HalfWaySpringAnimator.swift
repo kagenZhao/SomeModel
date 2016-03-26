@@ -9,168 +9,148 @@
 import UIKit
 
 class HalfWaySpringAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+  
+  var image: UIImageView
+  var imageSuperView: UIView
+  var frame: CGRect
+  init(imageview: UIImageView){
+    self.image = imageview
+    self.imageSuperView = imageview.superview!
+    self.frame = imageview.frame
+  }
+  func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+    return 1
+  }
+  func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+    let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)
+    let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)
+    let containerView = transitionContext.containerView()
     
-    var image: UIImageView
-    var imageSuperView: UIView
-    var frame: CGRect
-    init(imageview: UIImageView){
-        self.image = imageview
-        self.imageSuperView = imageview.superview!
-        self.frame = imageview.frame
+    var fromView = fromViewController?.view
+    var toView = toViewController?.view
+    if transitionContext.respondsToSelector(#selector(transitionContext.viewForKey(_:))) {
+      fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)
+      toView = transitionContext.viewForKey(UITransitionContextToViewKey)
     }
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
-        return 1
+    let isPresenting = (toViewController?.presentingViewController == fromViewController)
+    
+    var imageFromFame = CGRectZero
+    var imageToFame = CGRectZero
+    fromView?.alpha = 1
+    if isPresenting {
+      imageFromFame = self.frame
+      imageToFame = CGRect(origin: CGPoint(x: 20, y: 150), size: self.frame.size)
+      toView?.alpha = 0
+      toView!.frame = imageToFame
+      containerView?.addSubview(toView!)
+    } else {
+      imageFromFame = CGRect(origin: CGPoint(x: 20, y: 150), size: self.frame.size)
+      imageToFame = self.frame
+      toView?.alpha = 1
+      toView!.frame = fromView!.frame
+      containerView?.insertSubview(toView!, belowSubview: fromView!)
     }
-    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
-        let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)
-        let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)
-        let containerView = transitionContext.containerView()
-        
-        var fromView = fromViewController?.view
-        var toView = toViewController?.view
-        if transitionContext.respondsToSelector(#selector(transitionContext.viewForKey(_:))) {
-            fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)
-            toView = transitionContext.viewForKey(UITransitionContextToViewKey)
-        }
-        let isPresenting = (toViewController?.presentingViewController == fromViewController)
-        
-        var imageFromFame = CGRectZero
-        var imageToFame = CGRectZero
-        if isPresenting {
-            imageFromFame = self.frame
-            imageToFame = CGRect(origin: CGPoint(x: 20, y: 150), size: self.frame.size)
-            toView?.alpha = 0
-            fromView?.alpha = 1
-            toView!.frame = imageToFame
-            containerView?.addSubview(toView!)
-        } else {
-            imageFromFame = CGRect(origin: CGPoint(x: 20, y: 150), size: self.frame.size)
-            imageToFame = self.frame
-            toView?.alpha = 1
-            fromView?.alpha = 1
-            toView!.frame = CGRect(x: fromView!.frame.origin.x, y: fromView!.frame.origin.y, width: fromView!.frame.width, height: fromView!.frame.height)
-            containerView?.insertSubview(toView!, belowSubview: fromView!)
-        }
-        
-        self.image.removeFromSuperview()
-        containerView?.addSubview(self.image)
-        containerView?.clipsToBounds = true
-        toView?.clipsToBounds = true
-        fromView?.clipsToBounds = true
-        print(containerView?.subviews)
-        func addShadow(comp: dispatch_block_t?) {
-            UIView.animateWithDuration(0.2, animations: {
-                self.image.layer.shadowOffset = CGSizeMake(1, 1)
-                self.image.layer.shadowColor = UIColor.grayColor().CGColor
-                self.image.layer.shadowOpacity = 1
-                self.image.layer.shadowRadius = 10
-                self.image.transform = CGAffineTransformMakeScale(1.1, 1.1)
-            }) { _ in
-                comp?()
-            }
-            
-        }
-        func removeShadow(comp: dispatch_block_t?) {
-            UIView.animateWithDuration(0.2, animations: {
-                self.image.transform = CGAffineTransformMakeScale(1, 1)
-                self.image.layer.shadowOffset = CGSizeMake(1, 1)
-                self.image.layer.shadowColor = UIColor.grayColor().CGColor
-                self.image.layer.shadowOpacity = 0
-                self.image.layer.shadowRadius = 0
-            }) { _ in
-                comp?()
-            }
-        }
-        
-        let maskLayerTime = 0.5
-        
-        func start() {
-            let minw = min(imageToFame.size.width, imageToFame.size.height) / 2
-            let w = imageToFame.width
-            let h = imageToFame.height
-            let rect = CGRect(x: imageToFame.origin.x + ((w - minw) / 2), y: imageToFame.origin.y + ((h - minw) / 2), width: minw, height: minw)
-            let startCycle = UIBezierPath(ovalInRect: rect)
-            let x = max(imageToFame.origin.x, containerView!.frame.size.width - imageToFame.origin.x)
-            let y = max(imageToFame.origin.y, containerView!.frame.size.height - imageToFame.origin.y)
-            let radius = sqrtf(pow(Float(x), Float(2)) + pow(Float(y), Float(2)))
-            let endCycle = UIBezierPath(arcCenter: containerView!.center, radius: CGFloat(radius), startAngle: 0, endAngle: CGFloat(M_PI * 2), clockwise: true)
-            let maskLayer = CAShapeLayer()
-            maskLayer.path = endCycle.CGPath
-            toView?.layer.mask = maskLayer
-            let maskLayerAnimation = CABasicAnimation(keyPath: "path")
-            maskLayerAnimation.delegate = self
-            maskLayerAnimation.fromValue = startCycle.CGPath
-            maskLayerAnimation.toValue = endCycle.CGPath
-            maskLayerAnimation.duration = maskLayerTime
-            maskLayerAnimation.timingFunction = CAMediaTimingFunction.init(name: kCAMediaTimingFunctionEaseInEaseOut)
-            maskLayerAnimation.setValue(transitionContext, forKey: "transitionContext")
-            maskLayer.addAnimation(maskLayerAnimation, forKey: "path")
-        }
-        
-        func end() {
-            let a = containerView!.frame.size.height * containerView!.frame.size.height + containerView!.frame.size.width * containerView!.frame.size.width
-            let radius = sqrtf(Float(a)) / 2
-            let startCycle = UIBezierPath(arcCenter: containerView!.center, radius: CGFloat(radius), startAngle: 0, endAngle: CGFloat(M_PI * 2), clockwise: true)
-            let minw = min(imageFromFame.size.width, imageFromFame.size.height) / 2
-            let w = imageFromFame.width
-            let h = imageFromFame.height
-            let rect = CGRect(x: imageFromFame.origin.x + ((w - minw) / 2), y: imageFromFame.origin.y + ((h - minw) / 2), width: minw, height: minw)
-            let endCycle = UIBezierPath(ovalInRect: rect)
-            let maskLayer = CAShapeLayer()
-            maskLayer.fillColor = UIColor.greenColor().CGColor
-            maskLayer.path = endCycle.CGPath
-            fromView?.layer.mask = maskLayer
-            
-            let maskLayerAnimation = CABasicAnimation(keyPath: "path")
-            maskLayerAnimation.delegate = self
-            maskLayerAnimation.fromValue = startCycle.CGPath
-            maskLayerAnimation.toValue = endCycle.CGPath
-            maskLayerAnimation.duration = maskLayerTime
-            maskLayerAnimation.timingFunction = CAMediaTimingFunction.init(name: kCAMediaTimingFunctionEaseInEaseOut)
-            maskLayerAnimation.setValue(transitionContext, forKey: "transitionContext")
-            maskLayer.addAnimation(maskLayerAnimation, forKey: "path")
-        }
-        
-        if isPresenting {
-            toView?.frame = transitionContext.finalFrameForViewController(toViewController!)
-            addShadow({
-                UIView.animateWithDuration(0.5, animations: {
-                    self.image.frame = imageToFame
-                    }, completion: { (finish) in
-                        removeShadow({
-                            UIView.animateWithDuration(maskLayerTime, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .CurveLinear, animations: {
-                                toView?.alpha = 1.0
-                                start()
-                            }) { (finidshed) in
-                                self.image.removeFromSuperview()
-                                toView?.addSubview(self.image)
-                                toView?.clipsToBounds = false
-                                fromView?.clipsToBounds = false
-                                let wasCancelled = transitionContext.transitionWasCancelled()
-                                transitionContext.completeTransition(!wasCancelled)
-                            }
-                        })
-                })
+    
+    self.image.removeFromSuperview()
+    containerView?.addSubview(self.image)
+    func addShadow(comp: dispatch_block_t?) {
+      UIView.animateWithDuration(0.2, animations: {
+        self.image.layer.shadowOffset = CGSizeMake(1, 1)
+        self.image.layer.shadowColor = UIColor.grayColor().CGColor
+        self.image.layer.shadowOpacity = 1
+        self.image.layer.shadowRadius = 10
+        self.image.transform = CGAffineTransformMakeScale(1.1, 1.1)
+      }) { _ in
+        comp?()
+      }
+    }
+    
+    func removeShadow(comp: dispatch_block_t?) {
+      UIView.animateWithDuration(0.2, animations: {
+        self.image.transform = CGAffineTransformIdentity
+        self.image.layer.shadowOpacity = 0
+        self.image.layer.shadowRadius = 0
+      }) { _ in
+        comp?()
+      }
+    }
+    
+    let maskLayerTime = 0.5
+    
+    func maskLayer(view: UIView, start: CGPath, end: CGPath) {
+      let maskLayer = CAShapeLayer()
+      maskLayer.path = end
+      view.layer.mask = maskLayer
+      let animation = CABasicAnimation(keyPath: "path")
+      animation.fromValue = start
+      animation.toValue = end
+      animation.duration = maskLayerTime
+      animation.timingFunction = CAMediaTimingFunction.init(name: kCAMediaTimingFunctionEaseInEaseOut)
+      animation.setValue(transitionContext, forKey: "transitionContext")
+      maskLayer.addAnimation(animation, forKey: "path")
+    }
+    
+    func start() {
+      let minw = min(imageToFame.size.width, imageToFame.size.height) / 2
+      let w = imageToFame.width
+      let h = imageToFame.height
+      let rect = CGRect(x: imageToFame.origin.x + ((w - minw) / 2), y: imageToFame.origin.y + ((h - minw) / 2), width: minw, height: minw)
+      let startCycle = UIBezierPath(ovalInRect: rect)
+      let x = max(imageToFame.origin.x, containerView!.frame.size.width - imageToFame.origin.x)
+      let y = max(imageToFame.origin.y, containerView!.frame.size.height - imageToFame.origin.y)
+      let radius = sqrtf(pow(Float(x), Float(2)) + pow(Float(y), Float(2)))
+      let endCycle = UIBezierPath(arcCenter: containerView!.center, radius: CGFloat(radius), startAngle: 0, endAngle: CGFloat(M_PI * 2), clockwise: true)
+      maskLayer(toView!, start: startCycle.CGPath, end: endCycle.CGPath)
+    }
+    
+    func end() {
+      let a = containerView!.frame.size.height * containerView!.frame.size.height + containerView!.frame.size.width * containerView!.frame.size.width
+      let radius = sqrtf(Float(a)) / 2
+      let startCycle = UIBezierPath(arcCenter: containerView!.center, radius: CGFloat(radius), startAngle: 0, endAngle: CGFloat(M_PI * 2), clockwise: true)
+      let minw = min(imageFromFame.size.width, imageFromFame.size.height) / 2
+      let w = imageFromFame.width
+      let h = imageFromFame.height
+      let rect = CGRect(x: imageFromFame.origin.x + ((w - minw) / 2), y: imageFromFame.origin.y + ((h - minw) / 2), width: minw, height: minw)
+      let endCycle = UIBezierPath(ovalInRect: rect)
+      maskLayer(fromView!, start: startCycle.CGPath, end: endCycle.CGPath)
+    }
+    
+    if isPresenting {
+      toView?.frame = transitionContext.finalFrameForViewController(toViewController!)
+      addShadow({
+        UIView.animateWithDuration(0.5, animations: {
+          self.image.frame = imageToFame
+          }, completion: { (finish) in
+            removeShadow({
+              UIView.animateWithDuration(maskLayerTime, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .CurveLinear, animations: {
+                toView?.alpha = 1.0
+                start()
+              }) { (finidshed) in
+                self.image.removeFromSuperview()
+                toView?.addSubview(self.image)
+                let wasCancelled = transitionContext.transitionWasCancelled()
+                transitionContext.completeTransition(!wasCancelled)
+              }
             })
-        } else {
-            fromView?.frame = toView!.frame
-            end()
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64((maskLayerTime - 0.15) * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
-                addShadow({
-                    fromView?.alpha = 0
-                    UIView.animateWithDuration(0.5, animations: {
-                        self.image.frame = imageToFame
-                        }, completion: { (f) in
-                            removeShadow(nil)
-                            self.image.removeFromSuperview()
-                            toView?.addSubview(self.image)
-                            toView?.clipsToBounds = false
-                            fromView?.clipsToBounds = false
-                            let wasCancelled = transitionContext.transitionWasCancelled()
-                            transitionContext.completeTransition(!wasCancelled)
-                    })
-                })
-            })
-        }
+        })
+      })
+    } else {
+      fromView?.frame = toView!.frame
+      end()
+      dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64((maskLayerTime - 0.15) * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
+        addShadow({
+          fromView?.alpha = 0
+          UIView.animateWithDuration(0.5, animations: {
+            self.image.frame = imageToFame
+            }, completion: { (f) in
+              removeShadow(nil)
+              self.image.removeFromSuperview()
+              toView?.addSubview(self.image)
+              let wasCancelled = transitionContext.transitionWasCancelled()
+              transitionContext.completeTransition(!wasCancelled)
+          })
+        })
+      })
     }
+  }
 }

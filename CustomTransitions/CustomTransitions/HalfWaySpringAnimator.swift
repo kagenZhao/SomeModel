@@ -8,7 +8,7 @@
 
 import UIKit
 
-func after(time: Double,  action: dispatch_block_t?) {
+func after(time: Double, action: dispatch_block_t?) {
   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(time * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), {
     action?()
   })

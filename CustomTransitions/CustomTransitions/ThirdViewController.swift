@@ -39,7 +39,6 @@ class ThirdViewController: UIViewController {
     }
     
     func buttonDidClicked(sender: AnyObject) {
-        // 和FirstViewController中的代码是类似的，不过返回时手势应该是从左向右
         if let transitionDelegate = self.transitioningDelegate as? InteractivityTransitionDelegate {
             if sender.isKindOfClass(UIGestureRecognizer) {
                 transitionDelegate.gestureRecognizer = interactiveTransitionRecognizer

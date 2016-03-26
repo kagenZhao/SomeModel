@@ -32,7 +32,7 @@
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CR3-f9-EL7" userLabel="视图容器">
                     <rect key="frame" x="38" y="184" width="300" height="300"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="qrcode_border" translatesAutoresizingMaskIntoConstraints="NO" id="qaW-4p-Dmo" userLabel="边框">
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" image="qrcode_border" translatesAutoresizingMaskIntoConstraints="NO" id="qaW-4p-Dmo" userLabel="边框">
                             <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
                         </imageView>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="qrcode_scanline_qrcode" translatesAutoresizingMaskIntoConstraints="NO" id="00k-2l-d9a" userLabel="冲击波">
@@ -78,6 +78,7 @@
                 <outlet property="containerHeightConstraint" destination="3vE-i1-MqZ" id="jFZ-uq-qNt"/>
                 <outlet property="customContainerView" destination="CR3-f9-EL7" id="qsd-ht-8Yy"/>
                 <outlet property="customLabel" destination="l7k-rn-ZSp" id="7Ey-wG-kw8"/>
+                <outlet property="libraryBtn" destination="L85-Pj-cd2" id="ASB-dN-cqF"/>
                 <outlet property="scanLineImageView" destination="00k-2l-d9a" id="W4f-4c-obP"/>
                 <outlet property="scanLineTopConstraint" destination="QEu-jc-njM" id="Knn-5Q-Krt"/>
             </connections>

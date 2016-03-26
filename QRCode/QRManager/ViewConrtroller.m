@@ -8,7 +8,6 @@
 
 #import "ViewConrtroller.h"
 #import "QRCodeViewController.h"
-#import "ZBarSDK.h"
 @implementation ViewConrtroller
 
 - (IBAction)decode:(id)sender {
@@ -22,7 +21,6 @@
     };
     [self presentViewController:vc animated:YES completion:nil];
   
-  ZBarReaderViewController *bb = [[ZBarReaderViewController alloc] init];
   
   
   

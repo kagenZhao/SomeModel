@@ -10,5 +10,5 @@
 #import <UIKit/UIKit.h>
 
 @interface QRManager : NSObject
-+ (UIImage *)createQRCodeImageWithMessage:(NSString *)message;
++ (UIImage *)createQRCodeImageWithMessage:(NSString *)message size:(CGFloat)size color:(UIColor *)color topImg:(UIImage *)topImg;
 @end

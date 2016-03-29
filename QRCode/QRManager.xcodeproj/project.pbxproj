@@ -16,6 +16,24 @@
 		0427261B1CA616A200C8A1EB /* rscode.c in Sources */ = {isa = PBXBuildFile; fileRef = 042726111CA616A200C8A1EB /* rscode.c */; };
 		0427261C1CA616A200C8A1EB /* split.c in Sources */ = {isa = PBXBuildFile; fileRef = 042726131CA616A200C8A1EB /* split.c */; };
 		0427261E1CA618E600C8A1EB /* 2.png in Resources */ = {isa = PBXBuildFile; fileRef = 0427261D1CA618E600C8A1EB /* 2.png */; };
+		0465EB101CAA17330059B0AD /* qrcode_border@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0465EAFE1CAA17330059B0AD /* qrcode_border@2x.png */; };
+		0465EB111CAA17330059B0AD /* qrcode_button_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0465EAFF1CAA17330059B0AD /* qrcode_button_background@2x.png */; };
+		0465EB121CAA17330059B0AD /* qrcode_embeddedimage_shadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0465EB001CAA17330059B0AD /* qrcode_embeddedimage_shadow@2x.png */; };
+		0465EB131CAA17330059B0AD /* qrcode_navigationbar_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0465EB011CAA17330059B0AD /* qrcode_navigationbar_background@2x.png */; };
+		0465EB141CAA17330059B0AD /* qrcode_scanline_barcode@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0465EB021CAA17330059B0AD /* qrcode_scanline_barcode@2x.png */; };
+		0465EB151CAA17330059B0AD /* qrcode_scanline_barcode@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0465EB031CAA17330059B0AD /* qrcode_scanline_barcode@3x.png */; };
+		0465EB161CAA17330059B0AD /* qrcode_scanline_qrcode@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0465EB041CAA17330059B0AD /* qrcode_scanline_qrcode@2x.png */; };
+		0465EB171CAA17330059B0AD /* qrcode_scanline_qrcode@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0465EB051CAA17330059B0AD /* qrcode_scanline_qrcode@3x.png */; };
+		0465EB181CAA17330059B0AD /* qrcode_tabbar_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0465EB061CAA17330059B0AD /* qrcode_tabbar_background@2x.png */; };
+		0465EB191CAA17330059B0AD /* qrcode_tabbar_icon_barcode@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0465EB071CAA17330059B0AD /* qrcode_tabbar_icon_barcode@2x.png */; };
+		0465EB1A1CAA17330059B0AD /* qrcode_tabbar_icon_barcode@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0465EB081CAA17330059B0AD /* qrcode_tabbar_icon_barcode@3x.png */; };
+		0465EB1B1CAA17330059B0AD /* qrcode_tabbar_icon_barcode_highlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0465EB091CAA17330059B0AD /* qrcode_tabbar_icon_barcode_highlighted@2x.png */; };
+		0465EB1C1CAA17330059B0AD /* qrcode_tabbar_icon_barcode_highlighted@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0465EB0A1CAA17330059B0AD /* qrcode_tabbar_icon_barcode_highlighted@3x.png */; };
+		0465EB1D1CAA17330059B0AD /* qrcode_tabbar_icon_qrcode@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0465EB0B1CAA17330059B0AD /* qrcode_tabbar_icon_qrcode@2x.png */; };
+		0465EB1E1CAA17330059B0AD /* qrcode_tabbar_icon_qrcode@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0465EB0C1CAA17330059B0AD /* qrcode_tabbar_icon_qrcode@3x.png */; };
+		0465EB1F1CAA17330059B0AD /* qrcode_tabbar_icon_qrcode_highlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0465EB0D1CAA17330059B0AD /* qrcode_tabbar_icon_qrcode_highlighted@2x.png */; };
+		0465EB201CAA17330059B0AD /* qrcode_tabbar_icon_qrcode_highlighted@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0465EB0E1CAA17330059B0AD /* qrcode_tabbar_icon_qrcode_highlighted@3x.png */; };
+		0465EB211CAA17330059B0AD /* qrcode_tip_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0465EB0F1CAA17330059B0AD /* qrcode_tip_background@2x.png */; };
 		046780B11C9FDEF300B8D94A /* QRCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 046780AD1C9FDEF300B8D94A /* QRCodeViewController.m */; };
 		046780B21C9FDEF300B8D94A /* QRView.m in Sources */ = {isa = PBXBuildFile; fileRef = 046780AF1C9FDEF300B8D94A /* QRView.m */; };
 		046780B31C9FDEF300B8D94A /* QRView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 046780B01C9FDEF300B8D94A /* QRView.xib */; };
@@ -47,6 +65,24 @@
 		042726131CA616A200C8A1EB /* split.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = split.c; sourceTree = "<group>"; };
 		042726141CA616A200C8A1EB /* split.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = split.h; sourceTree = "<group>"; };
 		0427261D1CA618E600C8A1EB /* 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2.png; sourceTree = "<group>"; };
+		0465EAFE1CAA17330059B0AD /* qrcode_border@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qrcode_border@2x.png"; sourceTree = "<group>"; };
+		0465EAFF1CAA17330059B0AD /* qrcode_button_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qrcode_button_background@2x.png"; sourceTree = "<group>"; };
+		0465EB001CAA17330059B0AD /* qrcode_embeddedimage_shadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qrcode_embeddedimage_shadow@2x.png"; sourceTree = "<group>"; };
+		0465EB011CAA17330059B0AD /* qrcode_navigationbar_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qrcode_navigationbar_background@2x.png"; sourceTree = "<group>"; };
+		0465EB021CAA17330059B0AD /* qrcode_scanline_barcode@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qrcode_scanline_barcode@2x.png"; sourceTree = "<group>"; };
+		0465EB031CAA17330059B0AD /* qrcode_scanline_barcode@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qrcode_scanline_barcode@3x.png"; sourceTree = "<group>"; };
+		0465EB041CAA17330059B0AD /* qrcode_scanline_qrcode@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qrcode_scanline_qrcode@2x.png"; sourceTree = "<group>"; };
+		0465EB051CAA17330059B0AD /* qrcode_scanline_qrcode@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qrcode_scanline_qrcode@3x.png"; sourceTree = "<group>"; };
+		0465EB061CAA17330059B0AD /* qrcode_tabbar_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qrcode_tabbar_background@2x.png"; sourceTree = "<group>"; };
+		0465EB071CAA17330059B0AD /* qrcode_tabbar_icon_barcode@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qrcode_tabbar_icon_barcode@2x.png"; sourceTree = "<group>"; };
+		0465EB081CAA17330059B0AD /* qrcode_tabbar_icon_barcode@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qrcode_tabbar_icon_barcode@3x.png"; sourceTree = "<group>"; };
+		0465EB091CAA17330059B0AD /* qrcode_tabbar_icon_barcode_highlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qrcode_tabbar_icon_barcode_highlighted@2x.png"; sourceTree = "<group>"; };
+		0465EB0A1CAA17330059B0AD /* qrcode_tabbar_icon_barcode_highlighted@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qrcode_tabbar_icon_barcode_highlighted@3x.png"; sourceTree = "<group>"; };
+		0465EB0B1CAA17330059B0AD /* qrcode_tabbar_icon_qrcode@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qrcode_tabbar_icon_qrcode@2x.png"; sourceTree = "<group>"; };
+		0465EB0C1CAA17330059B0AD /* qrcode_tabbar_icon_qrcode@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qrcode_tabbar_icon_qrcode@3x.png"; sourceTree = "<group>"; };
+		0465EB0D1CAA17330059B0AD /* qrcode_tabbar_icon_qrcode_highlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qrcode_tabbar_icon_qrcode_highlighted@2x.png"; sourceTree = "<group>"; };
+		0465EB0E1CAA17330059B0AD /* qrcode_tabbar_icon_qrcode_highlighted@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qrcode_tabbar_icon_qrcode_highlighted@3x.png"; sourceTree = "<group>"; };
+		0465EB0F1CAA17330059B0AD /* qrcode_tip_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qrcode_tip_background@2x.png"; sourceTree = "<group>"; };
 		046780AC1C9FDEF300B8D94A /* QRCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRCodeViewController.h; sourceTree = "<group>"; };
 		046780AD1C9FDEF300B8D94A /* QRCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRCodeViewController.m; sourceTree = "<group>"; };
 		046780AE1C9FDEF300B8D94A /* QRView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRView.h; sourceTree = "<group>"; };
@@ -102,9 +138,35 @@
 			path = libqrencode;
 			sourceTree = "<group>";
 		};
+		0465EAFD1CAA17330059B0AD /* imageSource */ = {
+			isa = PBXGroup;
+			children = (
+				0465EAFE1CAA17330059B0AD /* qrcode_border@2x.png */,
+				0465EAFF1CAA17330059B0AD /* qrcode_button_background@2x.png */,
+				0465EB001CAA17330059B0AD /* qrcode_embeddedimage_shadow@2x.png */,
+				0465EB011CAA17330059B0AD /* qrcode_navigationbar_background@2x.png */,
+				0465EB021CAA17330059B0AD /* qrcode_scanline_barcode@2x.png */,
+				0465EB031CAA17330059B0AD /* qrcode_scanline_barcode@3x.png */,
+				0465EB041CAA17330059B0AD /* qrcode_scanline_qrcode@2x.png */,
+				0465EB051CAA17330059B0AD /* qrcode_scanline_qrcode@3x.png */,
+				0465EB061CAA17330059B0AD /* qrcode_tabbar_background@2x.png */,
+				0465EB071CAA17330059B0AD /* qrcode_tabbar_icon_barcode@2x.png */,
+				0465EB081CAA17330059B0AD /* qrcode_tabbar_icon_barcode@3x.png */,
+				0465EB091CAA17330059B0AD /* qrcode_tabbar_icon_barcode_highlighted@2x.png */,
+				0465EB0A1CAA17330059B0AD /* qrcode_tabbar_icon_barcode_highlighted@3x.png */,
+				0465EB0B1CAA17330059B0AD /* qrcode_tabbar_icon_qrcode@2x.png */,
+				0465EB0C1CAA17330059B0AD /* qrcode_tabbar_icon_qrcode@3x.png */,
+				0465EB0D1CAA17330059B0AD /* qrcode_tabbar_icon_qrcode_highlighted@2x.png */,
+				0465EB0E1CAA17330059B0AD /* qrcode_tabbar_icon_qrcode_highlighted@3x.png */,
+				0465EB0F1CAA17330059B0AD /* qrcode_tip_background@2x.png */,
+			);
+			path = imageSource;
+			sourceTree = "<group>";
+		};
 		046780AB1C9FDEF300B8D94A /* ZQRCodeManager */ = {
 			isa = PBXGroup;
 			children = (
+				0465EAFD1CAA17330059B0AD /* imageSource */,
 				042726041CA616A200C8A1EB /* libqrencode */,
 				04B4E69C1CA530C200E003D1 /* QRManager.h */,
 				04B4E69D1CA530C200E003D1 /* QRManager.m */,
@@ -217,11 +279,29 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0465EB151CAA17330059B0AD /* qrcode_scanline_barcode@3x.png in Resources */,
+				0465EB161CAA17330059B0AD /* qrcode_scanline_qrcode@2x.png in Resources */,
+				0465EB101CAA17330059B0AD /* qrcode_border@2x.png in Resources */,
 				047E4D551C9FAF87006597B7 /* LaunchScreen.storyboard in Resources */,
+				0465EB141CAA17330059B0AD /* qrcode_scanline_barcode@2x.png in Resources */,
+				0465EB131CAA17330059B0AD /* qrcode_navigationbar_background@2x.png in Resources */,
+				0465EB111CAA17330059B0AD /* qrcode_button_background@2x.png in Resources */,
 				046780B31C9FDEF300B8D94A /* QRView.xib in Resources */,
+				0465EB1E1CAA17330059B0AD /* qrcode_tabbar_icon_qrcode@3x.png in Resources */,
+				0465EB191CAA17330059B0AD /* qrcode_tabbar_icon_barcode@2x.png in Resources */,
+				0465EB1D1CAA17330059B0AD /* qrcode_tabbar_icon_qrcode@2x.png in Resources */,
+				0465EB211CAA17330059B0AD /* qrcode_tip_background@2x.png in Resources */,
+				0465EB1B1CAA17330059B0AD /* qrcode_tabbar_icon_barcode_highlighted@2x.png in Resources */,
 				0427261E1CA618E600C8A1EB /* 2.png in Resources */,
 				047E4D521C9FAF87006597B7 /* Assets.xcassets in Resources */,
+				0465EB201CAA17330059B0AD /* qrcode_tabbar_icon_qrcode_highlighted@3x.png in Resources */,
+				0465EB171CAA17330059B0AD /* qrcode_scanline_qrcode@3x.png in Resources */,
+				0465EB121CAA17330059B0AD /* qrcode_embeddedimage_shadow@2x.png in Resources */,
+				0465EB1A1CAA17330059B0AD /* qrcode_tabbar_icon_barcode@3x.png in Resources */,
+				0465EB1F1CAA17330059B0AD /* qrcode_tabbar_icon_qrcode_highlighted@2x.png in Resources */,
+				0465EB181CAA17330059B0AD /* qrcode_tabbar_background@2x.png in Resources */,
 				047E4D501C9FAF87006597B7 /* Main.storyboard in Resources */,
+				0465EB1C1CAA17330059B0AD /* qrcode_tabbar_icon_barcode_highlighted@3x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -355,6 +435,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
 				INFOPLIST_FILE = QRManager/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -362,6 +443,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/QRManager/ZQRCodeManager/ZBarSDK",
 				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.oeasy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -371,6 +453,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
 				INFOPLIST_FILE = QRManager/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -378,6 +461,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/QRManager/ZQRCodeManager/ZBarSDK",
 				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.oeasy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

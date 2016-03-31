@@ -7,8 +7,6 @@
 //
 
 #import "ViewConrtroller.h"
-#import "QRCodeViewController.h"
-#import "QRCodeGenerator.h"
 #import "QRManager.h"
 
 @interface ViewConrtroller ()
@@ -24,6 +22,21 @@
   // 用libqrencode
   UIImage *image = [QRCodeGenerator qrImageForString:@"1" imageSize:_qrimage.frame.size.width Topimg:[UIImage imageNamed:@"2"]];
   _qrimage.image = img;
+    
+    NSString *a = [SecurityManager AESencrypt:@"wuxianliang"];
+    NSString *b = [SecurityManager AESdecrypt:a];
+    
+    NSLog(@"-----------------AES-----------------");
+    NSLog(@"%@", a);
+    NSLog(@"%@", b);
+    
+    NSString *c = [SecurityManager DES3encrypt:@"wuxianliang"];
+    NSString *d = [SecurityManager DES3decrypt:c];
+    
+    NSLog(@"-----------------DES3-----------------");
+    NSLog(@"%@", c);
+    NSLog(@"%@", d);
+
 }
 
 - (IBAction)decode:(id)sender {

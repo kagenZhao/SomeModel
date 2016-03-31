@@ -153,7 +153,7 @@
     NSString *result = [[NSString alloc] initWithData:[NSData dataWithBytes:(const void *)bufferPtr
                                                        
                                                                      length:(NSUInteger)movedBytes] encoding:NSUTF8StringEncoding];
-    
+
     return result;
     
 }

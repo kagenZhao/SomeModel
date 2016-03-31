@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0426DB161CACABB5005D4A6A /* DES3Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426DB131CACABB5005D4A6A /* DES3Util.m */; };
+		0426DB171CACABB5005D4A6A /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426DB151CACABB5005D4A6A /* GTMBase64.m */; };
 		042726151CA616A200C8A1EB /* bitstream.c in Sources */ = {isa = PBXBuildFile; fileRef = 042726051CA616A200C8A1EB /* bitstream.c */; };
 		042726161CA616A200C8A1EB /* mask.c in Sources */ = {isa = PBXBuildFile; fileRef = 042726071CA616A200C8A1EB /* mask.c */; };
 		042726171CA616A200C8A1EB /* QRCodeGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0427260A1CA616A200C8A1EB /* QRCodeGenerator.m */; };
@@ -48,6 +50,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0426DB121CACABB5005D4A6A /* DES3Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DES3Util.h; sourceTree = "<group>"; };
+		0426DB131CACABB5005D4A6A /* DES3Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DES3Util.m; sourceTree = "<group>"; };
+		0426DB141CACABB5005D4A6A /* GTMBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMBase64.h; sourceTree = "<group>"; };
+		0426DB151CACABB5005D4A6A /* GTMBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMBase64.m; sourceTree = "<group>"; };
 		042726051CA616A200C8A1EB /* bitstream.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bitstream.c; sourceTree = "<group>"; };
 		042726061CA616A200C8A1EB /* bitstream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bitstream.h; sourceTree = "<group>"; };
 		042726071CA616A200C8A1EB /* mask.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mask.c; sourceTree = "<group>"; };
@@ -166,6 +172,10 @@
 		046780AB1C9FDEF300B8D94A /* ZQRCodeManager */ = {
 			isa = PBXGroup;
 			children = (
+				0426DB121CACABB5005D4A6A /* DES3Util.h */,
+				0426DB131CACABB5005D4A6A /* DES3Util.m */,
+				0426DB141CACABB5005D4A6A /* GTMBase64.h */,
+				0426DB151CACABB5005D4A6A /* GTMBase64.m */,
 				0465EAFD1CAA17330059B0AD /* imageSource */,
 				042726041CA616A200C8A1EB /* libqrencode */,
 				04B4E69C1CA530C200E003D1 /* QRManager.h */,
@@ -314,6 +324,8 @@
 			files = (
 				04B4E69E1CA530C200E003D1 /* QRManager.m in Sources */,
 				0427261B1CA616A200C8A1EB /* rscode.c in Sources */,
+				0426DB161CACABB5005D4A6A /* DES3Util.m in Sources */,
+				0426DB171CACABB5005D4A6A /* GTMBase64.m in Sources */,
 				047E4D4A1C9FAF87006597B7 /* AppDelegate.m in Sources */,
 				042726181CA616A200C8A1EB /* qrencode.c in Sources */,
 				046780B61C9FEDEF00B8D94A /* ViewConrtroller.m in Sources */,

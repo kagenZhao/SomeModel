@@ -37,6 +37,9 @@ class HalfWaySpringAnimator: NSObject, UIViewControllerAnimatedTransitioning {
             fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)
             toView = transitionContext.viewForKey(UITransitionContextToViewKey)
         }
+        
+        
+        
         let isPresenting = (toViewController?.presentingViewController == fromViewController)
         var imageFromFame = CGRectZero
         var imageToFame = CGRectZero

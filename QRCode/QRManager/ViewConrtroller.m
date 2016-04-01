@@ -32,6 +32,9 @@
     NSLog(@"%@", a);
     NSLog(@"%@", b);
     
+    
+    
+    
     NSString *c = [SecurityManager DES3encrypt:@"wuxianliang" withKey:key];
     NSString *d = [SecurityManager DES3decrypt:c withKey:key];
     

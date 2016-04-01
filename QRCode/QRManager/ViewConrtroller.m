@@ -23,15 +23,17 @@
   UIImage *image = [QRCodeGenerator qrImageForString:@"1" imageSize:_qrimage.frame.size.width Topimg:[UIImage imageNamed:@"2"]];
   _qrimage.image = img;
     
-    NSString *a = [SecurityManager AESencrypt:@"wuxianliang"];
-    NSString *b = [SecurityManager AESdecrypt:a];
+    NSString *key = [@"kagenMonsterForGit" md5];
+    
+    NSString *a = [SecurityManager AESencrypt:@"wuxianliang" withKey:key];
+    NSString *b = [SecurityManager AESdecrypt:a withKey:key];
     
     NSLog(@"-----------------AES-----------------");
     NSLog(@"%@", a);
     NSLog(@"%@", b);
     
-    NSString *c = [SecurityManager DES3encrypt:@"wuxianliang"];
-    NSString *d = [SecurityManager DES3decrypt:c];
+    NSString *c = [SecurityManager DES3encrypt:@"wuxianliang" withKey:key];
+    NSString *d = [SecurityManager DES3decrypt:c withKey:key];
     
     NSLog(@"-----------------DES3-----------------");
     NSLog(@"%@", c);

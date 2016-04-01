@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0426DB161CACABB5005D4A6A /* DES3Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426DB131CACABB5005D4A6A /* DES3Util.m */; };
 		0426DB171CACABB5005D4A6A /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426DB151CACABB5005D4A6A /* GTMBase64.m */; };
 		0426DCE51CACE76D005D4A6A /* SecurityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0426DCE41CACE76D005D4A6A /* SecurityManager.m */; };
 		042726151CA616A200C8A1EB /* bitstream.c in Sources */ = {isa = PBXBuildFile; fileRef = 042726051CA616A200C8A1EB /* bitstream.c */; };
@@ -51,8 +50,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0426DB121CACABB5005D4A6A /* DES3Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DES3Util.h; sourceTree = "<group>"; };
-		0426DB131CACABB5005D4A6A /* DES3Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DES3Util.m; sourceTree = "<group>"; };
 		0426DB141CACABB5005D4A6A /* GTMBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMBase64.h; sourceTree = "<group>"; };
 		0426DB151CACABB5005D4A6A /* GTMBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMBase64.m; sourceTree = "<group>"; };
 		0426DCE31CACE76D005D4A6A /* SecurityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecurityManager.h; sourceTree = "<group>"; };
@@ -99,6 +96,7 @@
 		046780B01C9FDEF300B8D94A /* QRView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QRView.xib; sourceTree = "<group>"; };
 		046780B41C9FEDEF00B8D94A /* ViewConrtroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewConrtroller.h; sourceTree = "<group>"; };
 		046780B51C9FEDEF00B8D94A /* ViewConrtroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewConrtroller.m; sourceTree = "<group>"; };
+		04715ACA1CAEACCB00D24973 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		047E4D421C9FAF87006597B7 /* QRManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QRManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		047E4D461C9FAF87006597B7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		047E4D481C9FAF87006597B7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -177,8 +175,6 @@
 			children = (
 				0465EAFD1CAA17330059B0AD /* imageSource */,
 				042726041CA616A200C8A1EB /* libqrencode */,
-				0426DB121CACABB5005D4A6A /* DES3Util.h */,
-				0426DB131CACABB5005D4A6A /* DES3Util.m */,
 				0426DCE31CACE76D005D4A6A /* SecurityManager.h */,
 				0426DCE41CACE76D005D4A6A /* SecurityManager.m */,
 				0426DB141CACABB5005D4A6A /* GTMBase64.h */,
@@ -197,6 +193,7 @@
 		047E4D391C9FAF87006597B7 = {
 			isa = PBXGroup;
 			children = (
+				04715ACA1CAEACCB00D24973 /* Security.framework */,
 				047E4D5C1C9FAF92006597B7 /* AVFoundation.framework */,
 				047E4D441C9FAF87006597B7 /* QRManager */,
 				047E4D431C9FAF87006597B7 /* Products */,
@@ -329,7 +326,6 @@
 			files = (
 				04B4E69E1CA530C200E003D1 /* QRManager.m in Sources */,
 				0427261B1CA616A200C8A1EB /* rscode.c in Sources */,
-				0426DB161CACABB5005D4A6A /* DES3Util.m in Sources */,
 				0426DB171CACABB5005D4A6A /* GTMBase64.m in Sources */,
 				047E4D4A1C9FAF87006597B7 /* AppDelegate.m in Sources */,
 				0426DCE51CACE76D005D4A6A /* SecurityManager.m in Sources */,

@@ -8,12 +8,14 @@
 
 #import "SecurityManager.h"
 #import <CommonCrypto/CommonCryptor.h>
-
+#import <CommonCrypto/CommonDigest.h>
+#import <ifaddrs.h>
+#import <arpa/inet.h>
 #import "GTMBase64.h"
 
 #define gIv             @"01234567"
 @implementation SecurityManager
-+ (NSString*)DES3encrypt:(NSString*)plainText
++ (NSString*)DES3encrypt:(NSString*)plainText withKey:(NSString *)key
 {
     NSData* data = [plainText dataUsingEncoding:NSUTF8StringEncoding];
     size_t plainTextBufferSize = [data length];
@@ -25,7 +27,7 @@
     bufferPtrSize = (plainTextBufferSize + kCCBlockSize3DES) & ~(kCCBlockSize3DES - 1);
     bufferPtr = malloc( bufferPtrSize * sizeof(uint8_t));
     memset((void *)bufferPtr, 0x0, bufferPtrSize);
-    const void *vkey = (const void *) [des3key UTF8String];
+    const void *vkey = (const void *) [key UTF8String];
     const void *vinitVec = (const void *) [gIv UTF8String];
     ccStatus = CCCrypt(kCCEncrypt,
                        kCCAlgorithm3DES,
@@ -46,7 +48,7 @@
 
 // 解密方法
 
-+ (NSString*)DES3decrypt:(NSString*)encryptText {
++ (NSString*)DES3decrypt:(NSString*)encryptText withKey:(NSString *)key {
     NSData *encryptData = [GTMBase64 decodeData:[encryptText dataUsingEncoding:NSUTF8StringEncoding]];
     size_t plainTextBufferSize = [encryptData length];
     const void *vplainText = [encryptData bytes];
@@ -57,7 +59,7 @@
     bufferPtrSize = (plainTextBufferSize + kCCBlockSize3DES) & ~(kCCBlockSize3DES - 1);
     bufferPtr = malloc( bufferPtrSize * sizeof(uint8_t));
     memset((void *)bufferPtr, 0x0, bufferPtrSize);
-    const void *vkey = (const void *) [des3key UTF8String];
+    const void *vkey = (const void *) [key UTF8String];
     const void *vinitVec = (const void *) [gIv UTF8String];
     ccStatus = CCCrypt(kCCDecrypt,
                        kCCAlgorithm3DES,
@@ -74,11 +76,11 @@
     return result;
 }
 
-+ (NSString *)AESencrypt:(NSString *)plainText {
++ (NSString *)AESencrypt:(NSString *)plainText withKey:(NSString *)key{
     NSData* data = [plainText dataUsingEncoding:NSUTF8StringEncoding];
     char keyPtr[kCCKeySizeAES256 + 1];
     bzero(keyPtr, sizeof(keyPtr));
-    [aeskey getCString:keyPtr maxLength:sizeof(keyPtr) encoding:NSUTF8StringEncoding];
+    [key getCString:keyPtr maxLength:sizeof(keyPtr) encoding:NSUTF8StringEncoding];
     NSUInteger dataLength = [data length];
     size_t bufferSize           = dataLength + kCCBlockSizeAES128;
     void* buffer                = malloc(bufferSize);
@@ -100,11 +102,11 @@
     return result;
     
 }
-+ (NSString *)AESdecrypt:(NSString *)encryptText {
++ (NSString *)AESdecrypt:(NSString *)encryptText withKey:(NSString *)key{
     NSData *encryptData = [GTMBase64 decodeData:[encryptText dataUsingEncoding:NSUTF8StringEncoding]];
     char keyPtr[kCCKeySizeAES256 + 1];
     bzero(keyPtr, sizeof(keyPtr));
-    [aeskey getCString:keyPtr maxLength:sizeof(keyPtr) encoding:NSUTF8StringEncoding];
+    [key getCString:keyPtr maxLength:sizeof(keyPtr) encoding:NSUTF8StringEncoding];
     NSUInteger dataLength = [encryptData length];
     size_t bufferSize           = dataLength + kCCBlockSizeAES128;
     void* buffer                = malloc(bufferSize);
@@ -125,5 +127,23 @@
     return result;
 }
 
+@end
+
+
+@implementation NSString (md5)
+
+- (NSString *)md5 {
+    const char *cStr = [self UTF8String];
+    unsigned char digest[16];
+    CC_MD5( cStr, (CC_LONG)strlen(cStr), digest ); // This is the md5 call
+    
+    NSMutableString *output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
+    
+    for(int i = 0; i < CC_MD5_DIGEST_LENGTH; i++)
+        [output appendFormat:@"%02x", digest[i]];
+    return  output;
+}
 
 @end
+
+

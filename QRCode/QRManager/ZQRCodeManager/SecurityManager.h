@@ -7,16 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
-
-#define aeskey            @"kagenMonsterForGit"
-#define des3key            @"kagenMonsterForGit"
-
+#import <UIKit/UIKit.h>
 
 @interface SecurityManager : NSObject
 //DES3
-+ (NSString*)DES3encrypt:(NSString*)plainText;
-+ (NSString*)DES3decrypt:(NSString*)encryptText;
++ (NSString*)DES3encrypt:(NSString*)plainText withKey:(NSString *)key;
++ (NSString*)DES3decrypt:(NSString*)encryptText withKey:(NSString *)key;
 // AES
-+ (NSString *)AESencrypt:(NSString *)plainText;
-+ (NSString *)AESdecrypt:(NSString *)encryptText;
++ (NSString *)AESencrypt:(NSString *)plainText withKey:(NSString *)key;
++ (NSString *)AESdecrypt:(NSString *)encryptText withKey:(NSString *)key;
+@end
+
+@interface NSString (md5)
+
+- (NSString *)md5;
+
 @end

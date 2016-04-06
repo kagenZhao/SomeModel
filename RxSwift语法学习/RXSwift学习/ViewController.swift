@@ -56,11 +56,12 @@ class ViewController: UIViewController {
         
         
         example("sequenceOf") {
-            let sequenceOfElements/* : Observable<Int> */ = Observable.of(0, 1, 2, 3)
+            let sequenceOfElements = Observable.of(["aaa", "bbb"], ["ccc", "ddd"], ["eee", "fff"], ["ggg", "hhh"])
             let _ = sequenceOfElements
                 .subscribe { event in
                     print(event)
             }
+            
         }
         
         example("toObservable") {

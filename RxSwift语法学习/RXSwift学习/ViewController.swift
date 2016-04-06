@@ -76,7 +76,9 @@ class ViewController: UIViewController {
         example("create") {
             
             let myJust = { (singleElement: Int) -> Observable<Int> in
+                print("createing")
                 return Observable.create { observer in
+                    print("emmiting")
                     let error = NSError(domain: "aaaaaa", code: 10000, userInfo: nil)
                     observer.on(.Next(singleElement))
                     if singleElement % 2 == 0 {
@@ -89,6 +91,10 @@ class ViewController: UIViewController {
             }
             
             let _ = myJust(6)
+                .subscribe { event in
+                    print(event)
+            }
+            let _ = myJust(5)
                 .subscribe { event in
                     print(event)
             }
@@ -118,25 +124,23 @@ class ViewController: UIViewController {
         
         
         example("deferred") {
+            var value = 1;
+            let normalCreate: Observable<Int> = Observable.just(value)
             let deferredSequence: Observable<Int> = Observable.deferred {
-                print("creating")
                 return Observable.create { observer in
-                    print("emmiting")
-                    observer.on(.Next(0))
-                    observer.on(.Next(1))
-                    observer.on(.Next(2))
+                    observer.on(.Next(value))
+                    observer.on(.Completed)
                     return NopDisposable.instance
                 }
             }
-            
-            _ = deferredSequence
-                .subscribe { event in
-                    print(event)
+            value = 10
+            _ = normalCreate
+                .subscribe{
+                    print("normal-\($0)")
             }
-            
             _ = deferredSequence
-                .subscribe { event in
-                    print(event)
+                .subscribe {
+                    print("defer-\($0)")
             }
         }
     

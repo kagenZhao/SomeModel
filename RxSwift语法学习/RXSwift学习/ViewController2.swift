@@ -586,11 +586,11 @@ class ViewController2: UIViewController {
         
     }
     
+    let disposeBag = DisposeBag()
     func writeSequenceToConsole<O: ObservableType>(name: String, squence: O) {
-        _ = squence.subscribe { e in
+        squence.subscribe { e in
             print("Subscription: \(name), event: \(e)")
-        }
-        //            .addDisposableTo(disposBag)
+        }.addDisposableTo(disposeBag)
     }
     
     func delay(delay:Double, closure:()->()) {

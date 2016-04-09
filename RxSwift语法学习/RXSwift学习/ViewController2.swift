@@ -27,7 +27,7 @@ class ViewController2: UIViewController {
         
         
         example("ReplaySubject") {
-            let subject = ReplaySubject<String>.create(bufferSize: 2)
+            let subject = ReplaySubject<String>.create(bufferSize: 1)
             self.writeSequenceToConsole("1", squence: subject)
             subject.onNext("a")
             subject.onNext("b")
@@ -468,6 +468,7 @@ class ViewController2: UIViewController {
                     print($0)
             }
         }
+
         
         /*
         example("sampleWithoutConnectableOperators") { () -> () in

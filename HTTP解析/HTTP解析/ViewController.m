@@ -28,6 +28,7 @@
     TFHpple *xpathParser = [[TFHpple alloc] initWithHTMLData:htmlData];
     NSArray *elements1 = [xpathParser searchWithXPathQuery:title];
     NSLog(@"%@", [elements1[1] objectForKey:@"title"]);
+   
     
 }
 

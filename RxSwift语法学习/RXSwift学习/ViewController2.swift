@@ -13,7 +13,8 @@ class ViewController2: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.navigationController?.navigationBar.barTintColor = UIColor.redColor()
+
         example("PublishSubject") {
             let subject = PublishSubject<String>()
             self.writeSequenceToConsole("1", squence: subject)
@@ -67,8 +68,14 @@ class ViewController2: UIViewController {
         example("flatMap") { () -> () in
             let sequenceInt = Observable.of(1, 2, 3)
             let sequenceString = Observable.of("A", "B", "--")
-            _ = sequenceInt.flatMap{ _ in
-                sequenceString
+            _ = sequenceInt.flatMap{ (x:Int) -> Observable<String> in
+//                return Observable.create({ obs -> Disposable in
+//                    obs.onNext(1);
+//                    obs.onNext(2);
+//                    obs.onNext(10);
+//                    return NopDisposable.instance
+//                })
+                sequenceString;
                 }.subscribe{
                     print($0)
             }
@@ -468,7 +475,12 @@ class ViewController2: UIViewController {
                     print($0)
             }
         }
-
+      
+     
+        
+        
+        
+        
         
         /*
         example("sampleWithoutConnectableOperators") { () -> () in
@@ -607,6 +619,8 @@ class ViewController2: UIViewController {
         
         
         
+   
     }
+
     
 }

@@ -42,7 +42,6 @@ class KMRAlert: NSObject, UIAlertViewDelegate, UIActionSheetDelegate, UITextFiel
     private var oldAlertViewFirstTextFieldChanged: ((UITextField?) -> ())?
     private var textFieldCount: Int = 0;
     
-    
     init(controller: UIViewController?, title: String?, message: String?, type: KMRAlertType) {
         super.init()
         guard type.rawValue >= 0 && type.rawValue <= 1 else {
@@ -123,14 +122,12 @@ class KMRAlert: NSObject, UIAlertViewDelegate, UIActionSheetDelegate, UITextFiel
 
 // MARK: AddAction
 extension KMRAlert {
-    func addActionWithTitle(title: String?, action: (() -> ())?) -> KMRAlert {
-        return self.addActionWithTitle(title, actionStyle: .Default, action: action)
-    }
     
     @available(iOS 8.0, *)
-    func addActionWithTitle(title: String?, actionStyle: KMRActionStyle, enable: Bool, action: ((UIAlertAction) -> ())?) -> KMRAlert {
-        let newAction = { [unowned self] in
-            self.remove()
+    func addAction(title: String?, actionStyle: KMRActionStyle, enable: Bool, action: ((UIAlertAction) -> ())?) -> KMRAlert {
+        guard self.showController != nil else {
+            KMRLog("If Use addAction(title: actionStyle: enable: action:) , Controller cannot be nil")
+            return self
         }
         if let temp = self.currentAlert {
             guard actionStyle.rawValue == 0 || actionStyle.rawValue == 2 else {
@@ -141,7 +138,7 @@ extension KMRAlert {
             let alertStyle = UIAlertActionStyle(rawValue: actionStyle.rawValue)!
             let alertAction = UIAlertAction(title: title, style: alertStyle, handler: { (act) in
                 action?(act)
-                newAction()
+                self.remove()
             })
             alertAction.enabled = enable
             alert.addAction(alertAction)
@@ -149,11 +146,18 @@ extension KMRAlert {
         return self
     }
     @available(iOS 8.0, *)
-    func addActionWithTitle(title: String?, enable: Bool, action: ((UIAlertAction) -> ())?) -> KMRAlert {
-        return addActionWithTitle(title, actionStyle: .Default, enable: enable, action: action)
+    func addAction(title: String?, enable: Bool, action: ((UIAlertAction) -> ())?) -> KMRAlert {
+        return addAction(title, actionStyle: .Default, enable: enable, action: action)
+    }
+    @available(iOS 8.0, *)
+    func addAction(title:String?, action: ((UIAlertAction) -> ())?) -> KMRAlert {
+        return addAction(title, enable: true, action: action)
     }
     
-    func addActionWithTitle(title: String?, actionStyle: KMRActionStyle, action: (() -> ())?) -> KMRAlert {
+    func addAction(title: String?, act: (() -> ())?) -> KMRAlert {
+        return self.addAction(title, actionStyle: .Default, action: act)
+    }
+    func addAction(title: String?, actionStyle: KMRActionStyle, action: (() -> ())?) -> KMRAlert {
         let newAction = { [unowned self] in
             action?()
             self.remove()
@@ -176,7 +180,7 @@ extension KMRAlert {
                 }
             case (.New, .Alert), (.New, .ActionSheet):
                 if #available(iOS 8.0, *) {
-                    addActionWithTitle(title, enable: true, action: { _ in
+                    addAction(title, enable: true, action: { _ in
                         newAction()
                     })
                 }
@@ -191,6 +195,15 @@ extension KMRAlert {
 
 // MARK: AddTextField
 extension KMRAlert {
+    
+    func addTextFieldWithAction(action:((UITextField?) -> Void)?) -> KMRAlert {
+        return addTextField(action, changed: nil)
+    }
+    
+    func addTextFieldWithChanged(changed: ((UITextField?) -> Void)?) -> KMRAlert {
+        return addTextField(nil, changed: changed)
+    }
+    
     func addTextField(action: ((UITextField?) -> Void)?, changed:((UITextField?) -> Void)?) -> KMRAlert {
         if let temp = self.currentAlert {
             switch (self.alertStyle, self.alertType) {
@@ -322,6 +335,7 @@ extension KMRAlert {
     
     private func remove() {
         KMRMainAfter(0.3) {
+            guard self.getAlert() != nil else { return }
             let app = UIApplication.sharedApplication()
             objc_setAssociatedObject(app, &KMRAssociatedKeys.kSaveKMRAletKey, NSNull(), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }

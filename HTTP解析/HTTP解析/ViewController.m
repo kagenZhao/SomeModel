@@ -20,16 +20,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    NSString *urlStr = @"http://www.bttiantang.com/?PageNo=1";
-    NSURL *url = [NSURL URLWithString:urlStr];
-    NSData *htmlData = [NSData dataWithContentsOfURL:url];
-    NSString *title = @"//div[@class='hd_B']/div[@class='Btitle']/a";
-    TFHpple *xpathParser = [[TFHpple alloc] initWithHTMLData:htmlData];
-    NSArray *elements1 = [xpathParser searchWithXPathQuery:title];
-    NSLog(@"%@", [elements1[1] objectForKey:@"title"]);
-   
-    
+  
 }
 
 

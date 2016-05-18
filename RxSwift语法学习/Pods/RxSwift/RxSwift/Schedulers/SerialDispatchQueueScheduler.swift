@@ -12,7 +12,7 @@ import Foundation
 Abstracts the work that needs to be performed on a specific `dispatch_queue_t`. It will make sure 
 that even if concurrent dispatch queue is passed, it's transformed into a serial one.
 
-It is extemely important that this scheduler is serial, because
+It is extremely important that this scheduler is serial, because
 certain operator perform optimizations that rely on that property.
 
 Because there is no way of detecting is passed dispatch queue serial or
@@ -35,9 +35,7 @@ public class SerialDispatchQueueScheduler: SchedulerType {
     - returns: Current time.
     */
     public var now : NSDate {
-        get {
-            return NSDate()
-        }
+        return NSDate()
     }
     
     // leeway for scheduling timers

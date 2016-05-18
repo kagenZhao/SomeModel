@@ -24,7 +24,7 @@ import Foundation
          For more information take a look at `DelegateProxyType` protocol documentation.
          */
         public var rx_delegate: DelegateProxy {
-            return proxyForObject(RxImagePickerDelegateProxy.self, self)
+            return RxImagePickerDelegateProxy.proxyForObject(self)
         }
 
         /**
@@ -32,7 +32,7 @@ import Foundation
          */
         public var rx_didFinishPickingMediaWithInfo: Observable<[String : AnyObject]> {
             return rx_delegate
-                .observe("imagePickerController:didFinishPickingMediaWithInfo:")
+                .observe(#selector(UIImagePickerControllerDelegate.imagePickerController(_:didFinishPickingMediaWithInfo:)))
                 .map({ (a) in
                     return try castOrThrow(Dictionary<String, AnyObject>.self, a[1])
                 })
@@ -43,7 +43,7 @@ import Foundation
          */
         public var rx_didCancel: Observable<()> {
             return rx_delegate
-                .observe("imagePickerControllerDidCancel:")
+                .observe(#selector(UIImagePickerControllerDelegate.imagePickerControllerDidCancel(_:)))
                 .map {_ in () }
         }
         

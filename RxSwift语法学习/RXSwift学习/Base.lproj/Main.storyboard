@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="hhY-3k-crz">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="hhY-3k-crz">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -14,7 +15,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="6uI-O2-oIN" kind="relationship" relationship="rootViewController" id="DOM-sU-Zfv"/>
+                        <segue destination="viC-cv-NUE" kind="relationship" relationship="rootViewController" id="JoI-lP-ACl"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gmk-Ia-gzP" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -39,6 +40,41 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-329" y="19"/>
+        </scene>
+        <!--Simple Table View Controller-->
+        <scene sceneID="Vot-GL-r8M">
+            <objects>
+                <viewController id="viC-cv-NUE" customClass="SimpleTableViewController" customModule="RXSwift学习" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="nXR-8I-Utd"/>
+                        <viewControllerLayoutGuide type="bottom" id="fKX-US-ch8"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Cy1-HE-APS">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hEZ-Uh-Hel">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="hEZ-Uh-Hel" secondAttribute="trailing" constant="-20" id="IfW-pY-KSb"/>
+                            <constraint firstItem="hEZ-Uh-Hel" firstAttribute="top" secondItem="nXR-8I-Utd" secondAttribute="bottom" constant="-64" id="PJT-r8-ls4"/>
+                            <constraint firstItem="hEZ-Uh-Hel" firstAttribute="leading" secondItem="Cy1-HE-APS" secondAttribute="leading" id="UEN-9r-ucg"/>
+                            <constraint firstAttribute="trailing" secondItem="hEZ-Uh-Hel" secondAttribute="trailing" id="Utl-2z-m6h"/>
+                            <constraint firstItem="fKX-US-ch8" firstAttribute="top" secondItem="hEZ-Uh-Hel" secondAttribute="bottom" id="nYT-0W-oPo"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="0hR-FZ-733"/>
+                    <connections>
+                        <outlet property="tableView" destination="hEZ-Uh-Hel" id="dFe-2c-pS2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KPv-Pz-eD6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1684" y="964"/>
         </scene>
         <!--View Controller2-->
         <scene sceneID="Roj-T7-bqu">

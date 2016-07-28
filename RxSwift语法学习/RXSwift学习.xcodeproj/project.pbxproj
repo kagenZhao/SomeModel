@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0410CF141D4A104900D6D101 /* SimpleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0410CF131D4A104900D6D101 /* SimpleTableViewController.swift */; };
 		045A5A3A1C979652009F6BC2 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 045A5A391C979652009F6BC2 /* AssetsLibrary.framework */; };
 		04A7DF6E1C941C3E003A3C6D /* ViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A7DF6D1C941C3E003A3C6D /* ViewController2.swift */; };
 		04E5C2BD1C841BF800908067 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E5C2BC1C841BF800908067 /* AppDelegate.swift */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0410CF131D4A104900D6D101 /* SimpleTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleTableViewController.swift; sourceTree = "<group>"; };
 		045A5A391C979652009F6BC2 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		04A7DF6D1C941C3E003A3C6D /* ViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController2.swift; sourceTree = "<group>"; };
 		04E5C2B91C841BF800908067 /* RXSwift学习.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RXSwift学习.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -69,6 +71,7 @@
 				04E5C2BC1C841BF800908067 /* AppDelegate.swift */,
 				04E5C2BE1C841BF800908067 /* ViewController.swift */,
 				04A7DF6D1C941C3E003A3C6D /* ViewController2.swift */,
+				0410CF131D4A104900D6D101 /* SimpleTableViewController.swift */,
 				04E5C2C01C841BF800908067 /* Main.storyboard */,
 				04E5C2C31C841BF800908067 /* Assets.xcassets */,
 				04E5C2C51C841BF800908067 /* LaunchScreen.storyboard */,
@@ -108,6 +111,7 @@
 				04E5C2B71C841BF800908067 /* Resources */,
 				59A889B571880970137F67FA /* 📦 Embed Pods Frameworks */,
 				3C57EB900706C2C1710DB3A2 /* 📦 Copy Pods Resources */,
+				153B6E4FBF3FC7BD2A45F4E1 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -180,6 +184,21 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		153B6E4FBF3FC7BD2A45F4E1 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RXSwift学习/Pods-RXSwift学习-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		3C57EB900706C2C1710DB3A2 /* 📦 Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -220,6 +239,7 @@
 				04E5C2BF1C841BF800908067 /* ViewController.swift in Sources */,
 				04E5C2BD1C841BF800908067 /* AppDelegate.swift in Sources */,
 				04A7DF6E1C941C3E003A3C6D /* ViewController2.swift in Sources */,
+				0410CF141D4A104900D6D101 /* SimpleTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

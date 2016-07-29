@@ -38,20 +38,8 @@
 	</array>
     <key>NSAppTransportSecurity</key>
     <dict>
-<!--        <key>NSAllowsArbitraryLoads</key>-->
-<!--        <true/>-->
-        <key>NSExceptionDomains</key>
-        <dict>
-            <key>baidu.com</key>
-            <dict>
-                <key>NSIncludesSubdomains</key>
-                <true/>
-                <key>NSExceptionRequiresForwardSecrecy</key>
-                <false/>
-                <key>NSExceptionAllowsInsecureHTTPLoads</key>
-                <true/>
-            </dict>
-        </dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <true/>
     </dict>
 </dict>
 </plist>

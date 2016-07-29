@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0410CF141D4A104900D6D101 /* SimpleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0410CF131D4A104900D6D101 /* SimpleTableViewController.swift */; };
+		0410CF171D4AF48C00D6D101 /* SimpleAnimatTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0410CF161D4AF48C00D6D101 /* SimpleAnimatTableViewController.swift */; };
 		045A5A3A1C979652009F6BC2 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 045A5A391C979652009F6BC2 /* AssetsLibrary.framework */; };
 		04A7DF6E1C941C3E003A3C6D /* ViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A7DF6D1C941C3E003A3C6D /* ViewController2.swift */; };
 		04E5C2BD1C841BF800908067 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E5C2BC1C841BF800908067 /* AppDelegate.swift */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		0410CF131D4A104900D6D101 /* SimpleTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleTableViewController.swift; sourceTree = "<group>"; };
+		0410CF161D4AF48C00D6D101 /* SimpleAnimatTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleAnimatTableViewController.swift; sourceTree = "<group>"; };
 		045A5A391C979652009F6BC2 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		04A7DF6D1C941C3E003A3C6D /* ViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController2.swift; sourceTree = "<group>"; };
 		04E5C2B91C841BF800908067 /* RXSwift学习.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RXSwift学习.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -72,6 +74,7 @@
 				04E5C2BE1C841BF800908067 /* ViewController.swift */,
 				04A7DF6D1C941C3E003A3C6D /* ViewController2.swift */,
 				0410CF131D4A104900D6D101 /* SimpleTableViewController.swift */,
+				0410CF161D4AF48C00D6D101 /* SimpleAnimatTableViewController.swift */,
 				04E5C2C01C841BF800908067 /* Main.storyboard */,
 				04E5C2C31C841BF800908067 /* Assets.xcassets */,
 				04E5C2C51C841BF800908067 /* LaunchScreen.storyboard */,
@@ -237,6 +240,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				04E5C2BF1C841BF800908067 /* ViewController.swift in Sources */,
+				0410CF171D4AF48C00D6D101 /* SimpleAnimatTableViewController.swift in Sources */,
 				04E5C2BD1C841BF800908067 /* AppDelegate.swift in Sources */,
 				04A7DF6E1C941C3E003A3C6D /* ViewController2.swift in Sources */,
 				0410CF141D4A104900D6D101 /* SimpleTableViewController.swift in Sources */,

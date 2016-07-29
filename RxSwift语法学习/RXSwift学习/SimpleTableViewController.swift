@@ -44,6 +44,11 @@ class SimpleTableViewController: UIViewController, UITableViewDelegate {
             
         }.addDisposableTo(disposeBag)
         
+        let _ = Observable<Int>.timer(0, period: 3, scheduler: MainScheduler.instance)
+        .subscribeNext { (i) in
+            print(i)
+        }
+        
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

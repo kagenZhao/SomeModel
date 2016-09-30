@@ -2,35 +2,32 @@
 //  GameViewController.swift
 //  FlappyBird
 //
-//  Created by zhaoguoqing on 16/2/20.
-//  Copyright (c) 2016年 赵国庆. All rights reserved.
+//  Created by Kagen Zhao on 2016/9/29.
+//  Copyright © 2016年 Kagen Zhao. All rights reserved.
 //
 
 import UIKit
 import SpriteKit
+import GameplayKit
 
 class GameViewController: UIViewController {
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        
-        if let sk视图 = self.view as? SKView {
-            if sk视图.scene == nil {
-                // 创建场景
-                let 长宽比 = sk视图.bounds.size.height / sk视图.bounds.size.width
-                let 场景 = GameScene(size: CGSize(width: 320, height: 320 * 长宽比))
-                sk视图.showsFPS = true
-                sk视图.showsNodeCount = true
-                sk视图.showsPhysics = true
-                sk视图.ignoresSiblingOrder = true
-                场景.scaleMode = .aspectFill
-                sk视图.presentScene(场景)
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        if let view = self.view as! SKView? {
+            if view.scene == nil {
+                let scale = view.bounds.size.height / view.bounds.size.width
+                let scene = GameScene(size: CGSize(width: 320, height: 320 * scale))
+                scene.scaleMode = .aspectFill
+                view.ignoresSiblingOrder = true
+                view.showsFPS = true
+                view.showsNodeCount = true
+                view.presentScene(scene)
             }
         }
     }
-    
-    override var prefersStatusBarHidden : Bool {
+
+    override var prefersStatusBarHidden: Bool {
         return true
     }
-    
 }

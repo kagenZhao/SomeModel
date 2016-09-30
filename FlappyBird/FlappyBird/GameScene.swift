@@ -1,204 +1,198 @@
+//
+//  GameScene.swift
+//  FlappyBird
+//
+//  Created by Kagen Zhao on 2016/9/29.
+//  Copyright © 2016年 Kagen Zhao. All rights reserved.
+//
+
 import SpriteKit
 
-enum 图层: CGFloat {
-    case 背景
-    case 障碍物
-    case 前景
-    case 游戏角色
-    case UI
+
+struct LayerMode {
+    static let background: CGFloat = 0.0
+    static let obstacles: CGFloat = 1.0
+    static let foreground: CGFloat = 2.0
+    static let player: CGFloat = 3.0
+    static let ui: CGFloat = 4.0
 }
 
-enum 游戏状态 {
-    case 主菜单
-    case 教程
-    case 游戏
-    case 跌落
-    case 显示分数
-    case 结束
+enum GameStatus {
+    case menu
+    case tutorial
+    case game
+    case drop
+    case scores
+    case gameOver
 }
 
-struct 物理层 {
-    static let 无: UInt32 =        0
-    static let 游戏角色: UInt32 = 0b1  // 1
-    static let 障碍物: UInt32  = 0b10  // 2
-    static let 地面: UInt32   = 0b100  // 4
+struct PhysicsLayer {
+    static let none: UInt32      = 0
+    static let player: UInt32    = 1 << 1
+    static let obstacles: UInt32 = 1 << 2
+    static let ground: UInt32    = 1 << 3
 }
 
-
-class GameScene: SKScene, SKPhysicsContactDelegate {
+class GameScene: SKScene {
     
-    let 课程网址 = "http://www.iOSinit.com/flappy-bird"
-    let AppStore的链接 = "http://itunes.apple.com/app/id1077251372?mt=8"
+    let studayLink = ""
+    let appStoreLink = ""
     
-    let k前景地面数 = 2
-    let k地面移动速度 : CGFloat = -150.0
-    let k重力 : CGFloat = -1500.0
-    let k上冲速度 : CGFloat = 400.0
-    let k底部障碍最小乘数 : CGFloat = 0.1
-    let k底部障碍最大乘数 : CGFloat = 0.6
-    let k缺口乘数 : CGFloat = 3.5
-    let k首次生成障碍延迟: TimeInterval = 1.75
-    let k每次重生障碍延迟: TimeInterval = 1.5
-    let k动画延迟 = 0.3
-    let k顶部留白: CGFloat = 20.0
-    let k字体名字 = "AmericanTypewriter-Bold"
-    let k角色动画总帧数 = 4
+    let kForegroundFloorCount = 2
+    let kFloorMoveSpeed: CGFloat = -150.0
+    let kGravity: CGFloat = -1500.0
+    let kUpSpeed: CGFloat = 400.0
+    let kBottomObstaclesMinScale: CGFloat = 0.1
+    let kBottomObstaclesMaxScale: CGFloat = 0.6
+    let kBreakScale: CGFloat = 3.5
+    let kFirstCreateObstaclesDelay: TimeInterval = 1.75
+    let kFirstResetObstaclesDelay: TimeInterval = 1.5
+    let kAnimationDelay: TimeInterval = 0.3
+    let kTopSpace: CGFloat = 20.0
+    let kFontName = "AmericanTypewriter-Bold"
+    let kAnimationFrames = 4
     
+    var scoreLabel: SKLabelNode!
+    var currentScore = 0
     
-    var 得分标签: SKLabelNode!
-    var 当前分数 = 0
+    var playerSpeed = CGPoint.zero
+    var beatGround = false
+    var beatObstacles = false
+    var currentGameStatus = GameStatus.game
     
-    var 速度 = CGPoint.zero
-    var 撞击了地面 = false
-    var 撞击了障碍物 = false
-    var 当前游戏状态: 游戏状态 = .游戏
+    let gameWord = SKNode()
+    var gameBeginPosition: CGFloat = 0.0
+    var gameZoneHeight: CGFloat = 0.0
+    let protagonist = SKSpriteNode(imageNamed: "Bird0")
+    let hat = SKSpriteNode(imageNamed: "Sombrero")
+    var lastUpdateTime: TimeInterval = 0.0
+    var dt: TimeInterval = 0.0
     
-    let 世界单位 = SKNode()
-    var 游戏区域起始点: CGFloat = 0
-    var 游戏区域的高度: CGFloat = 0
-    let 主角 = SKSpriteNode(imageNamed: "Bird0")
-    let 帽子 = SKSpriteNode(imageNamed: "Sombrero")
-    var 上一次更新时间: TimeInterval = 0
-    var dt: TimeInterval = 0
+    let dingSound = SKAction.playSoundFileNamed("ding.wav", waitForCompletion: false)
+    let flappingSound = SKAction.playSoundFileNamed("flapping.wav", waitForCompletion: false)
+    let whackSound = SKAction.playSoundFileNamed("whack.wav", waitForCompletion: false)
+    let fallingSound = SKAction.playSoundFileNamed("falling.wav", waitForCompletion: false)
+    let hitGroundSound = SKAction.playSoundFileNamed("hitGround.wav", waitForCompletion: false)
+    let popSound = SKAction.playSoundFileNamed("pop.wav", waitForCompletion: false)
+    let coinSound = SKAction.playSoundFileNamed("coin.wav", waitForCompletion: false)
     
-    //  创建音效
-    let 叮的音效 = SKAction.playSoundFileNamed("ding.wav", waitForCompletion: false)
-    let 拍打的音效 = SKAction.playSoundFileNamed("flapping.wav", waitForCompletion: false)
-    let 摔倒的音效 = SKAction.playSoundFileNamed("whack.wav", waitForCompletion: false)
-    let 下落的音效 = SKAction.playSoundFileNamed("falling.wav", waitForCompletion: false)
-    let 撞击地面的音效 = SKAction.playSoundFileNamed("hitGround.wav", waitForCompletion: false)
-    let 砰的音效 = SKAction.playSoundFileNamed("pop.wav", waitForCompletion: false)
-    let 得分的音效 = SKAction.playSoundFileNamed("coin.wav", waitForCompletion: false)
+    var playBtn: SKSpriteNode?
+    var rateBtn: SKSpriteNode?
+    var learnBtn: SKSpriteNode?
+    var okBtn: SKSpriteNode?
+    var shareBtn: SKSpriteNode?
     
     override func didMove(to view: SKView) {
-        
-        // 关掉重力
-        physicsWorld.gravity = CGVector.zero
-        // 设置碰撞代理
+        physicsWorld.gravity = .zero
         physicsWorld.contactDelegate = self
-        
-        addChild(世界单位)
-        切换到主菜单()
+        addChild(gameWord)
+        switchMenu()
     }
     
-    // MARK: 设置的相关方法
-    
-    func 设置主菜单() {
+    func setupMenu() {
         
-        // logo
+        let mainMenuName = "mainMenu"
         
         let logo = SKSpriteNode(imageNamed: "Logo")
-        logo.position = CGPoint(x: size.width/2, y: size.height * 0.8)
-        logo.name = "主菜单"
-        logo.zPosition = 图层.UI.rawValue
-        世界单位.addChild(logo)
+        logo.position = .init(x: size.width / 2, y: size.height * 0.8)
+        logo.name = mainMenuName
+        logo.zPosition = LayerMode.ui
+        gameWord.addChild(logo)
         
-        // 开始游戏按钮
+        let startButton = SKSpriteNode(imageNamed: "Button")
+        startButton.position = .init(x: size.width * 0.5/* * 0.25 */, y: size.height * 0.25)
+        startButton.name = mainMenuName
+        startButton.zPosition = LayerMode.ui
+        gameWord.addChild(startButton)
         
-        let 开始游戏按钮 = SKSpriteNode(imageNamed: "Button")
-        开始游戏按钮.position = CGPoint(x: size.width * 0.25, y: size.height * 0.25)
-        开始游戏按钮.name = "主菜单"
-        开始游戏按钮.zPosition = 图层.UI.rawValue
-        世界单位.addChild(开始游戏按钮)
+        let game = SKSpriteNode(imageNamed: "play")
+        game.position = .zero
+        startButton.addChild(game)
         
-        let 游戏 = SKSpriteNode(imageNamed: "Play")
-        游戏.position = CGPoint.zero
-        开始游戏按钮.addChild(游戏)
+//        let evaluateButton = SKSpriteNode(imageNamed: "Button")
+//        evaluateButton.position = .init(x: size.width * 0.75, y: size.height * 0.25)
+//        evaluateButton.zPosition = LayerMode.ui
+//        evaluateButton.name = mainMenuName
+//        gameWord.addChild(evaluateButton)
+//        
+//        let evaluate = SKSpriteNode(imageNamed: "Rate")
+//        evaluate.position = .zero
+//        evaluateButton.addChild(evaluate)
+//        
+//        let learnButton = SKSpriteNode(imageNamed: "button_learn")
+//        learnButton.position = .init(x: size.width * 0.5, y: learnButton.size.height / 2 + kTopSpace)
+//        learnButton.zPosition = LayerMode.ui
+//        learnButton.name = mainMenuName
+//        gameWord.addChild(learnButton)
         
-        // 评价按钮
+//        let zoomIn = SKAction.scale(to: 1.05, duration: 0.75)
+//        zoomIn.timingMode = .easeInEaseOut
+//        
+//        let zoomOut = SKAction.scale(to: 0.95, duration: 0.75)
+//        zoomOut.timingMode = .easeInEaseOut
+//        
+//        learnButton.run(.repeatForever(.sequence([zoomIn, zoomOut])), withKey: mainMenuName)
         
-        let 评价按钮 = SKSpriteNode(imageNamed: "Button")
-        评价按钮.position = CGPoint(x: size.width * 0.75, y: size.height * 0.25)
-        评价按钮.zPosition = 图层.UI.rawValue
-        评价按钮.name = "主菜单"
-        世界单位.addChild(评价按钮)
-        
-        let 评价 = SKSpriteNode(imageNamed: "Rate")
-        评价.position = CGPoint.zero
-        评价按钮.addChild(评价)
-        
-        // 学习按钮
-        
-        let 学习 = SKSpriteNode(imageNamed: "button_learn")
-        学习.position = CGPoint(x: size.width * 0.5, y: 学习.size.height/2 + k顶部留白)
-        学习.name = "主菜单"
-        学习.zPosition = 图层.UI.rawValue
-        世界单位.addChild(学习)
-        
-        // 学习按钮的动画
-        let 放大动画 = SKAction.scale(to: 1.02, duration: 0.75)
-        放大动画.timingMode = .easeInEaseOut
-        
-        let 缩小动画 = SKAction.scale(to: 0.98, duration: 0.75)
-        缩小动画.timingMode = .easeInEaseOut
-        
-        学习.run(SKAction.repeatForever(SKAction.sequence([
-            放大动画,缩小动画
-            ])), withKey: "主菜单")
+        playBtn = startButton
+//        rateBtn = evaluateButton
+//        learnBtn = learnButton
     }
     
-    func 设置教程() {
-        let 教程 = SKSpriteNode(imageNamed: "Tutorial")
-        教程.position = CGPoint(x: size.width * 0.5 , y: 游戏区域的高度 * 0.4 + 游戏区域起始点)
-        教程.name = "教程"
-        教程.zPosition = 图层.UI.rawValue
-        世界单位.addChild(教程)
+    func setupTutorial() {
         
-        let 准备 = SKSpriteNode(imageNamed: "Ready")
-        准备.position = CGPoint(x: size.width * 0.5, y: 游戏区域的高度 * 0.7 + 游戏区域起始点)
-        准备.name = "教程"
-        准备.zPosition = 图层.UI.rawValue
-        世界单位.addChild(准备)
+        let tutorialName = "tutorial"
         
-        let 向上移动 = SKAction.moveBy(x: 0, y: 50, duration: 0.4)
-        向上移动.timingMode = .easeInEaseOut
-        let 向下移动 = 向上移动.reversed()
+        let tutorial = SKSpriteNode(imageNamed: "Tutorial")
+        tutorial.position = .init(x: size.width * 0.5, y: gameZoneHeight * 0.4 + gameBeginPosition)
+        tutorial.name =  tutorialName
+        tutorial.zPosition = LayerMode.ui
+        gameWord.addChild(tutorial)
         
-        主角.run(SKAction.repeatForever(SKAction.sequence([
-            向上移动,向下移动
-            ])), withKey: "起飞")
+        let ready = SKSpriteNode(imageNamed: "Ready")
+        ready.position = .init(x: size.width * 0.5, y: gameZoneHeight * 0.7 + gameBeginPosition)
+        ready.name = tutorialName
+        ready.zPosition = LayerMode.ui
+        gameWord.addChild(ready)
         
-        var 角色贴图组: Array<SKTexture> = []
+        let moveUp = SKAction.moveBy(x: 0, y: 50, duration: 0.4)
+        moveUp.timingMode = .easeInEaseOut
+        let moveDown = moveUp.reversed()
         
-        for i in 0..<k角色动画总帧数 {
-            角色贴图组.append(SKTexture(imageNamed: "Bird\(i)"))
-        }
+        protagonist.run(.repeatForever(.sequence([moveUp, moveDown])), withKey: "fly")
         
-        for i in stride(from: (k角色动画总帧数-1), to: 0, by: -1) {
-            角色贴图组.append(SKTexture(imageNamed: "Bird\(i)"))
-        }
+        var playerTextures: [SKTexture] = []
+        playerTextures.append(contentsOf: (0..<kAnimationFrames).map({ SKTexture(imageNamed: "Bird\($0)") }))
+        playerTextures.append(contentsOf: stride(from: (kAnimationFrames - 1), to: 0, by: -1).map({SKTexture(imageNamed: "Bird\($0)")}))
         
-        let 扇动翅膀的动画 = SKAction.animate(with: 角色贴图组, timePerFrame: 0.07)
-        主角.run(SKAction.repeatForever(扇动翅膀的动画))
-        
+        let flyAnimate = SKAction.animate(with: playerTextures, timePerFrame: 0.07)
+        protagonist.run(.repeatForever(flyAnimate))
     }
     
-    func 设置背景() {
-        let 背景 = SKSpriteNode(imageNamed: "Background")
-        背景.anchorPoint = CGPoint(x: 0.5, y: 1.0)
-        背景.position = CGPoint(x: size.width/2, y: size.height)
-        背景.zPosition = 图层.背景.rawValue
-        世界单位.addChild(背景)
+    func setupBackground() {
+        let background = SKSpriteNode(imageNamed: "Background")
+        background.anchorPoint = .init(x: 0.5, y: 1.0)
+        background.position = .init(x: size.width / 2, y: size.height)
+        background.zPosition = LayerMode.background
+        gameWord.addChild(background)
         
-        游戏区域起始点 = size.height - 背景.size.height
-        游戏区域的高度 = 背景.size.height
+        gameBeginPosition = size.height - background.size.height
+        gameZoneHeight = background.size.height
         
-        let 左下 = CGPoint(x: 0, y: 游戏区域起始点)
-        let 右下 = CGPoint(x: size.width, y: 游戏区域起始点)
+        let leftBottom = CGPoint(x: 0, y: gameBeginPosition)
+        let rightBottom = CGPoint(x: size.width, y: gameBeginPosition)
         
-        self.physicsBody = SKPhysicsBody(edgeFrom: 左下, to: 右下)
-        self.physicsBody?.categoryBitMask = 物理层.地面
-        self.physicsBody?.collisionBitMask = 0
-        self.physicsBody?.contactTestBitMask = 物理层.游戏角色
-        
+        physicsBody = SKPhysicsBody.init(edgeFrom: leftBottom, to: rightBottom)
+        physicsBody?.categoryBitMask = PhysicsLayer.ground
+        physicsBody?.collisionBitMask = 0
+        physicsBody?.contactTestBitMask = PhysicsLayer.player
     }
     
-    func 设置主角() {
-        主角.position = CGPoint(x: size.width * 0.2, y: 游戏区域的高度 * 0.4 + 游戏区域起始点)
-        主角.zPosition = 图层.游戏角色.rawValue
+    func setupProtagonist() {
+        protagonist.position = .init(x: size.width * 0.2, y: gameZoneHeight * 0.4 + gameBeginPosition)
+        protagonist.zPosition = LayerMode.player
         
-        let offsetX = 主角.size.width * 主角.anchorPoint.x
-        let offsetY = 主角.size.height * 主角.anchorPoint.y
+        let offsetX = protagonist.size.width * protagonist.anchorPoint.x
+        let offsetY = protagonist.size.height * protagonist.anchorPoint.y
         
         let path = CGMutablePath()
         path.move(to: CGPoint(x: 3 - offsetX, y: 12 - offsetY))
@@ -210,469 +204,402 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         path.addLine(to: CGPoint(x: 5 - offsetX, y: 2 - offsetY))
         path.closeSubpath()
         
-        主角.physicsBody = SKPhysicsBody(polygonFrom: path)
-        主角.physicsBody?.categoryBitMask = 物理层.游戏角色
-        主角.physicsBody?.collisionBitMask = 0
-        主角.physicsBody?.contactTestBitMask = 物理层.障碍物 | 物理层.地面
+        protagonist.physicsBody = SKPhysicsBody(polygonFrom: path)
+        protagonist.physicsBody?.categoryBitMask = PhysicsLayer.player
+        protagonist.physicsBody?.collisionBitMask = 0
+        protagonist.physicsBody?.contactTestBitMask = PhysicsLayer.ground | PhysicsLayer.obstacles
         
-        世界单位.addChild(主角)
+        gameWord.addChild(protagonist)
     }
     
-    func 设置前景() {
-        for i in 0..<k前景地面数 {
-            let 前景 = SKSpriteNode(imageNamed: "Ground")
-            前景.anchorPoint = CGPoint(x: 0, y: 1.0)
-            前景.position = CGPoint(x: CGFloat(i) * 前景.size.width, y: 游戏区域起始点)
-            前景.zPosition = 图层.前景.rawValue
-            前景.name = "前景"
-            世界单位.addChild(前景)
+    func setupForeground() {
+        for i in 0..<kForegroundFloorCount {
+            let foreground = SKSpriteNode(imageNamed: "Ground")
+            foreground.anchorPoint = CGPoint(x: 0, y: 1.0)
+            foreground.position = .init(x: CGFloat(i) * foreground.size.width, y: gameBeginPosition)
+            foreground.zPosition = LayerMode.foreground
+            foreground.name = "foreground"
+            gameWord.addChild(foreground)
         }
     }
     
-    func 设置帽子() {
-        
-        帽子.position = CGPoint(x: 31 - 帽子.size.width/2, y: 29 - 帽子.size.height/2)
-        主角.addChild(帽子)
+    func setupHat() {
+        hat.position = .init(x: 31 - hat.size.width / 2 , y: 29 - hat.size.height / 2)
+        hat.zPosition = LayerMode.player
+        protagonist.addChild(hat)
     }
     
-    func 设置得分标签() {
-        得分标签 = SKLabelNode(fontNamed: k字体名字)
-        得分标签.fontColor = SKColor(red: 101.0/255.0, green: 71.0/255.0, blue: 73.0/255.0, alpha: 1.0)
-        得分标签.position = CGPoint(x: size.width/2, y: size.height - k顶部留白)
-        得分标签.verticalAlignmentMode = .top
-        得分标签.text = "0"
-        得分标签.zPosition = 图层.UI.rawValue
-        世界单位.addChild(得分标签)
+    func setupScoreLabel() {
+        scoreLabel = SKLabelNode(fontNamed: kFontName)
+        scoreLabel.fontColor = SKColor(red: 101.0 / 255.0, green: 71.0 / 255.0, blue: 73.0 / 255, alpha: 1.0)
+        scoreLabel.position = .init(x: size.width / 2, y: size.height - kTopSpace)
+        scoreLabel.verticalAlignmentMode = .top
+        scoreLabel.text = "0"
+        scoreLabel.zPosition = LayerMode.ui
+        gameWord.addChild(scoreLabel)
     }
     
-    func 设置记分板() {
-        if 当前分数 > 最高分() {
-            设置最高分(最高分: 当前分数)
+    func setupScoreCard() {
+        if currentScore > maxScore() {
+            setMaxScore(currentScore)
         }
         
-        let 记分板 = SKSpriteNode(imageNamed: "ScoreCard")
-        记分板.position = CGPoint(x: size.width / 2, y: size.height / 2)
-        记分板.zPosition = 图层.UI.rawValue
-        世界单位.addChild(记分板)
+        let scoreCard = SKSpriteNode(imageNamed: "ScoreCard")
+        scoreCard.position = .init(x: size.width / 2, y: size.height / 2)
+        scoreCard.zPosition = LayerMode.ui
+        gameWord.addChild(scoreCard)
         
-        let 当前分数标签 = SKLabelNode(fontNamed: k字体名字)
-        当前分数标签.fontColor = SKColor(red: 101.0/255.0, green: 71.0/255.0, blue: 73.0/255.0, alpha: 1.0)
-        当前分数标签.position = CGPoint(x: -记分板.size.width / 4, y: -记分板.size.height / 3)
-        当前分数标签.text = "\(当前分数)"
-        当前分数标签.zPosition = 图层.UI.rawValue
-        记分板.addChild(当前分数标签)
+        let currentScoreLabel = SKLabelNode(fontNamed: kFontName)
+        currentScoreLabel.fontColor = SKColor(red: 101.0/255.0, green: 71.0/255.0, blue: 73.0/255.0, alpha: 1.0)
+        currentScoreLabel.position = .init(x: -scoreCard.size.width / 4, y: -scoreCard.size.height / 3)
+        currentScoreLabel.text = "\(currentScore)"
+        currentScoreLabel.zPosition = LayerMode.ui
+        scoreCard.addChild(currentScoreLabel)
         
-        let 最高分标签 = SKLabelNode(fontNamed: k字体名字)
-        最高分标签.fontColor = SKColor(red: 101.0/255.0, green: 71.0/255.0, blue: 73.0/255.0, alpha: 1.0)
-        最高分标签.position = CGPoint(x: 记分板.size.width / 4, y: -记分板.size.height / 3)
-        最高分标签.text = "\(最高分())"
-        最高分标签.zPosition = 图层.UI.rawValue
-        记分板.addChild(最高分标签)
+        let maxScoreLabel = SKLabelNode(fontNamed: kFontName)
+        maxScoreLabel.fontColor = SKColor(red: 101.0/255.0, green: 71.0/255.0, blue: 73.0/255.0, alpha: 1.0)
+        maxScoreLabel.position = .init(x: scoreCard.size.width / 4, y: -scoreCard.size.height / 3)
+        maxScoreLabel.text = "\(maxScore())"
+        maxScoreLabel.zPosition = LayerMode.ui
+        scoreCard.addChild(maxScoreLabel)
         
-        let 游戏结束 = SKSpriteNode(imageNamed: "GameOver")
-        游戏结束.position = CGPoint(x: size.width/2, y: size.height/2 + 记分板.size.height/2 + k顶部留白 + 游戏结束.size.height/2)
-        游戏结束.zPosition = 图层.UI.rawValue
-        世界单位.addChild(游戏结束)
+        let gameOver = SKSpriteNode(imageNamed: "GameOver")
+        gameOver.position = .init(x: size.width / 2, y: size.height / 2 + scoreCard.size.height / 2 + kTopSpace + gameOver.size.height / 2)
+        gameOver.zPosition = LayerMode.ui
+        gameWord.addChild(gameOver)
         
-        let ok按钮 = SKSpriteNode(imageNamed: "Button")
-        ok按钮.position = CGPoint(x: size.width/4, y: size.height/2 - 记分板.size.height/2 - k顶部留白 - ok按钮.size.height/2)
-        ok按钮.zPosition = 图层.UI.rawValue
-        世界单位.addChild(ok按钮)
+        let okButton = SKSpriteNode(imageNamed: "Button")
+        okButton.position = .init(x: size.width / 2 /* / 4 */, y: size.height / 2 - scoreCard.size.height / 2 - kTopSpace - okButton.size.height / 2)
+        okButton.zPosition = LayerMode.ui
+        gameWord.addChild(okButton)
         
         let ok = SKSpriteNode(imageNamed: "OK")
-        ok.position = CGPoint.zero
-        ok.zPosition = 图层.UI.rawValue
-        ok按钮.addChild(ok)
+        ok.position = .zero
+        ok.zPosition = LayerMode.ui
+        okButton.addChild(ok)
+//        
+//        let shareButton = SKSpriteNode(imageNamed: "Button")
+//        shareButton.position = .init(x: size.width * 0.75, y: size.height / 2 - scoreCard.size.height / 2 - kTopSpace - shareButton.size.height / 2)
+//        shareButton.zPosition = LayerMode.ui
+//        gameWord.addChild(shareButton)
+//        
+//        let share = SKSpriteNode(imageNamed: "Share")
+//        share.position = .zero
+//        share.zPosition = LayerMode.ui
+//        shareButton.addChild(share)
         
-        let 分享按钮 = SKSpriteNode(imageNamed: "ButtonRight")
-        分享按钮.position = CGPoint(x: size.width * 0.75, y: size.height/2 - 记分板.size.height/2 - k顶部留白 - 分享按钮.size.height/2)
-        分享按钮.zPosition = 图层.UI.rawValue
-        世界单位.addChild(分享按钮)
+        gameOver.setScale(0)
+        gameOver.alpha = 0
+        let animationGroup = SKAction.group([.fadeIn(withDuration: kAnimationDelay),
+                                             .scale(to: 1.0, duration: kAnimationDelay)])
+        animationGroup.timingMode = .easeInEaseOut
+        gameOver.run(.sequence([.wait(forDuration: kAnimationDelay),
+                                animationGroup]))
         
-        let 分享 = SKSpriteNode(imageNamed: "Share")
-        分享.position = CGPoint.zero
-        分享.zPosition = 图层.UI.rawValue
-        分享按钮.addChild(分享)
+        scoreCard.position = .init(x: size.width / 2, y: -scoreCard.size.height / 2)
+        let moveUpAnimate = SKAction.move(to: .init(x: size.width / 2, y: size.height / 2), duration: kAnimationDelay)
+        moveUpAnimate.timingMode = .easeInEaseOut
+        scoreCard.run(.sequence([.wait(forDuration: kAnimationDelay),
+                                 moveUpAnimate]))
         
-        游戏结束.setScale(0)
-        游戏结束.alpha = 0
-        let 动画组 = SKAction.group([
-            SKAction.fadeIn(withDuration: k动画延迟),
-            SKAction.scale(to: 1.0, duration: k动画延迟)
-            ])
-        动画组.timingMode = .easeInEaseOut
+        okButton.alpha = 0
+//        shareButton.alpha = 0
         
-        游戏结束.run(SKAction.sequence([
-            SKAction.wait(forDuration: k动画延迟),
-            动画组
-            ]))
+        let fadeAnimate = SKAction.sequence([.wait(forDuration: kAnimationDelay * 3),
+                                             .fadeIn(withDuration: kAnimationDelay)])
+        okButton.run(fadeAnimate)
+//        shareButton.run(fadeAnimate)
         
-        记分板.position = CGPoint(x: size.width / 2, y: -记分板.size.height/2)
-        let 向上移动的动画 = SKAction.move(to: CGPoint(x: size.width / 2, y: size.height / 2), duration: k动画延迟)
-        向上移动的动画.timingMode = .easeInEaseOut
-        记分板.run(SKAction.sequence([
-            SKAction.wait(forDuration: k动画延迟 * 2),
-            向上移动的动画
-            ]))
+        let sound = SKAction.sequence([.wait(forDuration: kAnimationDelay),
+                                       popSound,
+                                       .wait(forDuration: kAnimationDelay),
+                                       popSound,
+                                       .wait(forDuration: kAnimationDelay),
+                                       popSound,
+                                       SKAction.run(switchGameOver)])
+        run(sound)
         
-        ok按钮.alpha = 0
-        分享按钮.alpha = 0
-        
-        let 渐变动画 = SKAction.sequence([
-            SKAction.wait(forDuration: k动画延迟 * 3),
-            SKAction.fadeIn(withDuration: k动画延迟)
-            ])
-        ok按钮.run(渐变动画)
-        分享按钮.run(渐变动画)
-        
-        let 声音特效 = SKAction.sequence([
-            SKAction.wait(forDuration: k动画延迟),
-            砰的音效,
-            SKAction.wait(forDuration: k动画延迟),
-            砰的音效,
-            SKAction.wait(forDuration: k动画延迟),
-            砰的音效,
-            SKAction.run(切换到结束状态)
-            ])
-        
-        run(声音特效)
+        okBtn = okButton
+//        shareBtn = shareButton
     }
     
-    
-    // MARK: 游戏流程
-    
-    func 创建障碍物(图片名: String) -> SKSpriteNode {
-        let 障碍物 = SKSpriteNode(imageNamed: 图片名)
-        障碍物.zPosition = 图层.障碍物.rawValue
-        障碍物.userData = NSMutableDictionary()
+    func createObstacles(imageNamed imageName: String) -> SKSpriteNode {
+        let obstacles = SKSpriteNode(imageNamed: imageName)
+        obstacles.zPosition = LayerMode.obstacles
+        obstacles.userData = NSMutableDictionary()
         
-        let offsetX = 障碍物.size.width * 障碍物.anchorPoint.x
-        let offsetY = 障碍物.size.height * 障碍物.anchorPoint.y
+        let offsetX = obstacles.size.width * obstacles.anchorPoint.x
+        let offsetY = obstacles.size.height * obstacles.anchorPoint.y
         
         let path = CGMutablePath()
-        
         path.move(to: CGPoint(x: 4 - offsetX, y: 0 - offsetY))
         path.addLine(to: CGPoint(x: 7 - offsetX, y: 307 - offsetY))
         path.addLine(to: CGPoint(x: 47 - offsetX, y: 308 - offsetY))
         path.addLine(to: CGPoint(x: 48 - offsetX, y: 1 - offsetY))
-        
         path.closeSubpath()
         
-        障碍物.physicsBody = SKPhysicsBody(polygonFrom: path)
-        障碍物.physicsBody?.categoryBitMask = 物理层.障碍物
-        障碍物.physicsBody?.collisionBitMask = 0
-        障碍物.physicsBody?.contactTestBitMask = 物理层.游戏角色
+        obstacles.physicsBody = SKPhysicsBody(polygonFrom: path)
+        obstacles.physicsBody?.categoryBitMask = PhysicsLayer.obstacles
+        obstacles.physicsBody?.collisionBitMask = 0
+        obstacles.physicsBody?.contactTestBitMask = PhysicsLayer.player
         
-        return 障碍物
+        return obstacles
     }
     
-    func 生成障碍() {
+    func setupObstacles() {
+        let bottomObstacles = createObstacles(imageNamed: "CactusBottom")
+        let beginX = size.width + bottomObstacles.size.width / 2
         
-        let 底部障碍 = 创建障碍物(图片名: "CactusBottom")
-        let 起始X坐标 = size.width + 底部障碍.size.width/2
+        let minY = (gameBeginPosition - bottomObstacles.size.height / 2) + gameZoneHeight * kBottomObstaclesMinScale
+        let maxY = (gameBeginPosition - bottomObstacles.size.height / 2) + gameZoneHeight * kBottomObstaclesMaxScale
         
-        let Y坐标最小值 = (游戏区域起始点 - 底部障碍.size.height/2) + 游戏区域的高度 * k底部障碍最小乘数
-        let Y坐标最大值 = (游戏区域起始点 - 底部障碍.size.height/2) + 游戏区域的高度 * k底部障碍最大乘数
+        bottomObstacles.position = .init(x: beginX, y: CGFloat.random(min: minY, max: maxY))
+        bottomObstacles.name = "bottomObstacles"
+        gameWord.addChild(bottomObstacles)
         
-        底部障碍.position = CGPoint(x: 起始X坐标, y: CGFloat.random(min: Y坐标最小值, max: Y坐标最大值))
-        底部障碍.name = "底部障碍"
-        世界单位.addChild(底部障碍)
+        let topObstacles = createObstacles(imageNamed: "CactusTop")
+        topObstacles.zRotation = CGFloat(180).degreesToRadians()
+        topObstacles.position = .init(x: beginX, y: bottomObstacles.position.y + bottomObstacles.size.height / 2 + topObstacles.size.height / 2 + protagonist.size.height * kBreakScale)
+        topObstacles.name = "topObstacles"
+        gameWord.addChild(topObstacles)
         
-        let 顶部障碍 = 创建障碍物(图片名: "CactusTop")
-        顶部障碍.zRotation = CGFloat(180).degreesToRadians()
-        顶部障碍.position = CGPoint(x: 起始X坐标, y: 底部障碍.position.y + 底部障碍.size.height/2 + 顶部障碍.size.height/2 + 主角.size.height * k缺口乘数)
-        顶部障碍.name = "顶部障碍"
-        世界单位.addChild(顶部障碍)
+        let moveDistanceX = -(size.width + bottomObstacles.size.width)
+        let moveTimeInterval = moveDistanceX / kFloorMoveSpeed
         
-        let X轴移动距离 = -(size.width + 底部障碍.size.width)
-        let 移动持续时间 = X轴移动距离 / k地面移动速度
-        
-        let 移动的动作队列 = SKAction.sequence([
-            SKAction.moveBy(x: X轴移动距离, y: 0, duration: TimeInterval(移动持续时间)),
-            SKAction.removeFromParent()
-            ])
-        顶部障碍.run(移动的动作队列)
-        底部障碍.run(移动的动作队列)
-        
+        let moveAction = SKAction.sequence([.moveBy(x: moveDistanceX, y: 0, duration: TimeInterval(moveTimeInterval)),
+                                            .removeFromParent()])
+        topObstacles.run(moveAction)
+        bottomObstacles.run(moveAction)
     }
     
-    func 无限重生障碍() {
-        let 首次延迟 = SKAction.wait(forDuration: k首次生成障碍延迟)
-        let 重生障碍 = SKAction.run(生成障碍)
-        let 每次重生间隔 = SKAction.wait(forDuration: k每次重生障碍延迟)
-        let 重生的动作队列 = SKAction.sequence([重生障碍, 每次重生间隔])
-        let 无限重生 = SKAction.repeatForever(重生的动作队列)
-        let 总的动作队列 = SKAction.sequence([首次延迟, 无限重生])
-        run(总的动作队列, withKey:"重生")
+    func repeatCreateObstacles() {
+        let firstDelay = SKAction.wait(forDuration: kFirstCreateObstaclesDelay)
+        let recreateObstacles = SKAction.run(setupObstacles)
+        let recreateTimeInterval = SKAction.wait(forDuration: kFirstResetObstaclesDelay)
+        let recreateAction = SKAction.sequence([recreateObstacles, recreateTimeInterval])
+        let repeatCreate = SKAction.repeatForever(recreateAction)
+        let allAction = SKAction.sequence([firstDelay, repeatCreate])
+        run(allAction, withKey: "resetObstacles")
     }
     
-    func 停止重生障碍() {
-        removeAction(forKey: "重生")
+    func stopCreateObstacles() {
+        removeAction(forKey: "resetObstacles")
         
-        世界单位.enumerateChildNodes(withName: "顶部障碍", using: { 匹配单位, _ in
-            匹配单位.removeAllActions()
-        })
-        世界单位.enumerateChildNodes(withName: "底部障碍", using: { 匹配单位, _ in
-            匹配单位.removeAllActions()
-        })
-        
+        gameWord.enumerateChildNodes(withName: "topObstacles") { node, _ in
+            node.removeAllActions()
+        }
+        gameWord.enumerateChildNodes(withName: "bottomObstacles") { node, _ in
+            node.removeAllActions()
+        }
     }
     
-    
-    func 主角飞一下() {
-        速度 = CGPoint(x: 0, y: k上冲速度)
+    func onceFly() {
+        playerSpeed = .init(x: 0, y: kUpSpeed)
+        let moveUp = SKAction.moveBy(x: 0, y: 12, duration: 0.15)
+        let moveDown = moveUp.reversed()
+        hat.run(.sequence([moveUp, moveDown]))
         
-        // 移动帽子
-        let 向上移动 = SKAction.moveBy(x: 0, y: 12, duration: 0.15)
-        向上移动.timingMode = .easeInEaseOut
-        let 向下移动 = 向上移动.reversed()
-        帽子.run(SKAction.sequence([向上移动, 向下移动]))
-        
-        // 播放音效
-        run(拍打的音效)
+        run(flappingSound)
     }
     
-
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let 点击 = touches.first else {
-            return
-        }
-        let 点击位置 = 点击.location(in: self)
+        guard let touch = touches.first else { return }
+        let touchPosition = touch.location(in: self)
         
-        switch 当前游戏状态 {
-        case .主菜单:
-            if 点击位置.y < size.height * 0.15 {
-                去学习()
-            } else if 点击位置.x < size.width/2 {
-                切换到教程状态()
-            } else {
-                去评价()
+        switch currentGameStatus {
+        case .menu:
+            if let playBtn = playBtn {
+                let playBtnRect = CGRect(origin: CGPoint(x: playBtn.position.x - playBtn.size.width / 2, y: playBtn.position.y - playBtn.size.height / 2), size: playBtn.size)
+                if playBtnRect.contains(touchPosition) { switchTutorial() }
             }
-            break
-        case .教程:
-            切换到游戏状态()
-            break
-        case .游戏:
-            // 增加上冲速度
-            主角飞一下()
-            break
-        case .跌落:
-            break
-        case .显示分数:
-            break
-        case .结束:
-            切换到新游戏()
-            break
+            
+            if let rateBtn = rateBtn {
+                let rateBtnRect = CGRect(origin: CGPoint(x: rateBtn.position.x - rateBtn.size.width / 2, y: rateBtn.position.y - rateBtn.size.height / 2), size: rateBtn.size)
+                if rateBtnRect.contains(touchPosition) { gotoEvaluation() }
+            }
+            
+            if let learnBtn = learnBtn {
+                let learnBtnRect = CGRect(origin: CGPoint(x: learnBtn.position.x - learnBtn.size.width / 2, y: learnBtn.position.y - learnBtn.size.height / 2), size: learnBtn.size)
+                if learnBtnRect.contains(touchPosition) { gotoLearn() }
+            }
+        case .tutorial: switchGameing()
+        case .game: onceFly()
+        case .gameOver:
+            if let okBtn = okBtn {
+                let okBtnRect = CGRect(origin: CGPoint(x: okBtn.position.x - okBtn.size.width / 2, y: okBtn.position.y - okBtn.size.height / 2), size: okBtn.size)
+                if okBtnRect.contains(touchPosition) { switchNewGame() }
+            }
+            if let shareBtn = shareBtn {
+                let _ = CGRect(origin: CGPoint(x: shareBtn.position.x - shareBtn.size.width / 2, y: shareBtn.position.y - shareBtn.size.height / 2), size: shareBtn.size)
+            }
+        case .drop, .scores: break
         }
     }
     
-    // MARK: 更新
-    
-    override func update(_ 当前时间: CFTimeInterval) {
-        if 上一次更新时间 > 0 {
-            dt = 当前时间 - 上一次更新时间
-        } else {
-            dt = 0
-        }
-        上一次更新时间 = 当前时间
+    override func update(_ currentTime: TimeInterval) {
+        if lastUpdateTime > 0 { dt = currentTime - lastUpdateTime }
+        else { dt = 0 }
         
-        switch 当前游戏状态 {
-        case .主菜单:
-            break
-        case .教程:
-            break
-        case .游戏:
-            更新前景()
-            更新主角()
-            撞击障碍物检查()
-            撞击地面检查()
-            更新得分()
-            break
-        case .跌落:
-            更新主角()
-            撞击地面检查()
-            break
-        case .显示分数:
-            break
-        case .结束:
-            break
-        }
-    }
-    
-    func 更新主角() {
-        let 加速度 = CGPoint(x: 0, y: k重力)
-        速度 = 速度 + 加速度 * CGFloat(dt)
-        主角.position = 主角.position + 速度 * CGFloat(dt)
+        lastUpdateTime = currentTime
         
-        // 检测撞击地面时让其停在地面上
-        if 主角.position.y - 主角.size.height/2 < 游戏区域起始点 {
-            主角.position = CGPoint(x: 主角.position.x, y: 游戏区域起始点 + 主角.size.height/2)
+        switch currentGameStatus {
+        case .game:
+            updateForeground()
+            updateProtagonist()
+            checkObstacles()
+            checkGround()
+            updateScore()
+        case .drop:
+            updateProtagonist()
+            checkGround()
+        case .scores, .gameOver, .menu, .tutorial: break
+        }
+        
+    }
+    
+    func updateProtagonist() {
+        let acceleration = CGPoint(x: 0, y: kGravity)
+        playerSpeed = playerSpeed + acceleration * CGFloat(dt)
+        protagonist.position = protagonist.position + playerSpeed * CGFloat(dt)
+        
+        if protagonist.position.y - protagonist.size.height / 2 < gameBeginPosition {
+            protagonist.position = .init(x: protagonist.position.x, y: gameBeginPosition + protagonist.size.height / 2)
         }
     }
     
-    func 更新前景() {
-        世界单位.enumerateChildNodes(withName: "前景") { 匹配单位, _ in
-            if let 前景 = 匹配单位 as? SKSpriteNode {
-                let 地面移动速度 = CGPoint(x: self.k地面移动速度, y: 0)
-                前景.position += 地面移动速度 * CGFloat(self.dt)
+    func updateForeground() {
+        gameWord.enumerateChildNodes(withName: "foreground") { (node, _) in
+            if let foreground = node as? SKSpriteNode {
+                let floorMoveSpeed = CGPoint(x: self.kFloorMoveSpeed, y: 0)
+                foreground.position += floorMoveSpeed * CGFloat(self.dt)
                 
-                if 前景.position.x < -前景.size.width {
-                    前景.position += CGPoint(x: 前景.size.width * CGFloat(self.k前景地面数), y: 0)
+                if foreground.position.x < -foreground.size.width {
+                    foreground.position += CGPoint(x: foreground.size.width * CGFloat(self.kForegroundFloorCount), y: 0)
                 }
-                
             }
         }
     }
     
-    func 撞击障碍物检查() {
-        if 撞击了障碍物 {
-            撞击了障碍物 = false
-            切换到跌落状态()
+    func checkObstacles() {
+        if beatObstacles {
+            beatObstacles = false
+            switchDrop()
         }
     }
     
-    func 撞击地面检查() {
-        if 撞击了地面 {
-            撞击了地面 = false
-            速度 = CGPoint.zero
-            主角.zRotation = CGFloat(-90).degreesToRadians()
-            主角.position = CGPoint(x: 主角.position.x, y: 游戏区域起始点 + 主角.size.width/2)
-            run(撞击地面的音效)
-            切换到显示分数状态()
+    func checkGround() {
+        if beatGround {
+            beatGround = false
+            playerSpeed = .zero
+            protagonist.zRotation = CGFloat(-90).degreesToRadians()
+            protagonist.position = CGPoint(x: protagonist.position.x, y: gameBeginPosition + protagonist.size.width / 2)
+            run(hitGroundSound)
+            switchScores()
         }
     }
     
-    func 更新得分() {
-        世界单位.enumerateChildNodes(withName: "顶部障碍", using: { 匹配单位, _ in
-            if let 障碍物 = 匹配单位 as? SKSpriteNode {
-                if let 已通过 = 障碍物.userData?["已通过"] as? NSNumber {
-                    if 已通过.boolValue {
-                        return   // 已经计算过一次得分了
+    func updateScore() {
+        gameWord.enumerateChildNodes(withName: "topObstacles") { (node, _) in
+            if let obstacles = node as? SKSpriteNode {
+                if let isThrough = obstacles.userData?["isThrough"] as? NSNumber {
+                    if isThrough.boolValue {
+                        return
                     }
                 }
-                
-                if self.主角.position.x > 障碍物.position.x + 障碍物.size.width/2 {
-                    self.当前分数 += 1
-                    self.得分标签.text = "\(self.当前分数)"
-                    self.run(self.得分的音效)
-                    障碍物.userData?["已通过"] = NSNumber(value: true)
+                if self.protagonist.position.x > obstacles.position.x + obstacles.size.width / 2 {
+                    self.currentScore += 1
+                    self.scoreLabel.text = "\(self.currentScore)"
+                    self.run(self.coinSound)
+                    obstacles.userData?["isThrough"] = NSNumber(booleanLiteral: true)
                 }
             }
-        })
-    }
-    
-    
-    
-    // MARK: 游戏状态
-    
-    func 切换到主菜单() {
-        当前游戏状态 = .主菜单
-        设置背景()
-        设置前景()
-        设置主角()
-        设置帽子()
-        设置主菜单()
-    }
-    
-    func 切换到教程状态() {
-        
-        当前游戏状态 = .教程
-        世界单位.enumerateChildNodes(withName: "主菜单") { 匹配单位, _ in
-            匹配单位.run(SKAction.sequence([
-                SKAction.fadeOut(withDuration: 0.05),
-                SKAction.removeFromParent()
-                ]))
         }
-        
-        设置得分标签()
-        设置教程()
-        
+    }
+
+    func switchMenu() {
+        currentGameStatus = .menu
+        setupBackground()
+        setupForeground()
+        setupProtagonist()
+        setupHat()
+        setupMenu()
     }
     
-    func 切换到游戏状态() {
-        
-        当前游戏状态 = .游戏
-        
-        世界单位.enumerateChildNodes(withName: "教程") { 匹配单位, _ in
-            匹配单位.run(SKAction.sequence([
-                SKAction.fadeOut(withDuration: 0.05),
-                SKAction.removeFromParent()
-                ]))
+    func switchTutorial() {
+        currentGameStatus = .tutorial
+        gameWord.enumerateChildNodes(withName: "mainMenu") { (node, _) in
+            node.run(.sequence([.fadeOut(withDuration: 0.05),
+                                .removeFromParent()]))
         }
-        主角.removeAction(forKey: "起飞")
-        
-        无限重生障碍()
-        主角飞一下()
-        
+        setupScoreLabel()
+        setupTutorial()
     }
     
-    func 切换到跌落状态() {
-        
-        当前游戏状态 = .跌落
-        
-        run(SKAction.sequence([
-            摔倒的音效,
-            SKAction.wait(forDuration: 0.1),
-            下落的音效
-            ]))
-        
-        主角.removeAllActions()
-        停止重生障碍()
+    func switchNewGame() {
+        run(popSound)
+        let newScene = GameScene(size: size)
+        let transition = SKTransition.fade(with: SKColor.black, duration: 0.05)
+        view?.presentScene(newScene, transition: transition)
     }
     
-    func 切换到显示分数状态() {
-        当前游戏状态 = .显示分数
-        主角.removeAllActions()
-        停止重生障碍()
-        设置记分板()
+    func switchGameing() {
+        currentGameStatus = .game
+        gameWord.enumerateChildNodes(withName: "tutorial") { (node, _) in
+            node.run(.sequence([.fadeOut(withDuration: 0.05),
+                                .removeFromParent()]))
+        }
+        protagonist.removeAction(forKey: "fly")
+        repeatCreateObstacles()
+        onceFly()
     }
     
-    func 切换到新游戏() {
-        run(砰的音效)
-        
-        let 新的游戏场景 = GameScene.init(size: size)
-        let 切换特效 = SKTransition.fade(with: SKColor.black, duration: 0.05)
-        view?.presentScene(新的游戏场景, transition: 切换特效)
+    func switchDrop() {
+        currentGameStatus = .drop
+        run(.sequence([whackSound,
+                       .wait(forDuration: 0.1),
+                       fallingSound]))
+        protagonist.removeAllActions()
+        stopCreateObstacles()
     }
     
-    func 切换到结束状态() {
-        当前游戏状态 = .结束
+    func switchGameOver() {
+        currentGameStatus = .gameOver
     }
     
-    // MARK: 分数
-    
-    func 最高分() -> Int {
-        return UserDefaults.standard.integer(forKey: "最高分")
+    func gotoLearn() {
+        let url = URL(string: studayLink)
+        UIApplication.shared.open(url!, completionHandler: nil)
     }
     
-    func 设置最高分(最高分: Int) {
-        UserDefaults.standard.set(最高分, forKey: "最高分")
+    func gotoEvaluation() {
+        let url = URL(string: appStoreLink)
+        UIApplication.shared.open(url!, completionHandler: nil)
+    }
+    
+    func switchScores() {
+        currentGameStatus = .scores
+        protagonist.removeAllActions()
+        stopCreateObstacles()
+        setupScoreCard()
+    }
+    
+    func maxScore() -> Int {
+        return UserDefaults.standard.integer(forKey: "maxScore")
+    }
+    
+    func setMaxScore(_ score: Int) {
+        UserDefaults.standard.set(score, forKey: "maxScore")
         UserDefaults.standard.synchronize()
     }
+}
+
+extension GameScene : SKPhysicsContactDelegate {
     
-    // MARK: 物理引擎
     func didBegin(_ contact: SKPhysicsContact) {
-        let 被撞对象 = contact.bodyA.categoryBitMask ==
-            物理层.游戏角色 ? contact.bodyB : contact.bodyA
-        
-        if 被撞对象.categoryBitMask == 物理层.地面 {
-            撞击了地面 = true
-        }
-        if 被撞对象.categoryBitMask == 物理层.障碍物 {
-            撞击了障碍物 = true
-        }
+        let obstacles = contact.bodyA.categoryBitMask == PhysicsLayer.player ? contact.bodyB : contact.bodyA
+        if obstacles.categoryBitMask == PhysicsLayer.ground { beatGround = true }
+        if obstacles.categoryBitMask == PhysicsLayer.obstacles { beatObstacles = true }
     }
     
-    // MARK: 其他
-    
-    func 去学习() {
-        let 网址 = URL(string: 课程网址)
-        UIApplication.shared.open(网址!, completionHandler: nil)
-    }
-    
-    func 去评价() {
-        let 网址 = URL(string: AppStore的链接)
-        UIApplication.shared.open(网址!, completionHandler: nil)
-    }
     
 }

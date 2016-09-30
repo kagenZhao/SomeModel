@@ -23,7 +23,6 @@
     self.qrView.delegate = self;
     [self.view addSubview:_qrView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(becomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
-    NSLog(@"aa");
 }
 
 - (void)decodeMessage:(NSString *)message {

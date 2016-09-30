@@ -23,13 +23,13 @@ class GameViewController: UIViewController {
                 sk视图.showsNodeCount = true
                 sk视图.showsPhysics = true
                 sk视图.ignoresSiblingOrder = true
-                场景.scaleMode = .AspectFill
+                场景.scaleMode = .aspectFill
                 sk视图.presentScene(场景)
             }
         }
     }
     
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         return true
     }
     

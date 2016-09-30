@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -12,7 +13,6 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oJs-Ph-GVe">
-                    <rect key="frame" x="30" y="40" width="50" height="50"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="50" id="IyD-Wi-5RK"/>
                         <constraint firstAttribute="height" constant="50" id="W4K-re-Qmd"/>
@@ -23,21 +23,15 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L85-Pj-cd2">
-                    <rect key="frame" x="295" y="40" width="50" height="50"/>
                     <state key="normal" title="相册"/>
                     <connections>
                         <action selector="imagePicker:" destination="iN0-l3-epB" eventType="touchUpInside" id="qSr-eW-A1r"/>
                     </connections>
                 </button>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CR3-f9-EL7" userLabel="视图容器">
-                    <rect key="frame" x="38" y="184" width="300" height="300"/>
                     <subviews>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" image="qrcode_border.png" translatesAutoresizingMaskIntoConstraints="NO" id="qaW-4p-Dmo" userLabel="边框">
-                            <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
-                        </imageView>
-                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="qrcode_scanline_qrcode.png" translatesAutoresizingMaskIntoConstraints="NO" id="00k-2l-d9a" userLabel="冲击波">
-                            <rect key="frame" x="0.0" y="0.0" width="308" height="300"/>
-                        </imageView>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" image="qrcode_border.png" translatesAutoresizingMaskIntoConstraints="NO" id="qaW-4p-Dmo" userLabel="边框"/>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="qrcode_scanline_qrcode.png" translatesAutoresizingMaskIntoConstraints="NO" id="00k-2l-d9a" userLabel="冲击波"/>
                     </subviews>
                     <constraints>
                         <constraint firstItem="qaW-4p-Dmo" firstAttribute="leading" secondItem="CR3-f9-EL7" secondAttribute="leading" id="1Dv-rt-TGp"/>
@@ -53,13 +47,12 @@
                     </constraints>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="将二维码放入框内, 即可扫描二维码" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l7k-rn-ZSp" userLabel="customLabel">
-                    <rect key="frame" x="38" y="504" width="300" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="L85-Pj-cd2" firstAttribute="bottom" secondItem="oJs-Ph-GVe" secondAttribute="bottom" id="2BS-vG-kd0"/>
                 <constraint firstItem="L85-Pj-cd2" firstAttribute="top" secondItem="oJs-Ph-GVe" secondAttribute="top" id="EN6-mK-yNQ"/>
@@ -73,7 +66,6 @@
                 <constraint firstItem="oJs-Ph-GVe" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="30" id="pWW-uH-ixU"/>
                 <constraint firstItem="L85-Pj-cd2" firstAttribute="width" secondItem="oJs-Ph-GVe" secondAttribute="width" id="zmQ-EM-Inc"/>
             </constraints>
-            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
             <connections>
                 <outlet property="containerHeightConstraint" destination="3vE-i1-MqZ" id="jFZ-uq-qNt"/>
                 <outlet property="customContainerView" destination="CR3-f9-EL7" id="qsd-ht-8Yy"/>
@@ -87,7 +79,7 @@
             <rect key="frame" x="0.0" y="0.0" width="300" height="21"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <nil key="highlightedColor"/>
             <point key="canvasLocation" x="239" y="473.5"/>
         </label>

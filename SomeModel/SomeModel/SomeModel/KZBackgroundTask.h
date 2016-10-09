@@ -1,5 +1,5 @@
 //
-//  KMRBackgroundTask.h
+//  KZBackgroundTask.h
 //  OpenGL
 //
 //  Created by Kagen Zhao on 2016/9/23.
@@ -11,7 +11,7 @@
 /**
  后台刷新功能
  */
-@interface KMRBackgroundTask : NSObject
+@interface KZBackgroundTask : NSObject
 
 + (instancetype)shared;
 

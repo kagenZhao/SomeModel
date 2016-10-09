@@ -1,26 +1,26 @@
 //
-//  UILabel+VerticalAlgnment.m
+//  UILabel+KZVerticalAlgnment.m
 //  test
 //
 //  Created by Kagen Zhao on 16/9/2.
 //  Copyright © 2016年 Kagen Zhao. All rights reserved.
 //
 
-#import "UILabel+VerticalAlgnment.h"
+#import "UILabel+KZVerticalAlgnment.h"
 #import <objc/objc-runtime.h>
 
 
-static NSString *const kCustomeVerticalKey = @"kCustomeVerticalKey";
+static NSString *const kKZCustomeVerticalKey = @"kCustomeVerticalKey";
 
 @implementation UILabel (VerticalAlgnment)
 
-- (void)setCustomeVertical:(CustomeVerticalAlgnment)CustomeVertical {
-    objc_setAssociatedObject(self, &kCustomeVerticalKey, @(CustomeVertical), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)setCustomeVertical:(KZCustomeVerticalAlgnment)CustomeVertical {
+    objc_setAssociatedObject(self, &kKZCustomeVerticalKey, @(CustomeVertical), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     [self setNeedsDisplay];
 }
 
-- (CustomeVerticalAlgnment)CustomeVertical {
-    return [objc_getAssociatedObject(self, &kCustomeVerticalKey) integerValue];
+- (KZCustomeVerticalAlgnment)CustomeVertical {
+    return [objc_getAssociatedObject(self, &kKZCustomeVerticalKey) integerValue];
 }
 
 + (void)load {
@@ -38,13 +38,13 @@ static NSString *const kCustomeVerticalKey = @"kCustomeVerticalKey";
 - (CGRect)swz_textRectForBounds:(CGRect)bounds limitedToNumberOfLines:(NSInteger)numberOfLines {
     CGRect textRect = [self swz_textRectForBounds:bounds limitedToNumberOfLines:numberOfLines];
     switch (self.CustomeVertical) {
-        case CustomeVerticalAlgnmentTop:
+        case KZCustomeVerticalAlgnmentTop:
             textRect.origin.y = bounds.origin.y;
             break;
-        case CustomeVerticalAlgnmentBottom:
+        case KZCustomeVerticalAlgnmentBottom:
             textRect.origin.y = bounds.origin.y + bounds.size.height - textRect.size.height;
             break;
-        case CustomeVerticalAlgnmentMiddle:
+        case KZCustomeVerticalAlgnmentMiddle:
         default:
             textRect.origin.y = bounds.origin.y + (bounds.size.height - textRect.size.height) / 2.0;
     }

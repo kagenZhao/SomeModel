@@ -1,24 +1,24 @@
 //
-//  KMRBackgroundTask.m
+//  KZBackgroundTask.m
 //  OpenGL
 //
 //  Created by Kagen Zhao on 2016/9/23.
 //  Copyright © 2016年 Kagen Zhao. All rights reserved.
 //
 
-#import "KMRBackgroundTask.h"
+#import "KZBackgroundTask.h"
 
-@interface KMRBackgroundTask()
+@interface KZBackgroundTask()
 @property (assign, readwrite, nonatomic) UIBackgroundTaskIdentifier currentBgTask;
 @end
 
-@implementation KMRBackgroundTask
+@implementation KZBackgroundTask
 
 + (instancetype)shared {
-    static KMRBackgroundTask *task = nil;
+    static KZBackgroundTask *task = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        task = [[KMRBackgroundTask alloc] init];
+        task = [[KZBackgroundTask alloc] init];
         task.currentBgTask = UIBackgroundTaskInvalid;
     });
     return task;

@@ -5,11 +5,11 @@
 
 #import <Foundation/Foundation.h>
 NS_ASSUME_NONNULL_BEGIN
-OBJC_EXTERN NSString * const KMRWifiDidChangedNotification;
+OBJC_EXTERN NSString * const KZWifiDidChangedNotification;
 
-@class KMRWifiInfo;
+@class KZWifiInfo;
 
-@interface KMRWifiInfo : NSObject
+@interface KZWifiInfo : NSObject
 
 @property (nonatomic, copy  , readonly, nullable) NSString *BSSID;
 @property (nonatomic, copy  , readonly, nullable) NSString *SSID;
@@ -19,9 +19,9 @@ OBJC_EXTERN NSString * const KMRWifiDidChangedNotification;
 
 @end
 
-@interface KMRWifiNotificationManager : NSObject
+@interface KZWifiNotificationManager : NSObject
 
-@property (nonatomic, strong, readonly,) KMRWifiInfo *savedWifiInfo;
+@property (nonatomic, strong, readonly,) KZWifiInfo *savedWifiInfo;
 @property (nonatomic, assign, readonly) BOOL notificationIsRunning;
 
 + (instancetype)shared;
@@ -41,7 +41,7 @@ OBJC_EXTERN NSString * const KMRWifiDidChangedNotification;
 
 @class RACSignal;
 
-@interface KMRWifiNotificationManager (ReactiveCocoa)
+@interface KZWifiNotificationManager (ReactiveCocoa)
 
 @property (nonatomic, strong, readonly) RACSignal *rac_wifiNotificationSignal;
 

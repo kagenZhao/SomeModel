@@ -1,31 +1,31 @@
 //
-//  KMRLocationManager.m
+//  KZLocationManager.m
 //  OpenGL
 //
 //  Created by Kagen Zhao on 2016/9/22.
 //  Copyright © 2016年 Kagen Zhao. All rights reserved.
 //
 
-#import "KMRLocationManager.h"
+#import "KZLocationManager.h"
 #import <UIKit/UIKit.h>
-#import "KMRBackgroundTask.h"
+#import "KZBackgroundTask.h"
 #import <objc/runtime.h>
 #import <objc/message.h>
 
-@interface KMRLocationManager ()
+@interface KZLocationManager ()
 @property (nonatomic, strong, readwrite) CLLocationManager * locationManager;
 @property (nonatomic, assign, readwrite) BOOL needUpdatingLocationInBackground;
 @property (nonatomic, strong, readwrite) id enterBackgroundObserver;
 @property (nonatomic, strong, readwrite) id becomeActiveObserver;
 @end
 
-@implementation KMRLocationManager
+@implementation KZLocationManager
 
 + (instancetype)shared {
-    static KMRLocationManager *manager = nil;
+    static KZLocationManager *manager = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        manager = [[KMRLocationManager alloc] init];
+        manager = [[KZLocationManager alloc] init];
         manager.locationManager = [[CLLocationManager alloc] init];
         manager.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
         manager.locationManager.allowsBackgroundLocationUpdates = YES;
@@ -36,7 +36,7 @@
 }
 
 - (BOOL)startUpdatingLocation {
-    NSAssert(self.locationManager.delegate == self, @"设置CLLocationManager代理 ,请参考 '[KMRLocationManager share].locationDelegate = SOME' ");
+    NSAssert(self.locationManager.delegate == self, @"设置CLLocationManager代理 ,请参考 '[KZLocationManager share].locationDelegate = SOME' ");
     if (!self.locationServicesEnabled) {
         NSLog(@"开启定位失败---[CLLocationManager locationServicesEnabled] == false");
         return NO;
@@ -75,19 +75,21 @@
     self.needUpdatingLocationInBackground = updating;
     if (updating) {
         __weak __typeof(&*self) wSelf = self;
-        self.enterBackgroundObserver = !_enterBackgroundObserver ? [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidEnterBackgroundNotification
-                                                                                                                     object:nil
-                                                                                                                      queue:nil
-                                                                                                                 usingBlock:^(NSNotification * _Nonnull note) {
-                                                                                                                     __strong __typeof(&*wSelf) sSelf = wSelf;
-                                                                                                                     [sSelf applicationEnterBackground];
-                                                                                                                 }] : _enterBackgroundObserver;
-       self.becomeActiveObserver = !_becomeActiveObserver ? [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidBecomeActiveNotification
-                                                          object:nil
-                                                           queue:nil
-                                                      usingBlock:^(NSNotification * _Nonnull note) {
-                                                          [[KMRBackgroundTask shared] endCurrentBackgroundTask];
-                                                      }] : _becomeActiveObserver;
+        self.enterBackgroundObserver = !_enterBackgroundObserver ? [[NSNotificationCenter defaultCenter]
+                                                                    addObserverForName:UIApplicationDidEnterBackgroundNotification
+                                                                    object:nil
+                                                                    queue:nil
+                                                                    usingBlock:^(NSNotification * _Nonnull note) {
+                                                                        __strong __typeof(&*wSelf) sSelf = wSelf;
+                                                                        [sSelf applicationEnterBackground];
+                                                                    }] : _enterBackgroundObserver;
+        self.becomeActiveObserver = !_becomeActiveObserver ? [[NSNotificationCenter defaultCenter]
+                                                              addObserverForName:UIApplicationDidBecomeActiveNotification
+                                                              object:nil
+                                                              queue:nil
+                                                              usingBlock:^(NSNotification * _Nonnull note) {
+                                                                  [[KZBackgroundTask shared] endCurrentBackgroundTask];
+                                                              }] : _becomeActiveObserver;
     } else {
         _enterBackgroundObserver ? [[NSNotificationCenter defaultCenter] removeObserver:_enterBackgroundObserver] : nil;
         _becomeActiveObserver ? [[NSNotificationCenter defaultCenter] removeObserver:_becomeActiveObserver] : nil;
@@ -107,7 +109,7 @@
 
 - (BOOL)beginBackgroundUpdatingLocation {
     BOOL x = [self startUpdatingLocation];
-    [[KMRBackgroundTask shared] beginNewBackgroundTask];
+    [[KZBackgroundTask shared] beginNewBackgroundTask];
     return x;
 }
 
@@ -115,15 +117,15 @@
 {
     static BOOL once = NO;
     if (once == YES) return;
-    __weak __typeof(&*self) wSelf = self;
+    __weak __typeof(&*self) self_weak = self;
     [self after:10 block:^{
-        __strong __typeof(&*wSelf) sSelf = wSelf;
-        [sSelf stopUpdatingLocation];
+        __strong __typeof(&*self_weak)self_strong = self_weak;
+        [self_strong stopUpdatingLocation];
         once = NO;
     }];
     [self after:120 block:^{
-        __strong __typeof(&*wSelf) sSelf = wSelf;
-        [sSelf beginBackgroundUpdatingLocation];
+        __strong __typeof(&*self_weak)self_strong = self_weak;
+        [self_strong beginBackgroundUpdatingLocation];
     }];
     once = YES;
     if ([self.locationDelegate respondsToSelector:@selector(locationManager:didUpdateLocations:)]) {

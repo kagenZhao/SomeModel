@@ -1,5 +1,5 @@
 //
-//  KMRLocationManager.h
+//  KZLocationManager.h
 //  OpenGL
 //
 //  Created by Kagen Zhao on 2016/9/22.
@@ -13,14 +13,14 @@
 /**
  用于利用定位来实现常驻后台
  使用及其简单, 只需在 AppDelegate中调用以下方法
- [[[KMRLocationManager shared] setBackgroundUpdating:YES] startUpdatingLocation];
+ [[[KZLocationManager shared] setBackgroundUpdating:YES] startUpdatingLocation];
  也可以用于普通定位功能
  */
-@interface KMRLocationManager : NSObject<CLLocationManagerDelegate>
+@interface KZLocationManager : NSObject<CLLocationManagerDelegate>
 @property (nonatomic, strong, readonly) CLLocationManager * locationManager;
 /**
  CLLocationManager 的代理
- [KMRLocationManager share].locationDelegate = SOME
+ [KZLocationManager share].locationDelegate = SOME
  */
 @property (nonatomic, weak) id <CLLocationManagerDelegate> locationDelegate;
 

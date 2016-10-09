@@ -3,23 +3,23 @@
 //  Copyright © 2016年 Kagen Zhao. All rights reserved.
 //
 
-#import "KMRWifiNotificationManager.h"
+#import "KZWifiNotificationManager.h"
 #import <SystemConfiguration/CaptiveNetwork.h>
 #import <objc/runtime.h>
 #import <objc/message.h>
 
-NSString * const KMRWifiDidChangedNotification = @"KMRWifiDidChangedNotification";
+NSString * const KZWifiDidChangedNotification = @"KZWifiDidChangedNotification";
 
-static NSString * const kKMRNotificationName = @"com.apple.system.config.network_change";
-static CFStringRef const kKMRNotificationkey = CFSTR("com.apple.system.config.network_change");
+static NSString * const kKZNotificationName = @"com.apple.system.config.network_change";
+static CFStringRef const kKZNotificationkey = CFSTR("com.apple.system.config.network_change");
 
-@interface KMRWifiInfo ()
+@interface KZWifiInfo ()
 @property (nonatomic, copy  , readwrite) NSString *BSSID;
 @property (nonatomic, copy  , readwrite) NSString *SSID;
 @property (nonatomic, strong, readwrite) NSData *SSIDDATA;
 @end
 
-@implementation KMRWifiInfo
+@implementation KZWifiInfo
 
 - (instancetype)initWithBSSID:(NSString *)BSSID SSID:(NSString *)SSID SSIDDATA:(NSData *)SSIDDATA {
     self = [super init];
@@ -39,22 +39,22 @@ static CFStringRef const kKMRNotificationkey = CFSTR("com.apple.system.config.ne
 @end
 
 
-@interface KMRWifiNotificationManager () {
+@interface KZWifiNotificationManager () {
     void * _observer;
 }
-@property (nonatomic, strong, readwrite) KMRWifiInfo *savedWifiInfo;
+@property (nonatomic, strong, readwrite) KZWifiInfo *savedWifiInfo;
 @property (nonatomic, assign, readwrite) BOOL isAddedNotification;
 @property (nonatomic, strong, readwrite) NSMutableDictionary <NSValue *, NSMutableArray<NSString *> *> *targetActions;
 
 @end
 
-@implementation KMRWifiNotificationManager
+@implementation KZWifiNotificationManager
 
 + (instancetype)shared {
-    static KMRWifiNotificationManager *manager = nil;
+    static KZWifiNotificationManager *manager = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        manager = [[KMRWifiNotificationManager alloc] init];
+        manager = [[KZWifiNotificationManager alloc] init];
         manager.savedWifiInfo = [manager getCurrentWifiInfo];
         manager->_observer = malloc(sizeof(void *));
         manager.targetActions = @{}.mutableCopy;
@@ -67,7 +67,7 @@ static CFStringRef const kKMRNotificationkey = CFSTR("com.apple.system.config.ne
         CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(),
                                         self->_observer,
                                         onNotifyCallback,
-                                        kKMRNotificationkey,
+                                        kKZNotificationkey,
                                         NULL,
                                         CFNotificationSuspensionBehaviorDeliverImmediately);
         _isAddedNotification = YES;
@@ -78,7 +78,7 @@ static CFStringRef const kKMRNotificationkey = CFSTR("com.apple.system.config.ne
     if (_isAddedNotification) {
         CFNotificationCenterRemoveObserver(CFNotificationCenterGetDarwinNotifyCenter(),
                                            self->_observer,
-                                           kKMRNotificationkey,
+                                           kKZNotificationkey,
                                            NULL);
         _isAddedNotification = NO;
     } else NSLog(@"there is no notification added");
@@ -87,13 +87,13 @@ static CFStringRef const kKMRNotificationkey = CFSTR("com.apple.system.config.ne
 void onNotifyCallback(CFNotificationCenterRef center, void *observer, CFNotificationName name, const void *object, CFDictionaryRef userInfo) {
     NSString* notifyName = (__bridge NSString*)name;
     
-    if (![notifyName isEqualToString:kKMRNotificationName]) {
+    if (![notifyName isEqualToString:kKZNotificationName]) {
         NSLog(@"other Norification %@", notifyName);
         return;
     }
     
-    KMRWifiNotificationManager *manager = [KMRWifiNotificationManager shared];
-    KMRWifiInfo *currentWifiInfo = [manager getCurrentWifiInfo];
+    KZWifiNotificationManager *manager = [KZWifiNotificationManager shared];
+    KZWifiInfo *currentWifiInfo = [manager getCurrentWifiInfo];
     BOOL sameBSSID = [manager.savedWifiInfo.BSSID isEqualToString:currentWifiInfo.BSSID];
     BOOL bothNoNil = manager.savedWifiInfo.BSSID == nil && currentWifiInfo.BSSID == nil;
     
@@ -102,7 +102,7 @@ void onNotifyCallback(CFNotificationCenterRef center, void *observer, CFNotifica
     }
     
     manager.savedWifiInfo = currentWifiInfo;
-    [[NSNotificationCenter defaultCenter] postNotificationName:KMRWifiDidChangedNotification object:currentWifiInfo userInfo:@{KMRWifiDidChangedNotification: currentWifiInfo}];
+    [[NSNotificationCenter defaultCenter] postNotificationName:KZWifiDidChangedNotification object:currentWifiInfo userInfo:@{KZWifiDidChangedNotification: currentWifiInfo}];
     [manager.targetActions enumerateKeysAndObjectsUsingBlock:^(NSValue *  _Nonnull targetPointer, NSMutableArray<NSString *> * _Nonnull actions, BOOL * _Nonnull stop) {
         [actions enumerateObjectsUsingBlock:^(NSString * _Nonnull selStr, NSUInteger idx, BOOL * _Nonnull stop) {
             SEL action = NSSelectorFromString(selStr);
@@ -143,13 +143,13 @@ void onNotifyCallback(CFNotificationCenterRef center, void *observer, CFNotifica
     NSLog(@"Without this target-action");
 }
 
-- (KMRWifiInfo *)getCurrentWifiInfo {
+- (KZWifiInfo *)getCurrentWifiInfo {
     NSDictionary *info = nil;
     NSArray *ifs = CFBridgingRelease(CNCopySupportedInterfaces());
     for (NSString *ifnam in ifs) {
         info = CFBridgingRelease(CNCopyCurrentNetworkInfo((__bridge CFStringRef)ifnam));
     }
-    KMRWifiInfo *wifiinfo = [[KMRWifiInfo alloc] initWithBSSID:info[@"BSSID"] SSID:info[@"SSID"] SSIDDATA:info[@"SSIDDATA"]];
+    KZWifiInfo *wifiinfo = [[KZWifiInfo alloc] initWithBSSID:info[@"BSSID"] SSID:info[@"SSID"] SSIDDATA:info[@"SSIDDATA"]];
     return wifiinfo;
 }
 
@@ -174,20 +174,20 @@ void onNotifyCallback(CFNotificationCenterRef center, void *observer, CFNotifica
 #if __has_include(<ReactiveCocoa/ReactiveCocoa.h>)
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
-static NSString * const kKMRRacSingalAssociatedKey = @"KMRRacSingalAssociatedKey";
+static NSString * const kKZRacSingalAssociatedKey = @"KZRacSingalAssociatedKey";
 
-@implementation KMRWifiNotificationManager (ReactiveCocoa)
+@implementation KZWifiNotificationManager (ReactiveCocoa)
 
 - (RACSignal *)rac_wifiNotificationSignal {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         RACReplaySubject *signal = [[RACReplaySubject alloc] init];
-        objc_setAssociatedObject(self, &kKMRRacSingalAssociatedKey, signal, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-        [[[NSNotificationCenter defaultCenter] rac_addObserverForName:KMRWifiDidChangedNotification object:nil] subscribeNext:^(NSNotification *noti) {
+        objc_setAssociatedObject(self, &kKZRacSingalAssociatedKey, signal, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        [[[NSNotificationCenter defaultCenter] rac_addObserverForName:KZWifiDidChangedNotification object:nil] subscribeNext:^(NSNotification *noti) {
             [signal sendNext:noti.object];
         }];
     });
-    return objc_getAssociatedObject(self, &kKMRRacSingalAssociatedKey);
+    return objc_getAssociatedObject(self, &kKZRacSingalAssociatedKey);
 }
 @end
 #endif

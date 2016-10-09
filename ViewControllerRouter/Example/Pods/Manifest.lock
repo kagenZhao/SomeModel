@@ -1,0 +1,43 @@
+PODS:
+  - CocoaLumberjack (2.3.0):
+    - CocoaLumberjack/Default (= 2.3.0)
+    - CocoaLumberjack/Extensions (= 2.3.0)
+  - CocoaLumberjack/Core (2.3.0)
+  - CocoaLumberjack/Default (2.3.0):
+    - CocoaLumberjack/Core
+  - CocoaLumberjack/Extensions (2.3.0):
+    - CocoaLumberjack/Default
+  - DXRouter (0.1.0):
+    - EPMLogger (~> 0.1.5)
+    - MZFormSheetPresentationController (~> 2.4.2)
+  - EPMLogger (0.1.5):
+    - CocoaLumberjack (= 2.3.0)
+    - GCDWebServer (~> 3.3.2)
+  - GCDWebServer (3.3.3):
+    - GCDWebServer/Core (= 3.3.3)
+  - GCDWebServer/Core (3.3.3)
+  - Masonry (1.0.2)
+  - MZAppearance (1.1.6)
+  - MZFormSheetPresentationController (2.4.2):
+    - MZAppearance
+
+DEPENDENCIES:
+  - DXRouter (from `../`)
+  - Masonry (~> 1.0.2)
+
+EXTERNAL SOURCES:
+  DXRouter:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  CocoaLumberjack: 97fab7ee5f507fe54445cca7ea80f926729cfd15
+  DXRouter: 95f09c80e6fc4df14374b272aa5e855f394063c7
+  EPMLogger: bff219e98060ffa5c2222aae398066c6d8086c1d
+  GCDWebServer: 1c39a1f0763e4eb492bee021e4270fce097d3555
+  Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
+  MZAppearance: 0c06d3fa9cc55142f1da14bc8631fbe8fd6e19d5
+  MZFormSheetPresentationController: c1dc3bce639d2393b3cc416fcb6e050eb5bca062
+
+PODFILE CHECKSUM: 0eec082f70f45e144e023d85ff8a5fc662c94819
+
+COCOAPODS: 1.1.0.rc.2

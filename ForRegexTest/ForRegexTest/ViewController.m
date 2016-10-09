@@ -23,6 +23,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.matchedTextView.delegate = self;
     self.regexTextView.font = [NSFont systemFontOfSize:17];
     self.replaceTextView.font = [NSFont systemFontOfSize:17];
@@ -30,39 +31,15 @@
     self.replacedTextView.font = [NSFont systemFontOfSize:17];
     self.matchedTextView.font = [NSFont systemFontOfSize:17];
     @weakify(self)
+    
+    [self.regexTextView.rac_textSignal subscribeNext:^(id x) {
+        @strongify(self)
+        [self reloadRegex];
+    }];
+    
     [self.sourceTextView.rac_textSignal subscribeNext:^(NSString *x) {
         @strongify(self)
-        NSString *regex = self.regexTextView.string;
-        NSError *error = nil;
-        NSRegularExpression *reg = [NSRegularExpression regularExpressionWithPattern:regex options:NSRegularExpressionCaseInsensitive error:&error];
-        NSArray *match = [reg matchesInString:x options:0 range:NSMakeRange(0, [x length])];
-        NSString *matchTextViewString = @"";
-        self.matchedTextView.string = @"";
-        self.replacedTextView.string = self.sourceTextView.string.copy;
-        self.currentMatchArr = match;
-        self.matchRangeArr = nil;
-        NSInteger distenceLocation = 0;
-        NSMutableArray *tempMatchArr = @[].mutableCopy;
-        for (NSTextCheckingResult *result in match) {
-            NSRange range = result.range;
-            NSString *resultString = [x substringWithRange:range];
-            NSRange linkAttRange;
-            if (matchTextViewString.length) {
-                matchTextViewString = [matchTextViewString stringByAppendingString:@"\n"];
-                linkAttRange = NSMakeRange(matchTextViewString.length, resultString.length);
-                matchTextViewString = [matchTextViewString stringByAppendingString:resultString];
-            } else {
-                matchTextViewString = resultString;
-                linkAttRange = NSMakeRange(0, resultString.length);
-            }
-            [tempMatchArr addObject:[NSValue valueWithRange:linkAttRange]];
-            self.matchedTextView.string = matchTextViewString;
-            [self.matchedTextView.textStorage addAttribute:NSLinkAttributeName value:resultString range:linkAttRange];
-            
-            [self.replacedTextView replaceCharactersInRange:NSMakeRange(range.location + distenceLocation, range.length) withString:self.replaceTextView.string];
-            distenceLocation += self.replaceTextView.string.length - range.length;
-        }
-        self.matchRangeArr = tempMatchArr;
+        [self reloadRegex];
     }];
     
     [self.replaceTextView.rac_textSignal subscribeNext:^(id x) {
@@ -75,25 +52,68 @@
             distenceLocation += self.replaceTextView.string.length - range.length;
         }
     }];
-    
-    self.regexTips.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
-        return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-            [subscriber sendNext:@YES];
-            [subscriber sendCompleted];
-            return nil;
-        }];
-    }];
-    
-    
-    [[[self.regexTips.rac_command executionSignals] switchToLatest] subscribeNext:^(id x) {
-        
-    }];
-    
+//    
+//    self.regexTips.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
+//        return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+//            [subscriber sendNext:@YES];
+//            [subscriber sendCompleted];
+//            return nil;
+//        }];
+//    }];
+//    
+//    
+//    [[[self.regexTips.rac_command executionSignals] switchToLatest] subscribeNext:^(id x) {
+//        @strongify(self)
+//       
+//    }];
+//    
     [[[NSNotificationCenter defaultCenter] rac_addObserverForName:NSWindowDidMoveNotification object:nil] subscribeNext:^(id x) {
         
     }];
     
 }
+
+
+- (void)reloadRegex {
+    NSString *regex = self.regexTextView.string;
+    NSError *error = nil;
+    NSRegularExpression *reg = [NSRegularExpression regularExpressionWithPattern:regex options:NSRegularExpressionCaseInsensitive error:&error];
+    NSArray *match = [reg matchesInString:self.sourceTextView.string options:0 range:NSMakeRange(0, [self.sourceTextView.string length])];
+    NSString *matchTextViewString = @"";
+    self.matchedTextView.string = @"";
+    self.replacedTextView.string = self.sourceTextView.string.copy;
+    self.currentMatchArr = match;
+    self.matchRangeArr = nil;
+    NSInteger distenceLocation = 0;
+    NSMutableArray *tempMatchArr = @[].mutableCopy;
+    NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:self.sourceTextView.string attributes:@{NSFontAttributeName:[NSFont systemFontOfSize:17]}];
+    for (NSTextCheckingResult *result in match) {
+        NSRange range = result.range;
+        [attString setAttributes:@{NSForegroundColorAttributeName:[NSColor redColor],
+                                   NSFontAttributeName:[NSFont systemFontOfSize:17]} range:range];
+        [self.sourceTextView.textStorage setAttributedString:attString];
+        NSString *resultString = [self.sourceTextView.string substringWithRange:range];
+        NSRange linkAttRange;
+        if (matchTextViewString.length) {
+            matchTextViewString = [matchTextViewString stringByAppendingString:@"\n"];
+            linkAttRange = NSMakeRange(matchTextViewString.length, resultString.length);
+            matchTextViewString = [matchTextViewString stringByAppendingString:resultString];
+        } else {
+            matchTextViewString = resultString;
+            linkAttRange = NSMakeRange(0, resultString.length);
+        }
+        [tempMatchArr addObject:[NSValue valueWithRange:linkAttRange]];
+        self.matchedTextView.string = matchTextViewString;
+        [self.matchedTextView.textStorage addAttribute:NSLinkAttributeName value:resultString range:linkAttRange];
+        
+        [self.replacedTextView replaceCharactersInRange:NSMakeRange(range.location + distenceLocation, range.length) withString:self.replaceTextView.string];
+        distenceLocation += self.replaceTextView.string.length - range.length;
+    }
+    self.matchRangeArr = tempMatchArr;
+}
+
+
+
 
 
 - (BOOL)textView:(NSTextView *)textView clickedOnLink:(id)link atIndex:(NSUInteger)charIndex {

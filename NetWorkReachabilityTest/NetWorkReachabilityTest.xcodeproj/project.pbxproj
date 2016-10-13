@@ -1,0 +1,407 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		040993131DAF36DE000C3B50 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 040993121DAF36DE000C3B50 /* SystemConfiguration.framework */; };
+		040993151DAF36EE000C3B50 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 040993141DAF36EE000C3B50 /* CoreTelephony.framework */; };
+		049DD8321DADE3AE00D53ADF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049DD8311DADE3AE00D53ADF /* AppDelegate.swift */; };
+		049DD8341DADE3AE00D53ADF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049DD8331DADE3AE00D53ADF /* ViewController.swift */; };
+		049DD8371DADE3AE00D53ADF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 049DD8351DADE3AE00D53ADF /* Main.storyboard */; };
+		049DD8391DADE3AE00D53ADF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 049DD8381DADE3AE00D53ADF /* Assets.xcassets */; };
+		049DD83C1DADE3AE00D53ADF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 049DD83A1DADE3AE00D53ADF /* LaunchScreen.storyboard */; };
+		049DD8441DADE40B00D53ADF /* KZNetworkReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049DD8431DADE40B00D53ADF /* KZNetworkReachabilityManager.swift */; };
+		04D695F01DAE2A4800F87CEA /* KZWifiDidChangedNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D695EF1DAE2A4800F87CEA /* KZWifiDidChangedNotification.swift */; };
+		9D2D137340C23D973D2E48B5 /* Pods_NetWorkReachabilityTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D43F4CE1B46F910DD369E87E /* Pods_NetWorkReachabilityTest.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		040993121DAF36DE000C3B50 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		040993141DAF36EE000C3B50 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		049DD82E1DADE3AE00D53ADF /* NetWorkReachabilityTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetWorkReachabilityTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		049DD8311DADE3AE00D53ADF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		049DD8331DADE3AE00D53ADF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		049DD8361DADE3AE00D53ADF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		049DD8381DADE3AE00D53ADF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		049DD83B1DADE3AE00D53ADF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		049DD83D1DADE3AE00D53ADF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		049DD8431DADE40B00D53ADF /* KZNetworkReachabilityManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KZNetworkReachabilityManager.swift; sourceTree = "<group>"; };
+		04D695EF1DAE2A4800F87CEA /* KZWifiDidChangedNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KZWifiDidChangedNotification.swift; sourceTree = "<group>"; };
+		A3BB814A30E66CFDD12FEA4F /* Pods-NetWorkReachabilityTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NetWorkReachabilityTest.release.xcconfig"; path = "Pods/Target Support Files/Pods-NetWorkReachabilityTest/Pods-NetWorkReachabilityTest.release.xcconfig"; sourceTree = "<group>"; };
+		D43F4CE1B46F910DD369E87E /* Pods_NetWorkReachabilityTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NetWorkReachabilityTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FD73722A435BAD0C93013D38 /* Pods-NetWorkReachabilityTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NetWorkReachabilityTest.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NetWorkReachabilityTest/Pods-NetWorkReachabilityTest.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		049DD82B1DADE3AE00D53ADF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				040993151DAF36EE000C3B50 /* CoreTelephony.framework in Frameworks */,
+				040993131DAF36DE000C3B50 /* SystemConfiguration.framework in Frameworks */,
+				9D2D137340C23D973D2E48B5 /* Pods_NetWorkReachabilityTest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		049DD8251DADE3AE00D53ADF = {
+			isa = PBXGroup;
+			children = (
+				049DD8301DADE3AE00D53ADF /* NetWorkReachabilityTest */,
+				049DD82F1DADE3AE00D53ADF /* Products */,
+				A220A91EF4AD1D396EFF37DF /* Pods */,
+				B0D2ABC499322894A4F80410 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		049DD82F1DADE3AE00D53ADF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				049DD82E1DADE3AE00D53ADF /* NetWorkReachabilityTest.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		049DD8301DADE3AE00D53ADF /* NetWorkReachabilityTest */ = {
+			isa = PBXGroup;
+			children = (
+				049DD8311DADE3AE00D53ADF /* AppDelegate.swift */,
+				049DD8331DADE3AE00D53ADF /* ViewController.swift */,
+				049DD8431DADE40B00D53ADF /* KZNetworkReachabilityManager.swift */,
+				04D695EF1DAE2A4800F87CEA /* KZWifiDidChangedNotification.swift */,
+				049DD8351DADE3AE00D53ADF /* Main.storyboard */,
+				049DD8381DADE3AE00D53ADF /* Assets.xcassets */,
+				049DD83A1DADE3AE00D53ADF /* LaunchScreen.storyboard */,
+				049DD83D1DADE3AE00D53ADF /* Info.plist */,
+			);
+			path = NetWorkReachabilityTest;
+			sourceTree = "<group>";
+		};
+		A220A91EF4AD1D396EFF37DF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FD73722A435BAD0C93013D38 /* Pods-NetWorkReachabilityTest.debug.xcconfig */,
+				A3BB814A30E66CFDD12FEA4F /* Pods-NetWorkReachabilityTest.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		B0D2ABC499322894A4F80410 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				040993141DAF36EE000C3B50 /* CoreTelephony.framework */,
+				040993121DAF36DE000C3B50 /* SystemConfiguration.framework */,
+				D43F4CE1B46F910DD369E87E /* Pods_NetWorkReachabilityTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		049DD82D1DADE3AE00D53ADF /* NetWorkReachabilityTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 049DD8401DADE3AE00D53ADF /* Build configuration list for PBXNativeTarget "NetWorkReachabilityTest" */;
+			buildPhases = (
+				185DE8628B98029B4EF839FF /* [CP] Check Pods Manifest.lock */,
+				049DD82A1DADE3AE00D53ADF /* Sources */,
+				049DD82B1DADE3AE00D53ADF /* Frameworks */,
+				049DD82C1DADE3AE00D53ADF /* Resources */,
+				9ED5ABEB7EA7A2952AA6D3FF /* [CP] Embed Pods Frameworks */,
+				AEBB58787C0DC5E8EC16A349 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NetWorkReachabilityTest;
+			productName = NetWorkReachabilityTest;
+			productReference = 049DD82E1DADE3AE00D53ADF /* NetWorkReachabilityTest.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		049DD8261DADE3AE00D53ADF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0800;
+				LastUpgradeCheck = 0800;
+				ORGANIZATIONNAME = "Kagen Zhao";
+				TargetAttributes = {
+					049DD82D1DADE3AE00D53ADF = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = RK3TNU2KXD;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 049DD8291DADE3AE00D53ADF /* Build configuration list for PBXProject "NetWorkReachabilityTest" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 049DD8251DADE3AE00D53ADF;
+			productRefGroup = 049DD82F1DADE3AE00D53ADF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				049DD82D1DADE3AE00D53ADF /* NetWorkReachabilityTest */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		049DD82C1DADE3AE00D53ADF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				049DD83C1DADE3AE00D53ADF /* LaunchScreen.storyboard in Resources */,
+				049DD8391DADE3AE00D53ADF /* Assets.xcassets in Resources */,
+				049DD8371DADE3AE00D53ADF /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		185DE8628B98029B4EF839FF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		9ED5ABEB7EA7A2952AA6D3FF /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NetWorkReachabilityTest/Pods-NetWorkReachabilityTest-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AEBB58787C0DC5E8EC16A349 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NetWorkReachabilityTest/Pods-NetWorkReachabilityTest-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		049DD82A1DADE3AE00D53ADF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				049DD8341DADE3AE00D53ADF /* ViewController.swift in Sources */,
+				049DD8321DADE3AE00D53ADF /* AppDelegate.swift in Sources */,
+				049DD8441DADE40B00D53ADF /* KZNetworkReachabilityManager.swift in Sources */,
+				04D695F01DAE2A4800F87CEA /* KZWifiDidChangedNotification.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		049DD8351DADE3AE00D53ADF /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				049DD8361DADE3AE00D53ADF /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		049DD83A1DADE3AE00D53ADF /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				049DD83B1DADE3AE00D53ADF /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		049DD83E1DADE3AE00D53ADF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		049DD83F1DADE3AE00D53ADF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		049DD8411DADE3AE00D53ADF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FD73722A435BAD0C93013D38 /* Pods-NetWorkReachabilityTest.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = RK3TNU2KXD;
+				INFOPLIST_FILE = NetWorkReachabilityTest/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kagen.NetWorkReachabilityTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		049DD8421DADE3AE00D53ADF /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A3BB814A30E66CFDD12FEA4F /* Pods-NetWorkReachabilityTest.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = RK3TNU2KXD;
+				INFOPLIST_FILE = NetWorkReachabilityTest/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kagen.NetWorkReachabilityTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		049DD8291DADE3AE00D53ADF /* Build configuration list for PBXProject "NetWorkReachabilityTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				049DD83E1DADE3AE00D53ADF /* Debug */,
+				049DD83F1DADE3AE00D53ADF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		049DD8401DADE3AE00D53ADF /* Build configuration list for PBXNativeTarget "NetWorkReachabilityTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				049DD8411DADE3AE00D53ADF /* Debug */,
+				049DD8421DADE3AE00D53ADF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 049DD8261DADE3AE00D53ADF /* Project object */;
+}

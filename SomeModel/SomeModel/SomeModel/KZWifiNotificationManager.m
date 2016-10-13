@@ -7,11 +7,12 @@
 #import <SystemConfiguration/CaptiveNetwork.h>
 #import <objc/runtime.h>
 #import <objc/message.h>
+#import <notify_keys.h>
 
 NSString * const KZWifiDidChangedNotification = @"KZWifiDidChangedNotification";
 
-static NSString * const kKZNotificationName = @"com.apple.system.config.network_change";
-static CFStringRef const kKZNotificationkey = CFSTR("com.apple.system.config.network_change");
+static NSString * const kKZNotificationName = @kNotifySCNetworkChange;
+static CFStringRef const kKZNotificationkey = CFSTR(kNotifySCNetworkChange);
 
 @interface KZWifiInfo ()
 @property (nonatomic, copy  , readwrite) NSString *BSSID;

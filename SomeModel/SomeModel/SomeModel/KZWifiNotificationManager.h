@@ -21,7 +21,7 @@ OBJC_EXTERN NSString * const KZWifiDidChangedNotification;
 
 @interface KZWifiNotificationManager : NSObject
 
-@property (nonatomic, strong, readonly,) KZWifiInfo *savedWifiInfo;
+@property (nonatomic, strong, readonly) KZWifiInfo *savedWifiInfo;
 @property (nonatomic, assign, readonly) BOOL notificationIsRunning;
 
 + (instancetype)shared;

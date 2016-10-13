@@ -229,11 +229,8 @@ const char* bs_lastPathEntry(const char* const path) {
 
 #pragma -mark HandleMachineContext
 bool bs_fillThreadStateIntoMachineContext(thread_t thread, _STRUCT_MCONTEXT *machineContext) {
-    
     mach_msg_type_number_t state_count = BS_THREAD_STATE_COUNT;
-    thread_state_data_t b = {0};
     kern_return_t kr = thread_get_state(thread, BS_THREAD_STATE, (thread_state_t)&machineContext->__ss, &state_count);
-    kern_return_t kr1 = thread_get_state(thread, BS_THREAD_STATE, &b[0], &state_count);
     return (kr == KERN_SUCCESS);
 }
 

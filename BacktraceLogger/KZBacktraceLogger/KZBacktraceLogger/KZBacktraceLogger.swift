@@ -11,53 +11,72 @@ import MachO
 import Darwin
 
 struct KZStackFrame {
-    let previous: UnsafePointer<KZStackFrame>
-    let returnAddress: uintptr_t
+    var previous: UnsafePointer<KZStackFrame>
+    let returnAddress: uintptr_t = 0
+    init() {
+        var a = 0
+        previous = withUnsafeMutablePointer(to: &a) {
+            $0.withMemoryRebound(to: KZStackFrame.self, capacity: MemoryLayout<KZStackFrame>.size, { pointer in
+                return UnsafePointer<KZStackFrame>.init(pointer)
+            })
+        }
+    }
 }
 
 #if arch(arm64) || arch(x86_64)
     typealias KZ_STRUCT_MCONTEXT = __darwin_mcontext64
     typealias KZ_NLST = nlist_64
-    let TRACE_FMT         = "%-4d%-31s 0x%016lx %s + %lu"
-    let POINTER_FMT       = "0x%016lx"
-    let POINTER_SHORT_FMT = "0x%lx"
+let TRACE_FMT         = "%-4d%-31s 0x%016lx %s + %lu"
+let POINTER_FMT       = "0x%016lx"
+let POINTER_SHORT_FMT = "0x%lx"
 #else
     typealias KZ_STRUCT_MCONTEXT = __darwin_mcontext32
     typealias KZ_NLST = nlist
-    let TRACE_FMT         = "%-4d%-31s 0x%08lx %s + %lu"
-    let POINTER_FMT       = "0x%08lx"
-    let POINTER_SHORT_FMT = "0x%lx"
+let TRACE_FMT         = "%-4d%-31s 0x%08lx %s + %lu"
+let POINTER_FMT       = "0x%08lx"
+let POINTER_SHORT_FMT = "0x%lx"
 #endif
 
 #if arch(arm64)
-    let KZ_THREAD_STATE_COUNT: mach_msg_type_number_t = mach_msg_type_number_t(MemoryLayout<__darwin_arm_thread_state64>.size / MemoryLayout<UInt32>.size)
-    let KZ_THREAD_STATE: thread_state_flavor_t = 6
+let KZ_THREAD_STATE_COUNT: mach_msg_type_number_t = mach_msg_type_number_t(MemoryLayout<__darwin_arm_thread_state64>.size / MemoryLayout<UInt32>.size)
+let KZ_THREAD_STATE: thread_state_flavor_t = 6
     func KZ_FRAME_POINTER(k:KZ_STRUCT_MCONTEXT) -> UInt64 { return k.__ss.__fp }
     func KZ_STACK_POINTER(k:KZ_STRUCT_MCONTEXT) -> UInt64 { return k.__ss.__sp }
     func KZ_INSTRUCTION_ADDRESS(k:KZ_STRUCT_MCONTEXT) -> UInt64 { return k.__ss.__pc }
+    func DETAG_INSTRUCTION_ADDRESS(a: Int) -> Int{ return (a & ~Int(3)) }
     
 #elseif arch(arm)
-    let KZ_THREAD_STATE_COUNT: mach_msg_type_number_t = mach_msg_type_number_t(MemoryLayout<__darwin_arm_thread_state>.size / MemoryLayout<UInt32>.size)
-    let KZ_THREAD_STATE: thread_state_flavor_t = 1
+let KZ_THREAD_STATE_COUNT: mach_msg_type_number_t = mach_msg_type_number_t(MemoryLayout<__darwin_arm_thread_state>.size / MemoryLayout<UInt32>.size)
+let KZ_THREAD_STATE: thread_state_flavor_t = 1
     func KZ_FRAME_POINTER(k:KZ_STRUCT_MCONTEXT) -> UInt32 { return k.__ss.__r.7 }
     func KZ_STACK_POINTER(k:KZ_STRUCT_MCONTEXT) -> UInt32 { return k.__ss.__sp }
     func KZ_INSTRUCTION_ADDRESS(k:KZ_STRUCT_MCONTEXT) -> UInt32 { return k.__ss.__pc }
+    func DETAG_INSTRUCTION_ADDRESS(a: Int) -> Int{ return (a & ~Int(1)) }
     
 #elseif arch(x86_64)
-    let KZ_THREAD_STATE_COUNT: mach_msg_type_number_t = mach_msg_type_number_t(MemoryLayout<x86_thread_state64_t>.size / MemoryLayout<Int>.size)
-    let KZ_THREAD_STATE: thread_state_flavor_t = 4
+let KZ_THREAD_STATE_COUNT: mach_msg_type_number_t = mach_msg_type_number_t(MemoryLayout<x86_thread_state64_t>.size / MemoryLayout<Int>.size)
+let KZ_THREAD_STATE: thread_state_flavor_t = 4
     func KZ_FRAME_POINTER(k:KZ_STRUCT_MCONTEXT) -> UInt64 { return k.__ss.__rbp }
     func KZ_STACK_POINTER(k:KZ_STRUCT_MCONTEXT) -> UInt64 { return k.__ss.__rsp }
     func KZ_INSTRUCTION_ADDRESS(k:KZ_STRUCT_MCONTEXT) -> UInt64 { return k.__ss.__rip }
+    func DETAG_INSTRUCTION_ADDRESS(a: Int) -> Int{ return a }
     
 #elseif arch(i386)
-    let KZ_THREAD_STATE_COUNT: mach_msg_type_number_t = mach_msg_type_number_t(MemoryLayout<x86_thread_state32_t>.size / MemoryLayout<Int>.size)
-    let KZ_THREAD_STATE: thread_state_flavor_t = 1
+let KZ_THREAD_STATE_COUNT: mach_msg_type_number_t = mach_msg_type_number_t(MemoryLayout<x86_thread_state32_t>.size / MemoryLayout<Int>.size)
+let KZ_THREAD_STATE: thread_state_flavor_t = 1
     func KZ_FRAME_POINTER(k:KZ_STRUCT_MCONTEXT) -> UInt32 { return k.__ss.__ebp }
     func KZ_STACK_POINTER(k:KZ_STRUCT_MCONTEXT) -> UInt32 { return k.__ss.__esp }
     func KZ_INSTRUCTION_ADDRESS(k:KZ_STRUCT_MCONTEXT) -> UInt32 { return k.__ss.__eip }
+    func DETAG_INSTRUCTION_ADDRESS(a: Int) -> Int{ return a }
+    
+#else
+    
     
 #endif
+
+func CALL_INSTRUCTION_FROM_RETURN_ADDRESS(a: uintptr_t) -> uintptr_t {
+    return uintptr_t(DETAG_INSTRUCTION_ADDRESS(a: Int(a)))
+}
 
 
 
@@ -73,43 +92,173 @@ class KZBacktraceLogger: NSObject {
         _ = kz_backtraceThread(thread: threads![0])
         return "------------"
     }
-    typealias kz_thread_state_data_t = (UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64, UInt64)
     
-    class func kz_backtraceThread(thread: thread_t) -> Int {
+    
+    class func kz_backtraceThread(thread: thread_t) -> String {
         
+        var backtraceBuffer: [uintptr_t] = Array<uintptr_t>(repeating: 0, count: 50)
         var mcontext = KZ_STRUCT_MCONTEXT();
+        var i = 0
+        guard !kz_fill(thread: thread, into: &mcontext) else {
+            return "Fail to get infomation ablout thread: \(thread)"
+        }
         
-        var state:kz_thread_state_data_t = (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+        let address: uintptr_t = kz_match_instructionAddress(machineContext: &mcontext)
+        backtraceBuffer[i] = address
+        i += 1
         
-        guard !kz_fillThreadStateIntoMachineContext(thread: thread, machineContext: &mcontext, state: &state) else { return 0 }
+        let linkRegister = kz_match_linkRegister(machineContext: &mcontext)
+        if  linkRegister != 0 {
+            backtraceBuffer[i] = linkRegister
+            i += 1
+        }
         
+        guard address != 0 else { return "Fail to get instruction address"}
         
+        var frame: KZStackFrame = KZStackFrame()
+        var framePtr = kz_match_framePointer(machineContext: &mcontext)
+        var a = withUnsafePointer(to: &frame, { return $0 })
+        if framePtr == 0 || kz_mach_copyMem0(src: &framePtr, dst: &a, numBytes: MemoryLayout<KZStackFrame>.size) != KERN_SUCCESS {
+            return "Fail to get frame pointer"
+        }
         
-        return 1;
-    }
-    
-    class func kz_fillThreadStateIntoMachineContext(thread: thread_t, machineContext: UnsafeMutablePointer<KZ_STRUCT_MCONTEXT>, state: UnsafeMutablePointer<kz_thread_state_data_t>) -> Bool {
-        var state_count = KZ_THREAD_STATE_COUNT
-        var a: thread_state_data_t = state.pointee
-        let kr : kern_return_t = thread_get_state(thread, KZ_THREAD_STATE,  &a.0, &state_count)
-        return kr == KERN_SUCCESS
-        
-//        let a = __darwin_mcontext64(__es: __darwin_arm_exception_state64.init(__far: __uint64_t(state.0), __esr: state.1, __exception: state.2),
-//                                    __ss: __darwin_arm_thread_state64.init(__x: (__uint64_t(state.3), __uint64_t(state.4), __uint64_t(state.5), __uint64_t(state.6), __uint64_t(state.7), __uint64_t(state.8), __uint64_t(state.9), __uint64_t(state.10), __uint64_t(state.11), __uint64_t(state.12), __uint64_t(state.13), __uint64_t(state.14), __uint64_t(state.15), __uint64_t(state.16), __uint64_t(state.17), __uint64_t(state.18), __uint64_t(state.19), __uint64_t(state.20), __uint64_t(state.21), __uint64_t(state.22), __uint64_t(state.23), __uint64_t(state.24), __uint64_t(state.25), __uint64_t(state.26), __uint64_t(state.27), __uint64_t(state.28), __uint64_t(state.29), __uint64_t(state.30), __uint64_t(state.31)), __fp: __uint64_t(state.32), __lr: __uint64_t(state.33), __sp: __uint64_t(state.34), __pc: __uint64_t(state.35), __cpsr: state.36, __pad: state.37),
-//                                    __ns: __darwin_arm_neon_state64.init())
-        
-        
-        
-    }
-    
-    class func getInt(fromData data: Data, start: Int) -> Int32 {
-        let intBits = data.withUnsafeBytes({(bytePointer: UnsafePointer<UInt8>) -> Int32 in
-            bytePointer.advanced(by: start).withMemoryRebound(to: Int32.self, capacity: 4) { pointer in
-                return pointer.pointee
+        for w in i..<Int.max {
+            backtraceBuffer[w] = frame.returnAddress
+            if backtraceBuffer[w] == 0 ||
+                withUnsafePointer(to: &frame.previous, {
+                    $0.withMemoryRebound(to: vm_address_t.self, capacity: MemoryLayout<vm_address_t>.size, {
+                        $0.pointee == 0
+                    })
+                }) ||
+                kz_mach_copyMem1(src: &frame.previous, dst: &a, numBytes: MemoryLayout<KZStackFrame>.size) != KERN_SUCCESS
+            {
+                break
             }
-        })
-        return Int32(littleEndian: intBits)
+        }
+        
+        let backtraceLength = i
+        let symbolicated: [Dl_info] = []
+        
+        
+        
+        
+        return "";
     }
-
+    
+    class func kz_fill(thread: thread_t, into machineContext: UnsafeMutablePointer<KZ_STRUCT_MCONTEXT>) -> Bool {
+        var state_count = KZ_THREAD_STATE_COUNT
+        let kr : kern_return_t = withUnsafeMutablePointer(to: &(machineContext.pointee.__ss)) {
+            $0.withMemoryRebound(to: natural_t.self, capacity: MemoryLayout<natural_t>.size, {
+                thread_get_state(thread, KZ_THREAD_STATE,  $0, &state_count)
+            })
+        }
+        return kr == KERN_SUCCESS
+    }
+    
+    class func kz_match_framePointer(machineContext: UnsafeMutablePointer<KZ_STRUCT_MCONTEXT>) -> uintptr_t {
+        return uintptr_t(KZ_FRAME_POINTER(k: machineContext.pointee))
+    }
+    
+    class func kz_match_stackPointer(machineContext: UnsafeMutablePointer<KZ_STRUCT_MCONTEXT>) -> uintptr_t {
+        return uintptr_t(KZ_STACK_POINTER(k: machineContext.pointee))
+    }
+    
+    class func kz_match_instructionAddress(machineContext: UnsafeMutablePointer<KZ_STRUCT_MCONTEXT>) -> uintptr_t {
+        return uintptr_t(KZ_INSTRUCTION_ADDRESS(k: machineContext.pointee))
+    }
+    
+    class func kz_match_linkRegister(machineContext: UnsafeMutablePointer<KZ_STRUCT_MCONTEXT>) -> uintptr_t {
+        #if arch(i386) || arch(x86_64)
+            return 0
+        #else
+            return uintptr_t(machineContext.pointee.__ss.__lr)
+        #endif
+    }
+    
+    class func kz_mach_copyMem0(src: inout uintptr_t, dst: inout UnsafePointer<KZStackFrame>, numBytes: size_t) -> kern_return_t {
+        var bytesCopied: vm_size_t = 0
+        let address = withUnsafeMutablePointer(to: &src) {
+            $0.withMemoryRebound(to: vm_address_t.self, capacity: MemoryLayout<vm_address_t>.size, {
+                $0.pointee
+            })
+        }
+        let data = withUnsafeMutablePointer(to: &dst) {
+            $0.withMemoryRebound(to: vm_address_t.self, capacity: MemoryLayout<vm_address_t>.size, {
+                $0.pointee
+            })
+        }
+        return vm_read_overwrite(mach_task_self_, address, vm_size_t(numBytes), data, &bytesCopied)
+        
+    }
+    class func kz_mach_copyMem1(src: inout UnsafePointer<KZStackFrame>, dst: inout UnsafePointer<KZStackFrame>, numBytes: size_t) -> kern_return_t {
+        var bytesCopied: vm_size_t = 0
+        let address = withUnsafeMutablePointer(to: &src) {
+            $0.withMemoryRebound(to: vm_address_t.self, capacity: MemoryLayout<vm_address_t>.size, {
+                $0.pointee
+            })
+        }
+        let data = withUnsafeMutablePointer(to: &dst) {
+            $0.withMemoryRebound(to: vm_address_t.self, capacity: MemoryLayout<vm_address_t>.size, {
+                $0.pointee
+            })
+        }
+        return vm_read_overwrite(mach_task_self_, address, vm_size_t(numBytes), data, &bytesCopied)
+    }
+    
+    class func kz_symbolicate(backtraceBuffer: inout [uintptr_t], symbolsBuffer: inout [Dl_info], numEntries: Int, skippedEntries: Int) {
+        var i = 0
+        if skippedEntries != 0 && i < numEntries {
+            kz_dladdr(address: backtraceBuffer[i], info: &symbolsBuffer[i])
+            i += 1
+        }
+        for w in i..<numEntries {
+            kz_dladdr(address: CALL_INSTRUCTION_FROM_RETURN_ADDRESS(a: backtraceBuffer[w]), info: &symbolsBuffer[w])
+        }
+        
+    }
+    
+    @discardableResult
+    class func kz_dladdr(address: uintptr_t, info: inout Dl_info) -> Bool {
+        info.dli_fbase = nil
+        info.dli_fname = nil
+        info.dli_saddr = nil
+        info.dli_sname = nil
+        
+        let idx = kz_imageIndexContaining(address: address)
+        if idx == UInt32.max {
+            return false
+        }
+        let header: UnsafePointer<mach_header> = _dyld_get_image_header(idx)
+        let imageVMAddrSlide = _dyld_get_image_vmaddr_slide(idx)
+        let segmentBase = Int(kz_segmentBaseOf(index: idx)) + imageVMAddrSlide
+        guard segmentBase != 0 else { return false }
+        info.dli_fname = _dyld_get_image_name(idx)
+        info.dli_fbase = UnsafeMutableRawPointer.init(mutating: header)
+        
+        let bestMatch:KZ_NLST = KZ_NLST()
+        let bestDistance: uintptr_t = UInt.max
+        let cmdPtr = kz_firstCmdAfter(header: header)
+        guard cmdPtr != 0 else { return false }
+        for i in 0..<header.pointee.ncmds {
+//            let loadCmd = 
+        }
+        
+        
+        
+        
+    }
+    
+    class func kz_firstCmdAfter(header: UnsafePointer<mach_header>) -> uintptr_t {
+        
+    }
+    
+    
+    class func kz_imageIndexContaining(address: uintptr_t) -> UInt32 {
+        
+    }
+    
+    class func kz_segmentBaseOf(index: UInt32) -> uintptr_t {
+        
+    }
     
 }

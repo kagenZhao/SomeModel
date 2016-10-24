@@ -74,7 +74,7 @@ public class KZWiFiDidChangedManager {
     /// wifi改变后 执行的回调
     public var wifiChangeCallBack: KZWifiDidChangedCallBack?
     
-    /// 单利 (可用可不用)
+    /// 单例 (可用可不用)
     public class var shared:KZWiFiDidChangedManager { return single }
     
     public init() {

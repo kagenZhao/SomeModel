@@ -14,9 +14,9 @@ import SystemConfiguration.CaptiveNetwork
 /// 包含 bssid, ssid , ssidData
 public struct KZWiFiInfo {
     
-    private(set) var bssid: String
-    private(set) var ssid: String
-    private(set) var ssidData: Data
+    public private(set) var bssid: String
+    public private(set) var ssid: String
+    public private(set) var ssidData: Data
     
     public var isEmpty: Bool { return bssid == "" && ssid == "" && ssidData.count == 0}
     
@@ -159,5 +159,7 @@ extension KZWiFiDidChangedManager {
         return info
     }
 }
+
+
 
 

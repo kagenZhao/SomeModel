@@ -176,7 +176,7 @@ UIImagePickerControllerDelegate
   UIImage *pickImage = info[UIImagePickerControllerOriginalImage];
   NSData *imageData = UIImagePNGRepresentation(pickImage);
   CIImage *ciImage = [CIImage imageWithData:imageData];
-  CIDetector *detector = [CIDetector detectorOfType:CIDetectorTypeQRCode context:nil options:@{CIDetectorAccuracy: CIDetectorAccuracyLow}];
+  CIDetector *detector = [CIDetector detectorOfType:CIDetectorTypeQRCode context:nil options:@{CIDetectorAccuracy: CIDetectorAccuracyHigh}];
   NSArray *feature = [detector featuresInImage:ciImage];
   CIQRCodeFeature *result = feature.firstObject;
   [picker dismissViewControllerAnimated:YES completion:nil];

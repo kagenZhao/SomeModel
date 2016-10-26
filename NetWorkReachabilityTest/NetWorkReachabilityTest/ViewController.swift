@@ -10,7 +10,10 @@ import UIKit
 
 class ViewController: UIViewController {
     private var manager = KZWiFiDidChangedManager()
+    
     override func viewDidLoad() {
+        
         super.viewDidLoad()
+        
     }
 }

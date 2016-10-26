@@ -91,7 +91,9 @@
         
         fileprivate var wifiManager: KZWiFiDidChangedManager = KZWiFiDidChangedManager()
         
-        fileprivate var receivedWifiInfoNotify: Bool = false
+        fileprivate var previousStatus: KZNetworkReachabilityStatus?
+        
+        public private(set) var isNotifing: Bool = false
         
         /// 监听者回调
         public var observer: KZObserver?
@@ -100,6 +102,8 @@
         public var status: KZNetworkReachabilityStatus = .unknown
         
         /// 是否接受WiFi改变通知
+        /// 必须在初始化时设置, 在监听时设置会没有效果
+        /// default = false
         public var receiveWiFiChangeNotify: Bool = false {
             didSet {
                 if receiveWiFiChangeNotify == false {
@@ -109,7 +113,15 @@
         }
         
         /// 是否监听2g, 3g, 4g 改变
-        public var receiveWWANChangeNotify: Bool = false
+        /// 必须在初始化时设置, 在监听时设置会没有效果
+        /// default = false
+        public var receiveTechnologyChangeNotify: Bool = false {
+            didSet {
+                if receiveTechnologyChangeNotify == false {
+                    stopTechnologyNotify()
+                }
+            }
+        }
         
         /// 当前是否联网
         public var isReachable: Bool { return isReachableViaWiFi || isReachableViaWWAN }
@@ -123,16 +135,33 @@
         /// 单例 (可用可不用)
         public class var shared: KZNetworkReachabilityManager? { return single }
         
+        
+        /// 基础初始化方法
+        /// 其他初始化方法如果返回不是nil 都会走此方法
+        ///
+        /// - parameter reachability: SCNetworkReachability
+        ///
+        /// - returns: KZNetworkReachabilityManager
         public init(reachability: SCNetworkReachability) {
             self.reachability = reachability;
         }
         
+        /// 根据host 初始化SCNetworkReachability
+        ///
+        /// - parameter host: host
+        ///
+        /// - returns: KZNetworkReachabilityManager
         public convenience init?(host: String) {
             guard let reachability = SCNetworkReachabilityCreateWithName(nil, host) else { return nil }
             
             self.init(reachability: reachability)
         }
         
+        /// 根据address 初始化SCNetworkReachability
+        ///
+        /// - parameter address: sockaddr_in
+        ///
+        /// - returns: KZNetworkReachabilityManager
         public convenience init?(address: inout sockaddr_in) {
             guard let reachability = withUnsafePointer(to: &address, {
                 $0.withMemoryRebound(to: sockaddr.self, capacity: MemoryLayout<sockaddr>.size) {
@@ -168,11 +197,12 @@
             
             getCurrentFlags()
             
-            return callBackResult && runloopResult
+            isNotifing = callBackResult && runloopResult
+            
+            return isNotifing
         }
         
         private let queue = DispatchQueue.global()
-        
         private func getCurrentFlags() {
             queue.async {
                 var flags = SCNetworkReachabilityFlags()
@@ -188,13 +218,22 @@
             
             wifiManager.wifiChangeCallBack = {[weak self] info in
                 guard let self_strong = self else { return }
-                self_strong.receivedWifiInfoNotify = true
                 self_strong.getCurrentFlags()
             }
             
             wifiManager.addNotify()
         }
         
+        /// 开启2,3,4g监听
+        private func startTechnologyNotify() {
+            guard receiveTechnologyChangeNotify else { return }
+            
+            NotificationCenter.default.addObserver(self, selector: #selector(technologyDidChange(noti:)), name: NSNotification.Name.CTRadioAccessTechnologyDidChange, object: nil)
+        }
+        
+        @objc private func technologyDidChange(noti: Notification) {
+            self.getCurrentFlags()
+        }
         
         /// 结束监听
         public func stopMonitoring() {
@@ -211,10 +250,15 @@
         /// 结束WIFI的监听
         private func stopWifiNotify() {
             wifiManager.removeNotify()
-            receivedWifiInfoNotify = false
+        }
+        
+        /// 结束2,3,4g监听
+        private func stopTechnologyNotify() {
+            NotificationCenter.default.removeObserver(self, name: NSNotification.Name.CTRadioAccessTechnologyDidChange, object: nil)
         }
         
         deinit {
+            
             stopMonitoring()
         }
     }
@@ -223,21 +267,35 @@
         fileprivate func kz_statusChange(flags: SCNetworkReachabilityFlags) {
             let status = kz_statusForFlags(flags: flags)
             DispatchQueue.main.async {
-                if self.isReachableViaWiFi && self.receivedWifiInfoNotify && !self.wifiManager.savedWiFiInfo.isEmpty {
+                guard let previousStatus = self.previousStatus else {
                     self.status = status
-                    self.receivedWifiInfoNotify = false
                     self.kz_pushNotify(status)
-                } else if self.status != status {
+                    return
+                }
+                if previousStatus == status {
+                    switch (previousStatus, status) {
+                    case (.unknown, .unknown), (.notReachable, .notReachable):
+                        return
+                    case let (.WWAN(preInfo), .WWAN(currentInfo)):
+                        if preInfo != currentInfo {
+                            self.status = status
+                            self.kz_pushNotify(status)
+                        }
+                        return
+                    case let (.WiFi(preInfo), .WiFi(currentInfo)):
+                        if preInfo != currentInfo {
+                            self.status = status
+                            self.kz_pushNotify(status)
+                        }
+                        return
+                    default:
+                        return
+                    }
+                } else {
                     self.status = status
                     self.kz_pushNotify(status)
                 }
             }
-        }
-        
-        private func kz_pushNotify(_ status: KZNetworkReachabilityStatus) {
-            self.observer?(status)
-            
-            NotificationCenter.default.post(name: NSNotification.Name.KZReachability.DidChange, object: nil, userInfo: [KZNetworkReachabilityNotificationItem:status])
         }
         
         private func kz_statusForFlags(flags: SCNetworkReachabilityFlags) -> KZNetworkReachabilityStatus {
@@ -275,10 +333,15 @@
             else { return .WWAN(.net3g) }
         }
         
+        private func kz_pushNotify(_ status: KZNetworkReachabilityStatus) {
+            self.observer?(status)
+            NotificationCenter.default.post(name: NSNotification.Name.KZReachability.DidChange, object: nil, userInfo: [KZNetworkReachabilityNotificationItem:status])
+        }
+        
     }
     
     
-// MARK: - 注意 判断相等的方法 不会只会判断基础类型 不会判断括号中的泛型
+    // MARK: - 注意 判断相等的方法 不会只会判断基础类型 不会判断括号中的泛型
     extension KZNetworkReachabilityStatus: Equatable {
         public static func ==(
             lhs: KZNetworkReachabilityStatus,

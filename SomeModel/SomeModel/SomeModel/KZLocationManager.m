@@ -26,13 +26,20 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         manager = [[KZLocationManager alloc] init];
-        manager.locationManager = [[CLLocationManager alloc] init];
-        manager.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
-        manager.locationManager.allowsBackgroundLocationUpdates = YES;
-        manager.locationManager.pausesLocationUpdatesAutomatically = NO;
-        manager.locationManager.delegate = manager;
+        [manager locationManager];
     });
     return manager;
+}
+
+- (CLLocationManager *)locationManager {
+    if (!_locationManager) {
+        _locationManager = [[CLLocationManager alloc] init];
+        _locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
+        _locationManager.allowsBackgroundLocationUpdates = YES;
+        _locationManager.pausesLocationUpdatesAutomatically = NO;
+        _locationManager.delegate = self;
+    }
+    return _locationManager;
 }
 
 - (BOOL)startUpdatingLocation {
@@ -71,7 +78,7 @@
     return YES;
 }
 
-- (instancetype)setBackgroundUpdating:(BOOL)updating {
+- (void)setBackgroundUpdating:(BOOL)updating {
     self.needUpdatingLocationInBackground = updating;
     if (updating) {
         __weak __typeof(&*self) wSelf = self;
@@ -96,7 +103,6 @@
         self.enterBackgroundObserver = nil;
         self.becomeActiveObserver = nil;
     }
-    return self;
 }
 
 - (BOOL)isBackgroundUpdating {
@@ -115,19 +121,21 @@
 
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations
 {
-    static BOOL once = NO;
-    if (once == YES) return;
-    __weak __typeof(&*self) self_weak = self;
-    [self after:10 block:^{
-        __strong __typeof(&*self_weak)self_strong = self_weak;
-        [self_strong stopUpdatingLocation];
-        once = NO;
-    }];
-    [self after:120 block:^{
-        __strong __typeof(&*self_weak)self_strong = self_weak;
-        [self_strong beginBackgroundUpdatingLocation];
-    }];
-    once = YES;
+    if (self.needUpdatingLocationInBackground) {
+        static BOOL once = NO;
+        if (once == YES) return;
+        __weak __typeof(&*self) self_weak = self;
+        [self after:10 block:^{
+            __strong __typeof(&*self_weak)self_strong = self_weak;
+            [self_strong stopUpdatingLocation];
+            once = NO;
+        }];
+        [self after:120 block:^{
+            __strong __typeof(&*self_weak)self_strong = self_weak;
+            [self_strong beginBackgroundUpdatingLocation];
+        }];
+        once = YES;
+    }
     if ([self.locationDelegate respondsToSelector:@selector(locationManager:didUpdateLocations:)]) {
         [self.locationDelegate locationManager:manager didUpdateLocations:locations];
     }

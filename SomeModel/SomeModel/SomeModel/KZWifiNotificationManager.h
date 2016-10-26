@@ -31,6 +31,8 @@ OBJC_EXTERN NSString * const KZWifiDidChangedNotification;
 
 - (void)addCallBackTarget:(id)target action:(SEL)action;
 - (void)removeCallBackTarget:(id)target action:(SEL)action;
+- (void)removeCallbackTarget:(id)target;
+- (void)removeAllTarget;
 
 @property (nonatomic, readonly, nullable) NSSet *allTarget;
 

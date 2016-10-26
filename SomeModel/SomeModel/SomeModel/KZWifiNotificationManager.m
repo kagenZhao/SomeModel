@@ -34,15 +34,13 @@ static CFStringRef const kKZNotificationkey = CFSTR(kNotifySCNetworkChange);
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"~~~BSSID: %@, ~~~SSID: %@, ~~~SSIDDATA: %@", _BSSID, _SSID, _SSIDDATA];
+    return [NSString stringWithFormat:@"BSSID: %@, SSID: %@, SSIDDATA: %@", _BSSID, _SSID, _SSIDDATA];
 }
 
 @end
 
 
-@interface KZWifiNotificationManager () {
-    void * _observer;
-}
+@interface KZWifiNotificationManager ()
 @property (nonatomic, strong, readwrite) KZWifiInfo *savedWifiInfo;
 @property (nonatomic, assign, readwrite) BOOL isAddedNotification;
 @property (nonatomic, strong, readwrite) NSMutableDictionary <NSValue *, NSMutableArray<NSString *> *> *targetActions;
@@ -57,7 +55,6 @@ static CFStringRef const kKZNotificationkey = CFSTR(kNotifySCNetworkChange);
     dispatch_once(&onceToken, ^{
         manager = [[KZWifiNotificationManager alloc] init];
         manager.savedWifiInfo = [manager getCurrentWifiInfo];
-        manager->_observer = malloc(sizeof(void *));
         manager.targetActions = @{}.mutableCopy;
     });
     return manager;
@@ -66,7 +63,7 @@ static CFStringRef const kKZNotificationkey = CFSTR(kNotifySCNetworkChange);
 - (void)addNotification {
     if (!_isAddedNotification) {
         CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(),
-                                        self->_observer,
+                                        (__bridge const void *)(self),
                                         onNotifyCallback,
                                         kKZNotificationkey,
                                         NULL,
@@ -78,7 +75,7 @@ static CFStringRef const kKZNotificationkey = CFSTR(kNotifySCNetworkChange);
 - (void)removeNotification {
     if (_isAddedNotification) {
         CFNotificationCenterRemoveObserver(CFNotificationCenterGetDarwinNotifyCenter(),
-                                           self->_observer,
+                                           (__bridge const void *)(self),
                                            kKZNotificationkey,
                                            NULL);
         _isAddedNotification = NO;
@@ -93,7 +90,7 @@ void onNotifyCallback(CFNotificationCenterRef center, void *observer, CFNotifica
         return;
     }
     
-    KZWifiNotificationManager *manager = [KZWifiNotificationManager shared];
+    KZWifiNotificationManager *manager = (__bridge KZWifiNotificationManager *)observer;
     KZWifiInfo *currentWifiInfo = [manager getCurrentWifiInfo];
     BOOL sameBSSID = [manager.savedWifiInfo.BSSID isEqualToString:currentWifiInfo.BSSID];
     BOOL bothNoNil = manager.savedWifiInfo.BSSID == nil && currentWifiInfo.BSSID == nil;
@@ -144,6 +141,15 @@ void onNotifyCallback(CFNotificationCenterRef center, void *observer, CFNotifica
     NSLog(@"Without this target-action");
 }
 
+- (void)removeCallbackTarget:(id)target {
+    NSValue *targetPointer = [NSValue valueWithPointer:(__bridge const void * _Nullable)(target)];
+    [self.targetActions removeObjectForKey:targetPointer];
+}
+
+- (void)removeAllTarget {
+    [self.targetActions removeAllObjects];
+}
+
 - (KZWifiInfo *)getCurrentWifiInfo {
     NSDictionary *info = nil;
     NSArray *ifs = CFBridgingRelease(CNCopySupportedInterfaces());
@@ -167,7 +173,7 @@ void onNotifyCallback(CFNotificationCenterRef center, void *observer, CFNotifica
 }
 
 - (void)dealloc {
-    free(self->_observer);
+    
 }
 
 @end

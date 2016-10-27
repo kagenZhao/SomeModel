@@ -93,6 +93,7 @@
         
         fileprivate var previousStatus: KZNetworkReachabilityStatus?
         
+        /// 当前实例是否处于监听状态
         public private(set) var isNotifing: Bool = false
         
         /// 监听者回调
@@ -244,6 +245,8 @@
             SCNetworkReachabilitySetDispatchQueue(reachability, nil)
             
             SCNetworkReachabilityUnscheduleFromRunLoop(reachability, CFRunLoopGetMain(), CFRunLoopMode.commonModes.rawValue)
+            
+            isNotifing = false
         }
         
         
@@ -258,7 +261,6 @@
         }
         
         deinit {
-            
             stopMonitoring()
         }
     }

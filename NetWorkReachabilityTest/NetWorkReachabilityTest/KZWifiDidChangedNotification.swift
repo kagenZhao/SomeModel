@@ -20,6 +20,7 @@ public struct KZWiFiInfo {
     /// WIFI 名称
     public private(set) var ssid: String
     
+    /// 检测当前实例是否是空
     public var isEmpty: Bool { return bssid == "" && ssid == ""}
     
     private init() {

@@ -9,11 +9,18 @@
 import UIKit
 
 class ViewController: UIViewController {
-    private var manager = KZWiFiDidChangedManager()
+    private var manager = KZNetworkReachabilityManager.shared
     
     override func viewDidLoad() {
+        manager?.startMonitoring()
+        NotificationCenter.default.addObserver(self, selector: #selector(action(notify:)), name: NSNotification.Name.KZReachability.DidChange, object: nil)
+    
         
         super.viewDidLoad()
         
+    }
+    
+    @objc func action(notify: Notification) {
+        print(notify.userInfo![KZNetworkReachabilityNotificationItem]!)
     }
 }

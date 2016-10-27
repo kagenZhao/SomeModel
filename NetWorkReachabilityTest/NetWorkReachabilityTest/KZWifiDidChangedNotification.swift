@@ -14,22 +14,23 @@ import SystemConfiguration.CaptiveNetwork
 /// 包含 bssid, ssid , ssidData
 public struct KZWiFiInfo {
     
+    /// WIFI MAC地址
     public private(set) var bssid: String
-    public private(set) var ssid: String
-    public private(set) var ssidData: Data
     
-    public var isEmpty: Bool { return bssid == "" && ssid == "" && ssidData.count == 0}
+    /// WIFI 名称
+    public private(set) var ssid: String
+    
+    public var isEmpty: Bool { return bssid == "" && ssid == ""}
     
     private init() {
         self.bssid = ""
         self.ssid = ""
-        self.ssidData = Data()
     }
     
-    public init(bssid: String?, ssid: String?, ssidData: Data?) {
+    /// 唯一初始化方法
+    public init(bssid: String?, ssid: String?) {
         self.bssid = (bssid == nil || bssid!.characters.count == 0) ? "" : bssid!
         self.ssid = (ssid == nil || ssid!.characters.count == 0) ? "" : ssid!
-        self.ssidData = (ssidData == nil || ssidData!.count == 0) ? Data() : ssidData!
     }
     
     /// return a empty WiFiInfo
@@ -41,11 +42,12 @@ public struct KZWiFiInfo {
 extension KZWiFiInfo: Equatable {
     public static func ==(lhs: KZWiFiInfo, rhs: KZWiFiInfo) -> Bool {
         if lhs.isEmpty && rhs.isEmpty { return true }
-        else if lhs.bssid == rhs.bssid { return true }
+        else if lhs.bssid == rhs.bssid && lhs.ssid == lhs.ssid { return true }
         else { return false }
     }
 }
 
+// MARK: - 用于监听的 NotificationName
 extension Notification.Name {
     public struct KZWiFi {
         public static let DidChange = Notification.Name(rawValue: "com.kagen.wifiManager")
@@ -74,7 +76,7 @@ public class KZWiFiDidChangedManager {
     /// wifi改变后 执行的回调
     public var wifiChangeCallBack: KZWifiDidChangedCallBack?
     
-    /// 单例 (可用可不用)
+    /// 单例 (可用可不用, 最好不用, 自行管理其生命周期)
     public class var shared:KZWiFiDidChangedManager { return single }
     
     public init() {
@@ -130,7 +132,7 @@ extension KZWiFiDidChangedManager {
     @discardableResult
     public func update() -> Bool {
         let currentInfo = KZWiFiDidChangedManager.getCurrentWiFiInfo()
-        guard savedWiFiInfo.bssid != currentInfo.bssid else { return false }
+        guard savedWiFiInfo != currentInfo else { return false }
         guard !(savedWiFiInfo.isEmpty && currentInfo.isEmpty) else { return false }
         savedWiFiInfo = currentInfo
         return true
@@ -154,7 +156,7 @@ extension KZWiFiDidChangedManager {
             guard let SSIDDict = (unwrappedCFDictionaryForInterface as NSDictionary) as? [String: AnyObject] else {
                 return info
             }
-            info = KZWiFiInfo(bssid: SSIDDict["BSSID"] as! String?, ssid: SSIDDict["SSID"] as! String?, ssidData: SSIDDict["SSIDDATA"] as! Data?)
+            info = KZWiFiInfo(bssid: SSIDDict["BSSID"] as! String?, ssid: SSIDDict["SSID"] as! String?)
         }
         return info
     }

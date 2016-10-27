@@ -11,7 +11,7 @@
     import CoreTelephony.CTTelephonyNetworkInfo
     import CoreTelephony.CTCarrier
     
-    public let KZNetworkReachabilityNotificationItem = "KZNetworkReachabilityNotificationItem"
+    public let KZNetworkReachabilityNotificationItem = "com.kagen.networking.reachability.change.item"
     
     extension Notification.Name {
         public struct KZReachability {

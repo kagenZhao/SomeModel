@@ -7,16 +7,23 @@
 //
 
 #import "ViewController.h"
-
+#import "KZWifiNotificationManager.h"
 @interface ViewController ()
-
+@property KZWifiNotificationManager *manager;
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    self.manager = [[KZWifiNotificationManager alloc] init];
+    [self.manager setNotifyCallBack:^(KZWifiInfo * info) {
+        NSLog(@"info : %@", info);
+        
+        NSString *string = [[NSString alloc] initWithData:info.SSIDDATA encoding:NSUTF8StringEncoding];
+        NSLog(@"dataString : %@", string);
+    }];
+    [self.manager startNotification];
 }
 
 

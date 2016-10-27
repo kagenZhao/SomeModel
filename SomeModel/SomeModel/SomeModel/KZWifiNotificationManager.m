@@ -9,7 +9,7 @@
 #import <objc/message.h>
 #import <notify_keys.h>
 
-NSString * const KZWifiDidChangedNotification = @"KZWifiDidChangedNotification";
+NSNotificationName const KZWifiDidChangedNotification = @"KZWifiDidChangedNotification";
 
 static NSString * const kKZNotificationName = @kNotifySCNetworkChange;
 static CFStringRef const kKZNotificationkey = CFSTR(kNotifySCNetworkChange);
@@ -17,24 +17,22 @@ static CFStringRef const kKZNotificationkey = CFSTR(kNotifySCNetworkChange);
 @interface KZWifiInfo ()
 @property (nonatomic, copy  , readwrite) NSString *BSSID;
 @property (nonatomic, copy  , readwrite) NSString *SSID;
-@property (nonatomic, strong, readwrite) NSData *SSIDDATA;
 @end
 
 @implementation KZWifiInfo
 
-- (instancetype)initWithBSSID:(NSString *)BSSID SSID:(NSString *)SSID SSIDDATA:(NSData *)SSIDDATA {
+- (instancetype)initWithBSSID:(NSString *)BSSID SSID:(NSString *)SSID {
     self = [super init];
     if (self) {
         _SSID = SSID.length ? [NSString stringWithString:SSID] : nil;
         _BSSID = BSSID.length ? [NSString stringWithString:BSSID] : nil;
-        _SSIDDATA = SSIDDATA.length ? [NSData dataWithData:SSIDDATA] : nil;
     }
     return self;
 }
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"BSSID: %@, SSID: %@, SSIDDATA: %@", _BSSID, _SSID, _SSIDDATA];
+    return [NSString stringWithFormat:@"BSSID: %@, SSID: %@", _BSSID, _SSID];
 }
 
 @end
@@ -54,13 +52,20 @@ static CFStringRef const kKZNotificationkey = CFSTR(kNotifySCNetworkChange);
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         manager = [[KZWifiNotificationManager alloc] init];
-        manager.savedWifiInfo = [manager getCurrentWifiInfo];
-        manager.targetActions = @{}.mutableCopy;
     });
     return manager;
 }
 
-- (void)addNotification {
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.savedWifiInfo = [KZWifiNotificationManager getCurrentWifiInfo];
+        self.targetActions = @{}.mutableCopy;
+    }
+    return self;
+}
+
+- (void)startNotification {
     if (!_isAddedNotification) {
         CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(),
                                         (__bridge const void *)(self),
@@ -72,7 +77,7 @@ static CFStringRef const kKZNotificationkey = CFSTR(kNotifySCNetworkChange);
     } else NSLog(@"notification is already added");
 }
 
-- (void)removeNotification {
+- (void)stopNotification {
     if (_isAddedNotification) {
         CFNotificationCenterRemoveObserver(CFNotificationCenterGetDarwinNotifyCenter(),
                                            (__bridge const void *)(self),
@@ -91,7 +96,7 @@ void onNotifyCallback(CFNotificationCenterRef center, void *observer, CFNotifica
     }
     
     KZWifiNotificationManager *manager = (__bridge KZWifiNotificationManager *)observer;
-    KZWifiInfo *currentWifiInfo = [manager getCurrentWifiInfo];
+    KZWifiInfo *currentWifiInfo = [KZWifiNotificationManager getCurrentWifiInfo];
     BOOL sameBSSID = [manager.savedWifiInfo.BSSID isEqualToString:currentWifiInfo.BSSID];
     BOOL bothNoNil = manager.savedWifiInfo.BSSID == nil && currentWifiInfo.BSSID == nil;
     
@@ -100,6 +105,7 @@ void onNotifyCallback(CFNotificationCenterRef center, void *observer, CFNotifica
     }
     
     manager.savedWifiInfo = currentWifiInfo;
+    manager.notifyCallBack ? manager.notifyCallBack(currentWifiInfo) : nil;
     [[NSNotificationCenter defaultCenter] postNotificationName:KZWifiDidChangedNotification object:currentWifiInfo userInfo:@{KZWifiDidChangedNotification: currentWifiInfo}];
     [manager.targetActions enumerateKeysAndObjectsUsingBlock:^(NSValue *  _Nonnull targetPointer, NSMutableArray<NSString *> * _Nonnull actions, BOOL * _Nonnull stop) {
         [actions enumerateObjectsUsingBlock:^(NSString * _Nonnull selStr, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -150,13 +156,13 @@ void onNotifyCallback(CFNotificationCenterRef center, void *observer, CFNotifica
     [self.targetActions removeAllObjects];
 }
 
-- (KZWifiInfo *)getCurrentWifiInfo {
++ (KZWifiInfo *)getCurrentWifiInfo {
     NSDictionary *info = nil;
     NSArray *ifs = CFBridgingRelease(CNCopySupportedInterfaces());
     for (NSString *ifnam in ifs) {
         info = CFBridgingRelease(CNCopyCurrentNetworkInfo((__bridge CFStringRef)ifnam));
     }
-    KZWifiInfo *wifiinfo = [[KZWifiInfo alloc] initWithBSSID:info[@"BSSID"] SSID:info[@"SSID"] SSIDDATA:info[@"SSIDDATA"]];
+    KZWifiInfo *wifiinfo = [[KZWifiInfo alloc] initWithBSSID:info[@"BSSID"] SSID:info[@"SSID"]];
     return wifiinfo;
 }
 

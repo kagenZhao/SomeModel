@@ -7,7 +7,7 @@
 //
 
 #import "UILabel+KZVerticalAlgnment.h"
-#import <objc/objc-runtime.h>
+#import <objc/runtime.h>
 
 
 static NSString *const kKZCustomeVerticalKey = @"kCustomeVerticalKey";

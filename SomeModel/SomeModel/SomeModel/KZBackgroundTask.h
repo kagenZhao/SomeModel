@@ -22,8 +22,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)shared;
 
+/**
+ 开始一个新的后台任务
+
+ @return 任务ID
+ */
 - (UIBackgroundTaskIdentifier)beginNewBackgroundTask;
 
+/**
+ 结束当前正在进行的任务
+ */
 - (void)endCurrentBackgroundTask;
 @end
 NS_ASSUME_NONNULL_END

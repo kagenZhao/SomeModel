@@ -44,13 +44,13 @@
     
     [self.replaceTextView.rac_textSignal subscribeNext:^(id x) {
         @strongify(self)
-        self.replacedTextView.string = self.sourceTextView.string.copy;
-        NSInteger distenceLocation = 0;
-        for (NSTextCheckingResult *result in self.currentMatchArr) {
-            NSRange range = result.range;
-            [self.replacedTextView replaceCharactersInRange:NSMakeRange(range.location + distenceLocation, range.length) withString:self.replaceTextView.string];
-            distenceLocation += self.replaceTextView.string.length - range.length;
-        }
+//        self.replacedTextView.string = self.sourceTextView.string.copy;
+//        NSInteger distenceLocation = 0;
+//        for (NSTextCheckingResult *result in self.currentMatchArr) {
+//            NSRange range = result.range;
+//            [self.replacedTextView replaceCharactersInRange:NSMakeRange(range.location + distenceLocation, range.length) withString:self.replaceTextView.string];
+//            distenceLocation += self.replaceTextView.string.length - range.length;
+//        }
     }];
 //    
 //    self.regexTips.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
@@ -80,11 +80,6 @@
     NSRegularExpression *reg = [NSRegularExpression regularExpressionWithPattern:regex options:NSRegularExpressionCaseInsensitive error:&error];
     NSArray *match = [reg matchesInString:self.sourceTextView.string options:0 range:NSMakeRange(0, [self.sourceTextView.string length])];
     NSString *matchTextViewString = @"";
-    self.matchedTextView.string = @"";
-    self.replacedTextView.string = self.sourceTextView.string.copy;
-    self.currentMatchArr = match;
-    self.matchRangeArr = nil;
-    NSInteger distenceLocation = 0;
     NSMutableArray *tempMatchArr = @[].mutableCopy;
     NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:self.sourceTextView.string attributes:@{NSFontAttributeName:[NSFont systemFontOfSize:17]}];
     for (NSTextCheckingResult *result in match) {
@@ -103,13 +98,8 @@
             linkAttRange = NSMakeRange(0, resultString.length);
         }
         [tempMatchArr addObject:[NSValue valueWithRange:linkAttRange]];
-        self.matchedTextView.string = matchTextViewString;
         [self.matchedTextView.textStorage addAttribute:NSLinkAttributeName value:resultString range:linkAttRange];
-        
-        [self.replacedTextView replaceCharactersInRange:NSMakeRange(range.location + distenceLocation, range.length) withString:self.replaceTextView.string];
-        distenceLocation += self.replaceTextView.string.length - range.length;
     }
-    self.matchRangeArr = tempMatchArr;
 }
 
 

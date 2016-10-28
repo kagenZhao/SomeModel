@@ -12,7 +12,10 @@ class ViewController: UIViewController {
     private var manager = KZNetworkReachabilityManager.shared
     
     override func viewDidLoad() {
+        manager?.receiveWiFiChangeNotify = true
+        manager?.receiveTechnologyChangeNotify = true
         manager?.startMonitoring()
+        
         NotificationCenter.default.addObserver(self, selector: #selector(action(notify:)), name: NSNotification.Name.KZReachability.DidChange, object: nil)
     
         

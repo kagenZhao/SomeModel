@@ -89,7 +89,7 @@
         
         private var reachability: SCNetworkReachability
         
-        fileprivate var wifiManager: KZWiFiDidChangedManager = KZWiFiDidChangedManager()
+//        fileprivate var wifiManager: KZWiFiDidChangedManager = KZWiFiDidChangedManager()
         
         fileprivate var previousStatus: KZNetworkReachabilityStatus?
         
@@ -105,24 +105,24 @@
         /// 是否接受WiFi改变通知
         /// 必须在初始化时设置, 在监听时设置会没有效果
         /// default = false
-        public var receiveWiFiChangeNotify: Bool = false {
-            didSet {
-                if receiveWiFiChangeNotify == false {
-                    stopWifiNotify()
-                }
-            }
-        }
+//        public var receiveWiFiChangeNotify: Bool = false {
+//            didSet {
+//                if receiveWiFiChangeNotify == false {
+//                    stopWifiNotify()
+//                }
+//            }
+//        }
         
         /// 是否监听2g, 3g, 4g 改变
         /// 必须在初始化时设置, 在监听时设置会没有效果
         /// default = false
-        public var receiveTechnologyChangeNotify: Bool = false {
-            didSet {
-                if receiveTechnologyChangeNotify == false {
-                    stopTechnologyNotify()
-                }
-            }
-        }
+//        public var receiveTechnologyChangeNotify: Bool = false {
+//            didSet {
+//                if receiveTechnologyChangeNotify == false {
+//                    stopTechnologyNotify()
+//                }
+//            }
+//        }
         
         /// 当前是否联网
         public var isReachable: Bool { return isReachableViaWiFi || isReachableViaWWAN }
@@ -181,7 +181,9 @@
         public func startMonitoring() -> Bool {
             stopMonitoring()
             
-            startWiFiNotity()
+//            startWiFiNotity()
+            
+//            startTechnologyNotify()
             
             var context = SCNetworkReachabilityContext(version: 0, info: nil, retain: nil, release: nil, copyDescription: nil)
             
@@ -214,31 +216,33 @@
         }
         
         /// 开启 WIFI 改变的监听
-        private func startWiFiNotity() {
-            guard receiveWiFiChangeNotify else { return }
-            
-            wifiManager.wifiChangeCallBack = {[weak self] info in
-                guard let self_strong = self else { return }
-                self_strong.getCurrentFlags()
-            }
-            
-            wifiManager.addNotify()
-        }
+//        private func startWiFiNotity() {
+//            guard receiveWiFiChangeNotify else { return }
+//            
+//            wifiManager.wifiChangeCallBack = {[weak self] info in
+//                guard let self_strong = self else { return }
+//                self_strong.getCurrentFlags()
+//            }
+//            
+//            wifiManager.addNotify()
+//        }
         
         /// 开启2,3,4g监听
-        private func startTechnologyNotify() {
-            guard receiveTechnologyChangeNotify else { return }
-            
-            NotificationCenter.default.addObserver(self, selector: #selector(technologyDidChange(noti:)), name: NSNotification.Name.CTRadioAccessTechnologyDidChange, object: nil)
-        }
-        
-        @objc private func technologyDidChange(noti: Notification) {
-            self.getCurrentFlags()
-        }
+//        private func startTechnologyNotify() {
+//            guard receiveTechnologyChangeNotify else { return }
+//            
+//            NotificationCenter.default.addObserver(self, selector: #selector(technologyDidChange(noti:)), name: NSNotification.Name.CTRadioAccessTechnologyDidChange, object: nil)
+//        }
+//        
+//        @objc private func technologyDidChange(noti: Notification) {
+//            self.getCurrentFlags()
+//        }
         
         /// 结束监听
         public func stopMonitoring() {
-            stopWifiNotify()
+//            stopWifiNotify()
+            
+//            stopTechnologyNotify()
             
             SCNetworkReachabilitySetCallback(reachability, nil, nil)
             
@@ -251,14 +255,14 @@
         
         
         /// 结束WIFI的监听
-        private func stopWifiNotify() {
-            wifiManager.removeNotify()
-        }
+//        private func stopWifiNotify() {
+//            wifiManager.removeNotify()
+//        }
         
         /// 结束2,3,4g监听
-        private func stopTechnologyNotify() {
-            NotificationCenter.default.removeObserver(self, name: NSNotification.Name.CTRadioAccessTechnologyDidChange, object: nil)
-        }
+//        private func stopTechnologyNotify() {
+//            NotificationCenter.default.removeObserver(self, name: NSNotification.Name.CTRadioAccessTechnologyDidChange, object: nil)
+//        }
         
         deinit {
             stopMonitoring()
@@ -302,11 +306,25 @@
         
         private func kz_statusForFlags(flags: SCNetworkReachabilityFlags) -> KZNetworkReachabilityStatus {
             
+            //        .transientConnection    1
+            //        .reachable              2
+            //        .connectionRequired     4
+            //        .connectionOnTraffic    8
+            //        .interventionRequired   16
+            //        .connectionOnDemand     32
+            //        .isLocalAddress         65526
+            //        .isDirect               131072
+            //        .isWWAN                 262144
+            //        .connectionAutomatic    8
+            
+            print(flags)
+            
             guard flags.contains(.reachable) else { return .notReachable }
             
             var status: KZNetworkReachabilityStatus = .notReachable
             
-            let wifiInfo = self.wifiManager.savedWiFiInfo
+//            let wifiInfo = self.wifiManager.savedWiFiInfo
+            let wifiInfo = KZWiFiDidChangedManager.getCurrentWiFiInfo()
             
             if !flags.contains(.connectionRequired) { status = .WiFi(wifiInfo) }
             

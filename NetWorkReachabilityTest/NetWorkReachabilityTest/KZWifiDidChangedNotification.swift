@@ -11,6 +11,7 @@ import SystemConfiguration.CaptiveNetwork
 
 
 /// WiFi 信息类
+///
 /// 包含 bssid, ssid , ssidData
 public struct KZWiFiInfo {
     
@@ -41,6 +42,8 @@ public struct KZWiFiInfo {
 }
 
 extension KZWiFiInfo: Equatable {
+    
+    
     public static func ==(lhs: KZWiFiInfo, rhs: KZWiFiInfo) -> Bool {
         if lhs.isEmpty && rhs.isEmpty { return true }
         else if lhs.bssid == rhs.bssid && lhs.ssid == lhs.ssid { return true }
@@ -65,6 +68,12 @@ public typealias KZWifiDidChangedCallBack = (KZWiFiInfo) -> Void
 
 private let single = KZWiFiDidChangedManager()
 
+
+
+
+/// 此类用于仅监听 <有无WIFI> 和 <WIFI地址的改变>
+///
+/// 如非特殊情况, 一般几乎用不到
 public class KZWiFiDidChangedManager {
     private var observer: UnsafeMutableRawPointer!
     

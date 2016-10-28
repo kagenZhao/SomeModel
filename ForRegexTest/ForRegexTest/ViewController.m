@@ -7,10 +7,10 @@
 //
 
 #import "ViewController.h"
+
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
 @interface ViewController ()<NSTextViewDelegate>
-@property (weak) IBOutlet NSButton *regexTips;
 @property (unsafe_unretained) IBOutlet NSTextView *regexTextView;
 @property (unsafe_unretained) IBOutlet NSTextView *replaceTextView;
 @property (unsafe_unretained) IBOutlet NSTextView *sourceTextView;
@@ -44,32 +44,33 @@
     
     [self.replaceTextView.rac_textSignal subscribeNext:^(id x) {
         @strongify(self)
-//        self.replacedTextView.string = self.sourceTextView.string.copy;
-//        NSInteger distenceLocation = 0;
-//        for (NSTextCheckingResult *result in self.currentMatchArr) {
-//            NSRange range = result.range;
-//            [self.replacedTextView replaceCharactersInRange:NSMakeRange(range.location + distenceLocation, range.length) withString:self.replaceTextView.string];
-//            distenceLocation += self.replaceTextView.string.length - range.length;
-//        }
+        [self reloadRegex];
     }];
-//    
-//    self.regexTips.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
-//        return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-//            [subscriber sendNext:@YES];
-//            [subscriber sendCompleted];
-//            return nil;
-//        }];
-//    }];
-//    
-//    
-//    [[[self.regexTips.rac_command executionSignals] switchToLatest] subscribeNext:^(id x) {
-//        @strongify(self)
-//       
-//    }];
-//    
-    [[[NSNotificationCenter defaultCenter] rac_addObserverForName:NSWindowDidMoveNotification object:nil] subscribeNext:^(id x) {
-        
-    }];
+
+    NSEvent * (^monitorHandler)(NSEvent *);
+    monitorHandler = ^NSEvent * (NSEvent * theEvent){
+        NSEvent *result = theEvent;
+        NSArray <NSResponder *>*responderArr = @[self.regexTextView, self.replaceTextView, self.sourceTextView];
+        NSResponder * firstResponder = [NSApplication sharedApplication].keyWindow.firstResponder;
+        if (self.regexTextView == firstResponder ||
+            self.replaceTextView == firstResponder ||
+            self.sourceTextView == firstResponder) {
+            if (theEvent.type == NSKeyDown) {
+                if (theEvent.keyCode == 48) {
+                    NSUInteger i = [responderArr indexOfObject:firstResponder];
+                    i += 1;
+                    if (i == responderArr.count) {
+                        i = 0;
+                    }
+                    [[NSApplication sharedApplication].keyWindow makeFirstResponder:responderArr[i]];
+                    result = nil;
+                }
+            }
+        }
+        return result;
+    };
+    
+    [NSEvent addLocalMonitorForEventsMatchingMask:NSKeyDownMask handler:monitorHandler];
     
 }
 
@@ -80,6 +81,11 @@
     NSRegularExpression *reg = [NSRegularExpression regularExpressionWithPattern:regex options:NSRegularExpressionCaseInsensitive error:&error];
     NSArray *match = [reg matchesInString:self.sourceTextView.string options:0 range:NSMakeRange(0, [self.sourceTextView.string length])];
     NSString *matchTextViewString = @"";
+    self.matchedTextView.string = @"";
+    self.replacedTextView.string = self.sourceTextView.string.copy;
+    self.currentMatchArr = match;
+    self.matchRangeArr = nil;
+    NSInteger distenceLocation = 0;
     NSMutableArray *tempMatchArr = @[].mutableCopy;
     NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:self.sourceTextView.string attributes:@{NSFontAttributeName:[NSFont systemFontOfSize:17]}];
     for (NSTextCheckingResult *result in match) {
@@ -98,12 +104,17 @@
             linkAttRange = NSMakeRange(0, resultString.length);
         }
         [tempMatchArr addObject:[NSValue valueWithRange:linkAttRange]];
+        self.matchedTextView.string = matchTextViewString;
         [self.matchedTextView.textStorage addAttribute:NSLinkAttributeName value:resultString range:linkAttRange];
+        
+        [self.replacedTextView replaceCharactersInRange:NSMakeRange(range.location + distenceLocation, range.length) withString:self.replaceTextView.string];
+        distenceLocation += self.replaceTextView.string.length - range.length;
+    }
+    self.matchRangeArr = tempMatchArr;
+    if (self.replaceTextView.string.length) {
+        self.replacedTextView.string = [reg stringByReplacingMatchesInString:self.sourceTextView.string options:0 range:NSMakeRange(0, self.sourceTextView.string.length) withTemplate:self.replaceTextView.string];
     }
 }
-
-
-
 
 
 - (BOOL)textView:(NSTextView *)textView clickedOnLink:(id)link atIndex:(NSUInteger)charIndex {

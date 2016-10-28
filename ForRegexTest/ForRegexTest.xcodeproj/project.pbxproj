@@ -14,7 +14,9 @@
 		0475A7971D7D65D7001151EB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0475A7951D7D65D7001151EB /* Main.storyboard */; };
 		0475A7A21D7D65D7001151EB /* ForRegexTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0475A7A11D7D65D7001151EB /* ForRegexTestTests.m */; };
 		0475A7AD1D7D65D7001151EB /* ForRegexTestUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0475A7AC1D7D65D7001151EB /* ForRegexTestUITests.m */; };
-		EB15AB39CE58C3801BF6D415 /* Pods_ForRegexTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7BF7D17AD8EEA7918DF42E4 /* Pods_ForRegexTest.framework */; };
+		5060260A6A02867A53EBB69D /* libPods-ForRegexTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9114419899EDFD33ABC8C56F /* libPods-ForRegexTest.a */; };
+		5BFAD7A67768038C2873AB6D /* libPods-ForRegexTestTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BE8C490121F090B5B0A936E /* libPods-ForRegexTestTests.a */; };
+		A9B4888799028E88EB9240D2 /* libPods-ForRegexTestUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C7CE9C32ACF6A34BF14DB3C6 /* libPods-ForRegexTestUITests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,9 +52,15 @@
 		0475A7A81D7D65D7001151EB /* ForRegexTestUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ForRegexTestUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0475A7AC1D7D65D7001151EB /* ForRegexTestUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ForRegexTestUITests.m; sourceTree = "<group>"; };
 		0475A7AE1D7D65D7001151EB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3DB4BA66E6D9EDF03A2853FA /* Pods-ForRegexTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ForRegexTest.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ForRegexTest/Pods-ForRegexTest.debug.xcconfig"; sourceTree = "<group>"; };
-		A40F91A3B3AA89F866EA1318 /* Pods-ForRegexTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ForRegexTest.release.xcconfig"; path = "Pods/Target Support Files/Pods-ForRegexTest/Pods-ForRegexTest.release.xcconfig"; sourceTree = "<group>"; };
-		F7BF7D17AD8EEA7918DF42E4 /* Pods_ForRegexTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ForRegexTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		177423714A31473FBB007490 /* Pods-ForRegexTestUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ForRegexTestUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ForRegexTestUITests/Pods-ForRegexTestUITests.release.xcconfig"; sourceTree = "<group>"; };
+		4404C8FCF11CECB2CCC0B3DB /* Pods-ForRegexTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ForRegexTest.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ForRegexTest/Pods-ForRegexTest.debug.xcconfig"; sourceTree = "<group>"; };
+		4BE8C490121F090B5B0A936E /* libPods-ForRegexTestTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ForRegexTestTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		546093486E3A57A1CC6BDB39 /* Pods-ForRegexTestUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ForRegexTestUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ForRegexTestUITests/Pods-ForRegexTestUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		7B7B2BFD6ED84808CCF71625 /* Pods-ForRegexTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ForRegexTest.release.xcconfig"; path = "Pods/Target Support Files/Pods-ForRegexTest/Pods-ForRegexTest.release.xcconfig"; sourceTree = "<group>"; };
+		9114419899EDFD33ABC8C56F /* libPods-ForRegexTest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ForRegexTest.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BBAC64DEEE28CFEF09BD2800 /* Pods-ForRegexTestTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ForRegexTestTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ForRegexTestTests/Pods-ForRegexTestTests.release.xcconfig"; sourceTree = "<group>"; };
+		C7CE9C32ACF6A34BF14DB3C6 /* libPods-ForRegexTestUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ForRegexTestUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D89251B5A9E7570D1BC11774 /* Pods-ForRegexTestTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ForRegexTestTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ForRegexTestTests/Pods-ForRegexTestTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,7 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EB15AB39CE58C3801BF6D415 /* Pods_ForRegexTest.framework in Frameworks */,
+				5060260A6A02867A53EBB69D /* libPods-ForRegexTest.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BFAD7A67768038C2873AB6D /* libPods-ForRegexTestTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,6 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9B4888799028E88EB9240D2 /* libPods-ForRegexTestUITests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,8 +98,8 @@
 				0475A7A01D7D65D7001151EB /* ForRegexTestTests */,
 				0475A7AB1D7D65D7001151EB /* ForRegexTestUITests */,
 				0475A7881D7D65D7001151EB /* Products */,
-				894ACE1563A79C5185580F10 /* Pods */,
-				AF0530C86DC396BB269BB6B9 /* Frameworks */,
+				FE48771D629F0984DC5F10F9 /* Pods */,
+				14ED7481A2997F933E8151DE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -144,21 +154,27 @@
 			path = ForRegexTestUITests;
 			sourceTree = "<group>";
 		};
-		894ACE1563A79C5185580F10 /* Pods */ = {
+		14ED7481A2997F933E8151DE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3DB4BA66E6D9EDF03A2853FA /* Pods-ForRegexTest.debug.xcconfig */,
-				A40F91A3B3AA89F866EA1318 /* Pods-ForRegexTest.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		AF0530C86DC396BB269BB6B9 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				F7BF7D17AD8EEA7918DF42E4 /* Pods_ForRegexTest.framework */,
+				9114419899EDFD33ABC8C56F /* libPods-ForRegexTest.a */,
+				4BE8C490121F090B5B0A936E /* libPods-ForRegexTestTests.a */,
+				C7CE9C32ACF6A34BF14DB3C6 /* libPods-ForRegexTestUITests.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FE48771D629F0984DC5F10F9 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				4404C8FCF11CECB2CCC0B3DB /* Pods-ForRegexTest.debug.xcconfig */,
+				7B7B2BFD6ED84808CCF71625 /* Pods-ForRegexTest.release.xcconfig */,
+				D89251B5A9E7570D1BC11774 /* Pods-ForRegexTestTests.debug.xcconfig */,
+				BBAC64DEEE28CFEF09BD2800 /* Pods-ForRegexTestTests.release.xcconfig */,
+				546093486E3A57A1CC6BDB39 /* Pods-ForRegexTestUITests.debug.xcconfig */,
+				177423714A31473FBB007490 /* Pods-ForRegexTestUITests.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -168,12 +184,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0475A7B11D7D65D7001151EB /* Build configuration list for PBXNativeTarget "ForRegexTest" */;
 			buildPhases = (
-				044FA37941B9A44CE2DFC7C3 /* Check Pods Manifest.lock */,
+				821165DAD4871521F2B75ED7 /* [CP] Check Pods Manifest.lock */,
 				0475A7831D7D65D7001151EB /* Sources */,
 				0475A7841D7D65D7001151EB /* Frameworks */,
 				0475A7851D7D65D7001151EB /* Resources */,
-				BC4B92587B821365C0F2E989 /* Embed Pods Frameworks */,
-				F933E90DA981CCBDA916305B /* Copy Pods Resources */,
+				CF9AA0C9742B0F58D4769F96 /* [CP] Embed Pods Frameworks */,
+				6C12FF879B6A96DD01D17F22 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -188,9 +204,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0475A7B41D7D65D7001151EB /* Build configuration list for PBXNativeTarget "ForRegexTestTests" */;
 			buildPhases = (
+				73D407EF6CB0F054DDD747A6 /* [CP] Check Pods Manifest.lock */,
 				0475A7991D7D65D7001151EB /* Sources */,
 				0475A79A1D7D65D7001151EB /* Frameworks */,
 				0475A79B1D7D65D7001151EB /* Resources */,
+				FBC0FECF6AEE527CE94C6ED1 /* [CP] Embed Pods Frameworks */,
+				8293B93C5F86EACA4DD83FED /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -206,9 +225,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0475A7B71D7D65D7001151EB /* Build configuration list for PBXNativeTarget "ForRegexTestUITests" */;
 			buildPhases = (
+				30435B9F98379FA7F1194ED7 /* [CP] Check Pods Manifest.lock */,
 				0475A7A41D7D65D7001151EB /* Sources */,
 				0475A7A51D7D65D7001151EB /* Frameworks */,
 				0475A7A61D7D65D7001151EB /* Resources */,
+				B290BB9DF1E6416FF958D8BE /* [CP] Embed Pods Frameworks */,
+				FDF696685856D4E6917CE8E0 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -289,29 +311,104 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		044FA37941B9A44CE2DFC7C3 /* Check Pods Manifest.lock */ = {
+		30435B9F98379FA7F1194ED7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		BC4B92587B821365C0F2E989 /* Embed Pods Frameworks */ = {
+		6C12FF879B6A96DD01D17F22 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ForRegexTest/Pods-ForRegexTest-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		73D407EF6CB0F054DDD747A6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		821165DAD4871521F2B75ED7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		8293B93C5F86EACA4DD83FED /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ForRegexTestTests/Pods-ForRegexTestTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B290BB9DF1E6416FF958D8BE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ForRegexTestUITests/Pods-ForRegexTestUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CF9AA0C9742B0F58D4769F96 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -319,19 +416,34 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ForRegexTest/Pods-ForRegexTest-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F933E90DA981CCBDA916305B /* Copy Pods Resources */ = {
+		FBC0FECF6AEE527CE94C6ED1 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ForRegexTest/Pods-ForRegexTest-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ForRegexTestTests/Pods-ForRegexTestTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FDF696685856D4E6917CE8E0 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ForRegexTestUITests/Pods-ForRegexTestUITests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -473,7 +585,7 @@
 		};
 		0475A7B21D7D65D7001151EB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3DB4BA66E6D9EDF03A2853FA /* Pods-ForRegexTest.debug.xcconfig */;
+			baseConfigurationReference = 4404C8FCF11CECB2CCC0B3DB /* Pods-ForRegexTest.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -486,7 +598,7 @@
 		};
 		0475A7B31D7D65D7001151EB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A40F91A3B3AA89F866EA1318 /* Pods-ForRegexTest.release.xcconfig */;
+			baseConfigurationReference = 7B7B2BFD6ED84808CCF71625 /* Pods-ForRegexTest.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -499,6 +611,7 @@
 		};
 		0475A7B51D7D65D7001151EB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D89251B5A9E7570D1BC11774 /* Pods-ForRegexTestTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -512,6 +625,7 @@
 		};
 		0475A7B61D7D65D7001151EB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BBAC64DEEE28CFEF09BD2800 /* Pods-ForRegexTestTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -525,6 +639,7 @@
 		};
 		0475A7B81D7D65D7001151EB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 546093486E3A57A1CC6BDB39 /* Pods-ForRegexTestUITests.debug.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = ForRegexTestUITests/Info.plist;
@@ -537,6 +652,7 @@
 		};
 		0475A7B91D7D65D7001151EB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 177423714A31473FBB007490 /* Pods-ForRegexTestUITests.release.xcconfig */;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = ForRegexTestUITests/Info.plist;

@@ -20,7 +20,6 @@
   // 用CIFilter
   UIImage *img = [QRManager createQRCodeImageWithMessage:@"1" size:_qrimage.frame.size.width color:[UIColor redColor] topImg:[UIImage imageNamed:@"2"]];
   // 用libqrencode
-  UIImage *image = [QRCodeGenerator qrImageForString:@"1" imageSize:_qrimage.frame.size.width Topimg:[UIImage imageNamed:@"2"]];
   _qrimage.image = img;
     
     NSString *key = [@"kagenMonsterForGit" md5];

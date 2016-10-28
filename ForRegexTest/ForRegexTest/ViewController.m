@@ -30,6 +30,14 @@
     self.sourceTextView.font = [NSFont systemFontOfSize:17];
     self.replacedTextView.font = [NSFont systemFontOfSize:17];
     self.matchedTextView.font = [NSFont systemFontOfSize:17];
+    
+
+    self.regexTextView.enabledTextCheckingTypes = 0;
+    self.replaceTextView.enabledTextCheckingTypes = 0;
+    self.sourceTextView.enabledTextCheckingTypes = 0;
+    self.replacedTextView.enabledTextCheckingTypes = 0;
+    self.matchedTextView.enabledTextCheckingTypes = 0;
+    
     @weakify(self)
     
     [self.regexTextView.rac_textSignal subscribeNext:^(id x) {
@@ -77,6 +85,9 @@
 
 - (void)reloadRegex {
     NSString *regex = self.regexTextView.string;
+    if (!regex.length) {
+        return;
+    }
     NSError *error = nil;
     NSRegularExpression *reg = [NSRegularExpression regularExpressionWithPattern:regex options:NSRegularExpressionCaseInsensitive error:&error];
     NSArray *match = [reg matchesInString:self.sourceTextView.string options:0 range:NSMakeRange(0, [self.sourceTextView.string length])];
@@ -87,7 +98,8 @@
     self.matchRangeArr = nil;
     NSInteger distenceLocation = 0;
     NSMutableArray *tempMatchArr = @[].mutableCopy;
-    NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:self.sourceTextView.string attributes:@{NSFontAttributeName:[NSFont systemFontOfSize:17]}];
+    NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:self.sourceTextView.string attributes:@{NSFontAttributeName:[NSFont systemFontOfSize:17], NSForegroundColorAttributeName:[NSColor colorWithRed:0.16078431372549 green:0.16078431372549 blue:0.16078431372549 alpha:1]}];
+    [self.sourceTextView.textStorage setAttributedString:attString];
     for (NSTextCheckingResult *result in match) {
         NSRange range = result.range;
         [attString setAttributes:@{NSForegroundColorAttributeName:[NSColor redColor],

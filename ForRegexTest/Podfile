@@ -5,12 +5,3 @@
 target 'ForRegexTest' do
 pod 'ReactiveCocoa', '~> 2.5'
 end
-
-target 'ForRegexTestTests' do
-
-end
-
-target 'ForRegexTestUITests' do
-
-end
-

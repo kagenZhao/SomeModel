@@ -18,6 +18,8 @@
 		042CDC641DA9F141005030DF /* KZLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 042CDC5D1DA9F141005030DF /* KZLocationManager.m */; };
 		042CDC651DA9F141005030DF /* KZWifiNotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 042CDC5F1DA9F141005030DF /* KZWifiNotificationManager.m */; };
 		042CDC661DA9F141005030DF /* UILabel+KZVerticalAlgnment.m in Sources */ = {isa = PBXBuildFile; fileRef = 042CDC611DA9F141005030DF /* UILabel+KZVerticalAlgnment.m */; };
+		04549CBE1DC82E90005B82FA /* UNOHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 04549CBD1DC82E90005B82FA /* UNOHUD.m */; };
+		04549CC11DC82EF8005B82FA /* UNOLoadingAnimationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04549CC01DC82EF8005B82FA /* UNOLoadingAnimationView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +43,10 @@
 		042CDC5F1DA9F141005030DF /* KZWifiNotificationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KZWifiNotificationManager.m; sourceTree = "<group>"; };
 		042CDC601DA9F141005030DF /* UILabel+KZVerticalAlgnment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+KZVerticalAlgnment.h"; sourceTree = "<group>"; };
 		042CDC611DA9F141005030DF /* UILabel+KZVerticalAlgnment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+KZVerticalAlgnment.m"; sourceTree = "<group>"; };
+		04549CBC1DC82E90005B82FA /* UNOHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNOHUD.h; sourceTree = "<group>"; };
+		04549CBD1DC82E90005B82FA /* UNOHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNOHUD.m; sourceTree = "<group>"; };
+		04549CBF1DC82EF8005B82FA /* UNOLoadingAnimationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNOLoadingAnimationView.h; sourceTree = "<group>"; };
+		04549CC01DC82EF8005B82FA /* UNOLoadingAnimationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNOLoadingAnimationView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +104,10 @@
 		042CDC571DA9F141005030DF /* SomeModel */ = {
 			isa = PBXGroup;
 			children = (
+				04549CBC1DC82E90005B82FA /* UNOHUD.h */,
+				04549CBD1DC82E90005B82FA /* UNOHUD.m */,
+				04549CBF1DC82EF8005B82FA /* UNOLoadingAnimationView.h */,
+				04549CC01DC82EF8005B82FA /* UNOLoadingAnimationView.m */,
 				042CDC581DA9F141005030DF /* DXTimer.h */,
 				042CDC591DA9F141005030DF /* DXTimer.m */,
 				042CDC5A1DA9F141005030DF /* KZBackgroundTask.h */,
@@ -192,10 +202,12 @@
 				042CDC651DA9F141005030DF /* KZWifiNotificationManager.m in Sources */,
 				042CDC381DA9F0EF005030DF /* ViewController.m in Sources */,
 				042CDC641DA9F141005030DF /* KZLocationManager.m in Sources */,
+				04549CC11DC82EF8005B82FA /* UNOLoadingAnimationView.m in Sources */,
 				042CDC631DA9F141005030DF /* KZBackgroundTask.m in Sources */,
 				042CDC621DA9F141005030DF /* DXTimer.m in Sources */,
 				042CDC351DA9F0EF005030DF /* AppDelegate.m in Sources */,
 				042CDC661DA9F141005030DF /* UILabel+KZVerticalAlgnment.m in Sources */,
+				04549CBE1DC82E90005B82FA /* UNOHUD.m in Sources */,
 				042CDC321DA9F0EF005030DF /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

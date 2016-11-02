@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "KZWifiNotificationManager.h"
+#import "UNOHUD.h"
 @interface ViewController ()
 @property KZWifiNotificationManager *manager;
 @end
@@ -19,9 +20,6 @@
     self.manager = [[KZWifiNotificationManager alloc] init];
     [self.manager setNotifyCallBack:^(KZWifiInfo * info) {
         NSLog(@"info : %@", info);
-        
-        NSString *string = [[NSString alloc] initWithData:info.SSIDDATA encoding:NSUTF8StringEncoding];
-        NSLog(@"dataString : %@", string);
     }];
     [self.manager startNotification];
 }

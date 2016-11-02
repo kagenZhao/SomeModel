@@ -9,73 +9,74 @@
 import UIKit
 
 class ViewController: UIViewController, UIViewControllerTransitioningDelegate {
-  
-  @IBOutlet weak var image: UIImageView!
-  var sVC = SecondViewController()
-  var tVC = ThirdViewController()
-  var fVC = FourViewController()
-  var half: HalfWaySpringAnimator!
-  var customTransitionDelegate = InteractivityTransitionDelegate()
-  var customPresentTationController: CustomPresentationController!
-  var interactiveTransitionRecognizer: UIScreenEdgePanGestureRecognizer!
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    half = HalfWaySpringAnimator(imageview: self.image)
-    sVC.transitioningDelegate = self
-    sVC.modalPresentationStyle = .FullScreen
     
-    interactiveTransitionRecognizer = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(ViewController.interactiveTransitionRecognizerAction(_:)))
-    interactiveTransitionRecognizer.edges =  .Right  // [.Right, .Left]
-    tVC.transitioningDelegate = customTransitionDelegate
-    tVC.modalPresentationStyle = .FullScreen
-    self.view.addGestureRecognizer(interactiveTransitionRecognizer)
-    
-    
-    customPresentTationController = CustomPresentationController(presentedViewController: self.fVC, presentingViewController: self)
-    fVC.transitioningDelegate = customPresentTationController
-    
-  }
-  
-  @IBAction func 跳转(sender: AnyObject) {
-    self.presentViewController(sVC, animated: true, completion: {
-    })
-  }
-  
-  @IBAction func 跳转2(sender: AnyObject) {
-    self.animationButtonDidClicked(sender)
-  }
-  
-  @IBAction func 跳转3(sender: AnyObject) {
-    self.presentViewController(fVC, animated: true, completion: nil)
-  }
-  
-  
-  func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-    return half
-  }
-  func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-    return half
-  }
-  
-  
-  func interactiveTransitionRecognizerAction(sender: UIScreenEdgePanGestureRecognizer) {
-    /**
-     *  在开始触发手势时，调用animationButtonDidClicked方法，只会调用一次
-     */
-    if sender.state == .Began {
-      animationButtonDidClicked(sender)
+    @IBOutlet weak var image: UIImageView!
+    var sVC = SecondViewController()
+    var tVC = ThirdViewController()
+    var fVC = FourViewController()
+    var half: HalfWaySpringAnimator!
+    var customTransitionDelegate = InteractivityTransitionDelegate()
+    var customPresentTationController: CustomPresentationController!
+    var interactiveTransitionRecognizer: UIScreenEdgePanGestureRecognizer!
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        half = HalfWaySpringAnimator(imageview: self.image)
+        sVC.transitioningDelegate = self
+        sVC.modalPresentationStyle = .fullScreen
+        
+        interactiveTransitionRecognizer = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(ViewController.interactiveTransitionRecognizerAction(_:)))
+        interactiveTransitionRecognizer.edges =  .right  // [.Right, .Left]
+        tVC.transitioningDelegate = customTransitionDelegate
+        tVC.modalPresentationStyle = .fullScreen
+        self.view.addGestureRecognizer(interactiveTransitionRecognizer)
+        
+        
+        customPresentTationController = CustomPresentationController(presentedViewController: self.fVC, presenting: self)
+        fVC.transitioningDelegate = customPresentTationController
+        
     }
-  }
-  
-  func animationButtonDidClicked(sender: AnyObject) {
-    if sender.isKindOfClass(UIGestureRecognizer) {
-      customTransitionDelegate.gestureRecognizer = interactiveTransitionRecognizer
-    } else {
-      customTransitionDelegate.gestureRecognizer = nil
+    
+    @IBAction func 跳转(_ sender: AnyObject) {
+        self.present(sVC, animated: true, completion: {
+        })
     }
-    customTransitionDelegate.targetEdge = .Right
-    self.presentViewController(tVC, animated: true, completion: nil)
-  }
-  
-  
+    
+    @IBAction func 跳转2(_ sender: AnyObject) {
+        self.animationButtonDidClicked(sender)
+    }
+    
+    @IBAction func 跳转3(_ sender: AnyObject) {
+        self.present(fVC, animated: true, completion: nil)
+    }
+    
+
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return half
+    }
+    
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return half
+    }
+
+    
+    func interactiveTransitionRecognizerAction(_ sender: UIScreenEdgePanGestureRecognizer) {
+        /**
+         *  在开始触发手势时，调用animationButtonDidClicked方法，只会调用一次
+         */
+        if sender.state == .began {
+            animationButtonDidClicked(sender)
+        }
+    }
+    
+    func animationButtonDidClicked(_ sender: AnyObject) {
+        if let _ = sender as? UIGestureRecognizer {
+            customTransitionDelegate.gestureRecognizer = interactiveTransitionRecognizer
+        } else {
+            customTransitionDelegate.gestureRecognizer = nil
+        }
+        customTransitionDelegate.targetEdge = .right
+        self.present(tVC, animated: true, completion: nil)
+    }
+    
+    
 }

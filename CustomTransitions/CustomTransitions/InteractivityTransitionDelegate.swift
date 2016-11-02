@@ -11,28 +11,27 @@ import UIKit
 class InteractivityTransitionDelegate: NSObject, UIViewControllerTransitioningDelegate {
     
     var gestureRecognizer: UIScreenEdgePanGestureRecognizer?
-    var targetEdge: UIRectEdge = .None
+    var targetEdge: UIRectEdge = .all
     
-    func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return InteractivityTransitionAnimator(targetEdge:targetEdge)
     }
     
-    func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return InteractivityTransitionAnimator(targetEdge:targetEdge)
     }
     
-    func interactionControllerForPresentation(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+    func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
         if let gestureRecognizer = self.gestureRecognizer {
             return TransitionInteractionController(gestureRecognizer: gestureRecognizer, edgeForDragging: targetEdge)
         }
         return nil
     }
     
-    func interactionControllerForDismissal(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+    func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
         if let gestureRecognizer = self.gestureRecognizer {
             return TransitionInteractionController(gestureRecognizer: gestureRecognizer, edgeForDragging: targetEdge)
         }
         return nil
     }
-
 }

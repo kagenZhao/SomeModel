@@ -14,41 +14,41 @@ class ThirdViewController: UIViewController {
     var interactiveTransitionRecognizer: UIScreenEdgePanGestureRecognizer!
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.orangeColor()
-        let btn = UIButton(type: .System)
+        self.view.backgroundColor = UIColor.orange
+        let btn = UIButton(type: .system)
         btn.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         btn.center = CGPoint(x: view.frame.width / 2, y: view.frame.height / 2)
-        btn.setTitle("返回", forState: .Normal)
-        btn.addTarget(self, action: #selector(self.buttonDidClicked(_:)), forControlEvents: .TouchUpInside)
+        btn.setTitle("返回", for: .normal)
+        btn.addTarget(self, action: #selector(self.buttonDidClicked(_:)), for: .touchUpInside)
         view.addSubview(btn)
         
         
         interactiveTransitionRecognizer = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(ThirdViewController.interactiveTransitionRecognizerAction(_:)))
         
-        interactiveTransitionRecognizer.edges = .Left
+        interactiveTransitionRecognizer.edges = .left
         self.view.addGestureRecognizer(interactiveTransitionRecognizer)
         
         
     }
     
     
-    func interactiveTransitionRecognizerAction(sender: UIScreenEdgePanGestureRecognizer) {
-        if sender.state == .Began {
+    func interactiveTransitionRecognizerAction(_ sender: UIScreenEdgePanGestureRecognizer) {
+        if sender.state == .began {
             self.buttonDidClicked(sender)
         }
     }
     
-    func buttonDidClicked(sender: AnyObject) {
+    func buttonDidClicked(_ sender: AnyObject) {
         if let transitionDelegate = self.transitioningDelegate as? InteractivityTransitionDelegate {
-            if sender.isKindOfClass(UIGestureRecognizer) {
+            if let _ = sender as? UIGestureRecognizer {
                 transitionDelegate.gestureRecognizer = interactiveTransitionRecognizer
             }
             else {
                 transitionDelegate.gestureRecognizer = nil
             }
-            transitionDelegate.targetEdge = .Left
+            transitionDelegate.targetEdge = .left
         }
-        self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
+        self.presentingViewController?.dismiss(animated: true, completion: nil)
     }
 
 }

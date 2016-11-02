@@ -14,7 +14,7 @@ class TransitionInteractionController: UIPercentDrivenInteractiveTransition {
     var edge: UIRectEdge
     
     init(gestureRecognizer: UIScreenEdgePanGestureRecognizer, edgeForDragging edge: UIRectEdge) {
-        assert(edge == .Top || edge == .Bottom || edge == .Left || edge == .Right,
+        assert(edge == .top || edge == .bottom || edge == .left || edge == .right,
                "edgeForDragging must be one of UIRectEdgeTop, UIRectEdgeBottom, UIRectEdgeLeft, or UIRectEdgeRight.")
         self.gestureRecognizer = gestureRecognizer
         self.edge = edge
@@ -23,7 +23,7 @@ class TransitionInteractionController: UIPercentDrivenInteractiveTransition {
         self.gestureRecognizer.addTarget(self, action: #selector(gestureRecognizeDidUpdate(_:)))
     }
     
-    override func startInteractiveTransition(transitionContext: UIViewControllerContextTransitioning) {
+    override func startInteractiveTransition(_ transitionContext: UIViewControllerContextTransitioning) {
         self.transitionContext = transitionContext
         super.startInteractiveTransition(transitionContext)
     }
@@ -36,34 +36,34 @@ class TransitionInteractionController: UIPercentDrivenInteractiveTransition {
      :returns: 返回动画完成的百分比
      */
     private func percentForGesture(gesture: UIScreenEdgePanGestureRecognizer) -> CGFloat {
-        let transitionContainerView = transitionContext?.containerView()
-        let locationInSourceView = gesture.locationInView(transitionContainerView)
+        let transitionContainerView = transitionContext?.containerView
+        let locationInSourceView = gesture.location(in: transitionContainerView)
         
         let width = transitionContainerView?.bounds.width
         let height = transitionContainerView?.bounds.height
         
         switch self.edge {
-        case UIRectEdge.Right: return (width! - locationInSourceView.x) / width!
-        case UIRectEdge.Left: return locationInSourceView.x / width!
-        case UIRectEdge.Bottom: return (height! - locationInSourceView.y) / height!
-        case UIRectEdge.Top: return locationInSourceView.y / height!
+        case UIRectEdge.right: return (width! - locationInSourceView.x) / width!
+        case UIRectEdge.left: return locationInSourceView.x / width!
+        case UIRectEdge.bottom: return (height! - locationInSourceView.y) / height!
+        case UIRectEdge.top: return locationInSourceView.y / height!
         default: return 0
         }
     }
     
     /// 当手势有滑动时触发这个函数
-    func gestureRecognizeDidUpdate(gestureRecognizer: UIScreenEdgePanGestureRecognizer) {
+    func gestureRecognizeDidUpdate(_ gestureRecognizer: UIScreenEdgePanGestureRecognizer) {
         switch gestureRecognizer.state {
-        case .Began: break
-        case .Changed: self.updateInteractiveTransition(self.percentForGesture(gestureRecognizer))  //手势滑动，更新百分比
-        case .Ended:    // 滑动结束，判断是否超过一半，如果是则完成剩下的动画，否则取消动画
-            if self.percentForGesture(gestureRecognizer) >= 0.3 {
-                self.finishInteractiveTransition()
+        case .began: break
+        case .changed: self.update(self.percentForGesture(gesture: gestureRecognizer))  //手势滑动，更新百分比
+        case .ended:    // 滑动结束，判断是否超过一半，如果是则完成剩下的动画，否则取消动画
+            if self.percentForGesture(gesture: gestureRecognizer) >= 0.3 {
+                self.finish()
             }
             else {
-                self.cancelInteractiveTransition()
+                self.cancel()
             }
-        default: self.cancelInteractiveTransition()
+        default: self.cancel()
         }
     }
 }

@@ -12,16 +12,16 @@ class SecondViewController: UIViewController{
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.orangeColor()
-        let btn = UIButton(type: .System)
+        self.view.backgroundColor = UIColor.orange
+        let btn = UIButton(type: .system)
         btn.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         btn.center = CGPoint(x: view.frame.width / 2, y: view.frame.height / 2)
-        btn.setTitle("返回", forState: .Normal)
-        btn.addTarget(self, action: #selector(back), forControlEvents: .TouchUpInside)
+        btn.setTitle("返回", for: .normal)
+        btn.addTarget(self, action: #selector(back), for: .touchUpInside)
         view.addSubview(btn)
     }
     
     func back() {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
 }

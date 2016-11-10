@@ -26,17 +26,17 @@ public extension KZQRManagerCompatible {
     }
 }
 
-/// you can set another Type to conform this protocol
+/// you can set another Class to conform this protocol
 public protocol KZQRDecodeUIProtocol: KZQRManagerCompatible, NSObjectProtocol {
     var decodeUISuperLayer: CALayer { get }
 }
 
-/// you can set another Type to conform this protocol
+/// you can set another Class to conform this protocol
 public protocol KZQRDecodeProtocol: KZQRManagerCompatible {
     var decodeImage: UIImage { get }
 }
 
-/// you can set another Type to conform this protocol
+/// you can set another Class to conform this protocol
 public protocol KZQREncodeProtocol: KZQRManagerCompatible {
     var encodeMessage:String { get }
 }

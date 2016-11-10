@@ -9,9 +9,7 @@
 import UIKit
 
 public extension KZQRManager where Type: KZQREncodeProtocol {
-    func encodeQR(to size: CGFloat = 200.0,
-                  color: UIColor = .black,
-                  centerImg: UIImage? = nil) -> UIImage? {
+    func encodeQR(to size: CGFloat = 200.0) -> UIImage? {
         guard let ciimage = createCiimage() else { return nil }
         return createUIImage(from: ciimage, size: size)
     }
@@ -39,5 +37,8 @@ public extension KZQRManager where Type: KZQREncodeProtocol {
         guard let scaledImage = bitmap.makeImage() else { return nil }
         return UIImage(cgImage: scaledImage)
     }
+    
+    
+    
     
 }

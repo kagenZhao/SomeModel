@@ -19,6 +19,7 @@ class ViewController: UIViewController {
         .startRunning { (str) in
             print(str)
         }
+
     }
 }
 

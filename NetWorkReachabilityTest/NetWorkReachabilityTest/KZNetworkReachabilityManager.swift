@@ -323,7 +323,6 @@
             
             var status: KZNetworkReachabilityStatus = .notReachable
             
-//            let wifiInfo = self.wifiManager.savedWiFiInfo
             let wifiInfo = KZWiFiDidChangedManager.getCurrentWiFiInfo()
             
             if !flags.contains(.connectionRequired) { status = .WiFi(wifiInfo) }

@@ -17,6 +17,7 @@ private var kz_decodeNotifierKey: Void?
 
 private class _KZOutputDelegate: NSObject {
     fileprivate var value: ((String) -> Void)?
+    
     fileprivate init(_ obj: ((String) -> Void)?) {
         super.init()
         self.value = obj
@@ -141,7 +142,7 @@ public extension KZQRManager where Type: KZQRDecodeUIProtocol {
     }
     
     @discardableResult
-    public func startRunning(with decodeNotifier: @escaping (String) -> Void) -> Self {
+    public func startRunning(decodeNotifier: @escaping (String) -> Void) -> Self {
         assert(kz_session != nil, "not call function setupQRUI")
         self.kz_outputDelegate = _KZOutputDelegate(decodeNotifier)
         kz_session!.outputs.forEach {[weak self] (output) in

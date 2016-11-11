@@ -11,7 +11,9 @@ import UIKit
 public extension KZQRManager where Type: KZQREncodeProtocol {
     func encodeQR(to size: CGFloat = 200.0) -> UIImage? {
         guard let ciimage = createCiimage() else { return nil }
-        return createUIImage(from: ciimage, size: size)
+        var resultImage = createUIImage(from: ciimage, size: size)
+        resultImage = transparent(with: resultImage!, to: CIColor(color: UIColor.red))
+        return resultImage
     }
     
     private func createCiimage() -> CIImage? {
@@ -38,7 +40,43 @@ public extension KZQRManager where Type: KZQREncodeProtocol {
         return UIImage(cgImage: scaledImage)
     }
     
+    func transparent(with image: UIImage, to cicolor: CIColor) -> UIImage? {
+        let w = Int(image.size.width)
+        let h = Int(image.size.height)
+        let bytePerRow = w * 4
+        let rgbimageBuf: UnsafeMutablePointer<UInt32> = malloc(bytePerRow * h).bindMemory(to: UInt32.self, capacity: 1)
+        let colorSpace = CGColorSpaceCreateDeviceRGB()
+        let context = CGContext.init(data: rgbimageBuf, width: w, height: h, bitsPerComponent: 8, bytesPerRow: bytePerRow, space: colorSpace, bitmapInfo: CGBitmapInfo.byteOrder32Little.rawValue | CGImageAlphaInfo.noneSkipLast.rawValue)
+        guard let cgimage = image.cgImage, context != nil else { return nil }
+        context!.draw(cgimage, in: CGRect(origin: CGPoint.zero, size: CGSize(width: w, height: h)))
+        for i in 0..<(w * h) {
+           let pCurPtr = rgbimageBuf.advanced(by: i)
+            if (pCurPtr.pointee & 0xffffff00) < 0x99999900 {
+                let ptr = pCurPtr.withMemoryRebound(to: UInt8.self, capacity: 4, { return $0 })
+                ptr[3] = UInt8(cicolor.red * 255)
+                ptr[2] = UInt8(cicolor.green * 255)
+                ptr[1] = UInt8(cicolor.blue * 255)
+            } else {
+                let ptr = pCurPtr.withMemoryRebound(to: UInt8.self, capacity: 4, { return $0 })
+                ptr[0] = 0
+            }
+        }
+        guard let dataProvider = CGDataProvider.init(dataInfo: nil, data: rgbimageBuf, size: w * h, releaseData: {info, data, size in
+            let d = UnsafeMutableRawPointer.init(mutating: data)
+            free(d)
+        }) else { return nil }
+        guard let imageRef = CGImage.init(width: w, height: h, bitsPerComponent: 8, bitsPerPixel: 32, bytesPerRow: bytePerRow, space: colorSpace, bitmapInfo: [.byteOrder32Little, .init(rawValue: CGImageAlphaInfo.last.rawValue)], provider: dataProvider, decode: nil, shouldInterpolate: true, intent: .defaultIntent) else { return nil }
+        let resultImage = UIImage(cgImage: imageRef)
+        return redraw(image: resultImage)
+    }
     
-    
+    // 解决 不能存到相册的问题 不知道为什么....
+    func redraw(image: UIImage) -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(image.size, false, UIScreen.main.scale)
+        image.draw(in: CGRect(origin: CGPoint.zero, size: image.size))
+        let result = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return result
+    }
     
 }

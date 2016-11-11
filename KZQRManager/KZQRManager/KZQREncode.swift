@@ -9,7 +9,8 @@
 import UIKit
 
 public extension KZQRManager where Type: KZQREncodeProtocol {
-    func encodeQR(to size: CGFloat = 200.0) -> UIImage? {
+    
+    public func encodeQR(to size: CGFloat = 200.0) -> UIImage? {
         guard let ciimage = createCiimage() else { return nil }
         guard let defaultImage = createUIImage(from: ciimage, size: size) else { return nil }
         return transparent(with: defaultImage, to: CIColor(color: UIColor.red))
@@ -39,7 +40,7 @@ public extension KZQRManager where Type: KZQREncodeProtocol {
         return UIImage(cgImage: scaledImage)
     }
     
-    func transparent(with image: UIImage, to cicolor: CIColor) -> UIImage? {
+    private func transparent(with image: UIImage, to cicolor: CIColor) -> UIImage? {
         let w = Int(image.size.width)
         let h = Int(image.size.height)
         let bytePerRow = w * 4
@@ -70,7 +71,7 @@ public extension KZQRManager where Type: KZQREncodeProtocol {
     }
     
     // 解决 不能存到相册的问题 不知道为什么....
-    func redraw(image: UIImage) -> UIImage? {
+    private func redraw(image: UIImage) -> UIImage? {
         UIGraphicsBeginImageContextWithOptions(image.size, false, UIScreen.main.scale)
         image.draw(in: CGRect(origin: CGPoint.zero, size: image.size))
         let result = UIGraphicsGetImageFromCurrentImageContext()

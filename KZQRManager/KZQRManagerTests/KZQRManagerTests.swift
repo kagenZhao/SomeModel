@@ -7,30 +7,35 @@
 //
 
 import XCTest
-@testable import KZQRManager
+import KZQRManager
 
 class KZQRManagerTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    }
+
+    func testCreateQRImage() {
+        
+        let qrMessage = "this is qr code"
+        
+        let image = qrMessage.kqr.encodeQR()
+        
+        let decodeMessage = image?.kqr.decodeQR()
+        
+        XCTAssertEqual(qrMessage, decodeMessage, "encodeMessage should equal to decodeMessage")
     }
     
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
+    func testNIL() {
+        
+        let qrMessage: String? = nil
+        
+        let image = qrMessage?.kqr.encodeQR()
+        
+        XCTAssertNil(image, "should be nil")
+        
+        let decodeMessage = image?.kqr.decodeQR()
+        
+        XCTAssertNil(decodeMessage, "should be nil")
     }
-    
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
 }

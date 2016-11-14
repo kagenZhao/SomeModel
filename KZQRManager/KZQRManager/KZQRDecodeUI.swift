@@ -9,7 +9,6 @@
 import UIKit
 import AVFoundation
 
-
 private var kz_sessionKey: Void?
 private var kz_previewLayerKey: Void?
 private var kz_outputDelegateKey: Void?
@@ -31,7 +30,7 @@ private class _KZOutputDelegate: NSObject {
 }
 
 public extension KZQRManager where Type: KZQRDecodeUIProtocol {
-    
+   
     private var kz_session: AVCaptureSession? {
         set {
             objc_setAssociatedObject(base, &kz_sessionKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
@@ -59,25 +58,13 @@ public extension KZQRManager where Type: KZQRDecodeUIProtocol {
         }
     }
     
-    private var kz_sessionIsStart: Bool {
-        set {
-            objc_setAssociatedObject(base, &kz_sessionIsStartKey, NSNumber(value: newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        }
-        get {
-            if let value = objc_getAssociatedObject(base, &kz_sessionIsStartKey) as? NSNumber {
-                return value.boolValue
-            }
-            return false
-        }
-    }
-    
     private var kz_sessionAutoStop: Bool {
         set {
-            objc_setAssociatedObject(base, &kz_sessionAutoStopKey, NSNumber(value: newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(base, &kz_sessionAutoStopKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
         get {
-            if let value = objc_getAssociatedObject(base, &kz_sessionAutoStopKey) as? NSNumber {
-                return value.boolValue
+            if let value = objc_getAssociatedObject(base, &kz_sessionAutoStopKey) as? Bool {
+                return value
             }
             return false
         }
@@ -177,7 +164,7 @@ public extension KZQRManager where Type: KZQRDecodeUIProtocol {
         return self
     }
     
-    /// default is superLayer.bouns
+    /// Default is superLayer.bouns
     @discardableResult
     public func setPreview(layerFrame: CGRect) -> Self {
         
@@ -189,7 +176,7 @@ public extension KZQRManager where Type: KZQRDecodeUIProtocol {
     }
     
     
-    /// default is (0,0,1,1)
+    /// Default is (0,0,1,1)
     @discardableResult
     public func setOutput(interest: CGRect) -> Self {
         
@@ -206,19 +193,27 @@ public extension KZQRManager where Type: KZQRDecodeUIProtocol {
     }
     
     @discardableResult
+    
     public func startRunning(decodeNotifier: @escaping (String) -> Void) -> Self {
         
         assert(kz_session != nil, "not call function setupQRUI")
         
-        startRunning(decodeNotifier: {[weak self] (str) in
+        stopRunning()
+        
+        self.kz_outputDelegate = _KZOutputDelegate({[weak base] (str) in
             
             decodeNotifier(str)
             
-            guard let self_strong = self else { return }
+            guard let base_strong = base else { return }
             
-            if self_strong.kz_sessionAutoStop { self_strong.stopRunning() }
+            let manager = KZQRManager.init(base_strong)
+            
+            if manager.kz_sessionAutoStop {
+                
+                manager.stopRunning()
+            }
         })
-
+        
         kz_session!.outputs.forEach {[weak self] (output) in
             
             guard let self_strong = self else { return }
@@ -230,8 +225,6 @@ public extension KZQRManager where Type: KZQRDecodeUIProtocol {
         
         kz_session?.startRunning()
         
-        kz_sessionIsStart = true
-        
         return self
     }
     
@@ -240,31 +233,35 @@ public extension KZQRManager where Type: KZQRDecodeUIProtocol {
         
         assert(kz_session != nil, "not call function setupQRUI")
         
-        kz_session?.stopRunning()
+        guard kz_session?.isRunning == true else { return self }
         
-        kz_sessionIsStart = false
+        kz_session?.stopRunning()
         
         return self
     }
     
-    /// Certainly not be 'nil'
+    /// Default is false
+    /// Session will be stop, previewlayer will not be destroy while get first qr code
+    /// The results will not be "nil"
     @discardableResult
     public func set(stopWhenGetFirstQrcode: Bool) -> Self {
         
         assert(kz_session != nil, "not call function setupQRUI")
         
-        guard kz_sessionAutoStop != stopWhenGetFirstQrcode else { return self }
-        
         kz_sessionAutoStop = stopWhenGetFirstQrcode
         
-        if kz_sessionIsStart {
-            
-            stopRunning()
-            
-            startRunning(decodeNotifier: self.kz_outputDelegate!.value!)
-        }
-        
         return self
+    }
+    
+    /// PreviewLayer will be destroy 
+    /// All attribute will be reset
+    public func destroyQRUI() {
+        stopRunning()
+        kz_previewLayer?.removeFromSuperlayer()
+        kz_session = nil
+        kz_previewLayer = nil
+        kz_outputDelegate = nil
+        kz_sessionAutoStop = false
     }
 }
 

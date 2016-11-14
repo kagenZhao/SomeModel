@@ -24,6 +24,7 @@ public extension KZQRManagerCompatible {
     public var kqr: KZQRManager<Self> {
         get { return KZQRManager(self) }
     }
+    
 }
 
 /// you can set another Class to conform this protocol

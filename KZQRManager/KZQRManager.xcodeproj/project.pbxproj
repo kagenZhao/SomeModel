@@ -7,33 +7,72 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		04EBF0E81DD1DFC700104D3F /* KZQRDecode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EBF0E71DD1DFC700104D3F /* KZQRDecode.swift */; };
-		04EBF0EA1DD1DFD700104D3F /* KZQREncode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EBF0E91DD1DFD700104D3F /* KZQREncode.swift */; };
-		04EBF0EC1DD2B60800104D3F /* KZQRDecodeUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EBF0EB1DD2B60800104D3F /* KZQRDecodeUI.swift */; };
-		04F63D6B1DD1BA5A004C89E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F63D6A1DD1BA5A004C89E2 /* AppDelegate.swift */; };
-		04F63D6D1DD1BA5A004C89E2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F63D6C1DD1BA5A004C89E2 /* ViewController.swift */; };
-		04F63D701DD1BA5A004C89E2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04F63D6E1DD1BA5A004C89E2 /* Main.storyboard */; };
-		04F63D721DD1BA5A004C89E2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04F63D711DD1BA5A004C89E2 /* Assets.xcassets */; };
-		04F63D751DD1BA5A004C89E2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04F63D731DD1BA5A004C89E2 /* LaunchScreen.storyboard */; };
-		04F63D7D1DD1BA71004C89E2 /* KZQRManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F63D7C1DD1BA71004C89E2 /* KZQRManager.swift */; };
+		04B9932B1DD95ED7002E1694 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9932A1DD95ED7002E1694 /* AppDelegate.swift */; };
+		04B9932D1DD95ED7002E1694 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9932C1DD95ED7002E1694 /* ViewController.swift */; };
+		04B993301DD95ED7002E1694 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04B9932E1DD95ED7002E1694 /* Main.storyboard */; };
+		04B993321DD95ED7002E1694 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04B993311DD95ED7002E1694 /* Assets.xcassets */; };
+		04B993351DD95ED7002E1694 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04B993331DD95ED7002E1694 /* LaunchScreen.storyboard */; };
+		04B993401DD95ED7002E1694 /* KZQRManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9933F1DD95ED7002E1694 /* KZQRManagerTests.swift */; };
+		04B9934B1DD95ED7002E1694 /* KZQRManagerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9934A1DD95ED7002E1694 /* KZQRManagerUITests.swift */; };
+		04B9935C1DD95EE0002E1694 /* KZQRManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B993581DD95EE0002E1694 /* KZQRManager.swift */; };
+		04B9935D1DD95EE0002E1694 /* KZQRDecode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B993591DD95EE0002E1694 /* KZQRDecode.swift */; };
+		04B9935E1DD95EE0002E1694 /* KZQREncode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9935A1DD95EE0002E1694 /* KZQREncode.swift */; };
+		04B9935F1DD95EE0002E1694 /* KZQRDecodeUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9935B1DD95EE0002E1694 /* KZQRDecodeUI.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		04B9933C1DD95ED7002E1694 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04B9931F1DD95ED7002E1694 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04B993261DD95ED7002E1694;
+			remoteInfo = KZQRManager;
+		};
+		04B993471DD95ED7002E1694 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04B9931F1DD95ED7002E1694 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04B993261DD95ED7002E1694;
+			remoteInfo = KZQRManager;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
-		04EBF0E71DD1DFC700104D3F /* KZQRDecode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KZQRDecode.swift; sourceTree = "<group>"; };
-		04EBF0E91DD1DFD700104D3F /* KZQREncode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KZQREncode.swift; sourceTree = "<group>"; };
-		04EBF0EB1DD2B60800104D3F /* KZQRDecodeUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KZQRDecodeUI.swift; sourceTree = "<group>"; };
-		04F63D671DD1BA5A004C89E2 /* KZQRManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KZQRManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		04F63D6A1DD1BA5A004C89E2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		04F63D6C1DD1BA5A004C89E2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		04F63D6F1DD1BA5A004C89E2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		04F63D711DD1BA5A004C89E2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		04F63D741DD1BA5A004C89E2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		04F63D761DD1BA5A004C89E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		04F63D7C1DD1BA71004C89E2 /* KZQRManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KZQRManager.swift; sourceTree = "<group>"; };
+		04B993271DD95ED7002E1694 /* KZQRManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KZQRManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		04B9932A1DD95ED7002E1694 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		04B9932C1DD95ED7002E1694 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		04B9932F1DD95ED7002E1694 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		04B993311DD95ED7002E1694 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		04B993341DD95ED7002E1694 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		04B993361DD95ED7002E1694 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		04B9933B1DD95ED7002E1694 /* KZQRManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KZQRManagerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		04B9933F1DD95ED7002E1694 /* KZQRManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KZQRManagerTests.swift; sourceTree = "<group>"; };
+		04B993411DD95ED7002E1694 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		04B993461DD95ED7002E1694 /* KZQRManagerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KZQRManagerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		04B9934A1DD95ED7002E1694 /* KZQRManagerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KZQRManagerUITests.swift; sourceTree = "<group>"; };
+		04B9934C1DD95ED7002E1694 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		04B993581DD95EE0002E1694 /* KZQRManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KZQRManager.swift; sourceTree = "<group>"; };
+		04B993591DD95EE0002E1694 /* KZQRDecode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KZQRDecode.swift; sourceTree = "<group>"; };
+		04B9935A1DD95EE0002E1694 /* KZQREncode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KZQREncode.swift; sourceTree = "<group>"; };
+		04B9935B1DD95EE0002E1694 /* KZQRDecodeUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KZQRDecodeUI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		04F63D641DD1BA5A004C89E2 /* Frameworks */ = {
+		04B993241DD95ED7002E1694 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04B993381DD95ED7002E1694 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04B993431DD95ED7002E1694 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -43,49 +82,71 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		04F63D5E1DD1BA5A004C89E2 = {
+		04B9931E1DD95ED7002E1694 = {
 			isa = PBXGroup;
 			children = (
-				04F63D691DD1BA5A004C89E2 /* KZQRManager */,
-				04F63D681DD1BA5A004C89E2 /* Products */,
+				04B993291DD95ED7002E1694 /* KZQRManager */,
+				04B9933E1DD95ED7002E1694 /* KZQRManagerTests */,
+				04B993491DD95ED7002E1694 /* KZQRManagerUITests */,
+				04B993281DD95ED7002E1694 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		04F63D681DD1BA5A004C89E2 /* Products */ = {
+		04B993281DD95ED7002E1694 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				04F63D671DD1BA5A004C89E2 /* KZQRManager.app */,
+				04B993271DD95ED7002E1694 /* KZQRManager.app */,
+				04B9933B1DD95ED7002E1694 /* KZQRManagerTests.xctest */,
+				04B993461DD95ED7002E1694 /* KZQRManagerUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		04F63D691DD1BA5A004C89E2 /* KZQRManager */ = {
+		04B993291DD95ED7002E1694 /* KZQRManager */ = {
 			isa = PBXGroup;
 			children = (
-				04F63D7C1DD1BA71004C89E2 /* KZQRManager.swift */,
-				04EBF0E71DD1DFC700104D3F /* KZQRDecode.swift */,
-				04EBF0E91DD1DFD700104D3F /* KZQREncode.swift */,
-				04EBF0EB1DD2B60800104D3F /* KZQRDecodeUI.swift */,
-				04F63D6A1DD1BA5A004C89E2 /* AppDelegate.swift */,
-				04F63D6C1DD1BA5A004C89E2 /* ViewController.swift */,
-				04F63D6E1DD1BA5A004C89E2 /* Main.storyboard */,
-				04F63D711DD1BA5A004C89E2 /* Assets.xcassets */,
-				04F63D731DD1BA5A004C89E2 /* LaunchScreen.storyboard */,
-				04F63D761DD1BA5A004C89E2 /* Info.plist */,
+				04B993581DD95EE0002E1694 /* KZQRManager.swift */,
+				04B993591DD95EE0002E1694 /* KZQRDecode.swift */,
+				04B9935A1DD95EE0002E1694 /* KZQREncode.swift */,
+				04B9935B1DD95EE0002E1694 /* KZQRDecodeUI.swift */,
+				04B9932A1DD95ED7002E1694 /* AppDelegate.swift */,
+				04B9932C1DD95ED7002E1694 /* ViewController.swift */,
+				04B9932E1DD95ED7002E1694 /* Main.storyboard */,
+				04B993311DD95ED7002E1694 /* Assets.xcassets */,
+				04B993331DD95ED7002E1694 /* LaunchScreen.storyboard */,
+				04B993361DD95ED7002E1694 /* Info.plist */,
 			);
 			path = KZQRManager;
+			sourceTree = "<group>";
+		};
+		04B9933E1DD95ED7002E1694 /* KZQRManagerTests */ = {
+			isa = PBXGroup;
+			children = (
+				04B9933F1DD95ED7002E1694 /* KZQRManagerTests.swift */,
+				04B993411DD95ED7002E1694 /* Info.plist */,
+			);
+			path = KZQRManagerTests;
+			sourceTree = "<group>";
+		};
+		04B993491DD95ED7002E1694 /* KZQRManagerUITests */ = {
+			isa = PBXGroup;
+			children = (
+				04B9934A1DD95ED7002E1694 /* KZQRManagerUITests.swift */,
+				04B9934C1DD95ED7002E1694 /* Info.plist */,
+			);
+			path = KZQRManagerUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		04F63D661DD1BA5A004C89E2 /* KZQRManager */ = {
+		04B993261DD95ED7002E1694 /* KZQRManager */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 04F63D791DD1BA5A004C89E2 /* Build configuration list for PBXNativeTarget "KZQRManager" */;
+			buildConfigurationList = 04B9934F1DD95ED7002E1694 /* Build configuration list for PBXNativeTarget "KZQRManager" */;
 			buildPhases = (
-				04F63D631DD1BA5A004C89E2 /* Sources */,
-				04F63D641DD1BA5A004C89E2 /* Frameworks */,
-				04F63D651DD1BA5A004C89E2 /* Resources */,
+				04B993231DD95ED7002E1694 /* Sources */,
+				04B993241DD95ED7002E1694 /* Frameworks */,
+				04B993251DD95ED7002E1694 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -93,27 +154,75 @@
 			);
 			name = KZQRManager;
 			productName = KZQRManager;
-			productReference = 04F63D671DD1BA5A004C89E2 /* KZQRManager.app */;
+			productReference = 04B993271DD95ED7002E1694 /* KZQRManager.app */;
 			productType = "com.apple.product-type.application";
+		};
+		04B9933A1DD95ED7002E1694 /* KZQRManagerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 04B993521DD95ED7002E1694 /* Build configuration list for PBXNativeTarget "KZQRManagerTests" */;
+			buildPhases = (
+				04B993371DD95ED7002E1694 /* Sources */,
+				04B993381DD95ED7002E1694 /* Frameworks */,
+				04B993391DD95ED7002E1694 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				04B9933D1DD95ED7002E1694 /* PBXTargetDependency */,
+			);
+			name = KZQRManagerTests;
+			productName = KZQRManagerTests;
+			productReference = 04B9933B1DD95ED7002E1694 /* KZQRManagerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		04B993451DD95ED7002E1694 /* KZQRManagerUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 04B993551DD95ED7002E1694 /* Build configuration list for PBXNativeTarget "KZQRManagerUITests" */;
+			buildPhases = (
+				04B993421DD95ED7002E1694 /* Sources */,
+				04B993431DD95ED7002E1694 /* Frameworks */,
+				04B993441DD95ED7002E1694 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				04B993481DD95ED7002E1694 /* PBXTargetDependency */,
+			);
+			name = KZQRManagerUITests;
+			productName = KZQRManagerUITests;
+			productReference = 04B993461DD95ED7002E1694 /* KZQRManagerUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		04F63D5F1DD1BA5A004C89E2 /* Project object */ = {
+		04B9931F1DD95ED7002E1694 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0810;
 				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = "Kagen Zhao";
 				TargetAttributes = {
-					04F63D661DD1BA5A004C89E2 = {
+					04B993261DD95ED7002E1694 = {
 						CreatedOnToolsVersion = 8.1;
 						DevelopmentTeam = RK3TNU2KXD;
 						ProvisioningStyle = Automatic;
 					};
+					04B9933A1DD95ED7002E1694 = {
+						CreatedOnToolsVersion = 8.1;
+						DevelopmentTeam = RK3TNU2KXD;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 04B993261DD95ED7002E1694;
+					};
+					04B993451DD95ED7002E1694 = {
+						CreatedOnToolsVersion = 8.1;
+						DevelopmentTeam = RK3TNU2KXD;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 04B993261DD95ED7002E1694;
+					};
 				};
 			};
-			buildConfigurationList = 04F63D621DD1BA5A004C89E2 /* Build configuration list for PBXProject "KZQRManager" */;
+			buildConfigurationList = 04B993221DD95ED7002E1694 /* Build configuration list for PBXProject "KZQRManager" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -121,58 +230,103 @@
 				en,
 				Base,
 			);
-			mainGroup = 04F63D5E1DD1BA5A004C89E2;
-			productRefGroup = 04F63D681DD1BA5A004C89E2 /* Products */;
+			mainGroup = 04B9931E1DD95ED7002E1694;
+			productRefGroup = 04B993281DD95ED7002E1694 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				04F63D661DD1BA5A004C89E2 /* KZQRManager */,
+				04B993261DD95ED7002E1694 /* KZQRManager */,
+				04B9933A1DD95ED7002E1694 /* KZQRManagerTests */,
+				04B993451DD95ED7002E1694 /* KZQRManagerUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		04F63D651DD1BA5A004C89E2 /* Resources */ = {
+		04B993251DD95ED7002E1694 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04F63D751DD1BA5A004C89E2 /* LaunchScreen.storyboard in Resources */,
-				04F63D721DD1BA5A004C89E2 /* Assets.xcassets in Resources */,
-				04F63D701DD1BA5A004C89E2 /* Main.storyboard in Resources */,
+				04B993351DD95ED7002E1694 /* LaunchScreen.storyboard in Resources */,
+				04B993321DD95ED7002E1694 /* Assets.xcassets in Resources */,
+				04B993301DD95ED7002E1694 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04B993391DD95ED7002E1694 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04B993441DD95ED7002E1694 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		04F63D631DD1BA5A004C89E2 /* Sources */ = {
+		04B993231DD95ED7002E1694 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04F63D7D1DD1BA71004C89E2 /* KZQRManager.swift in Sources */,
-				04EBF0EC1DD2B60800104D3F /* KZQRDecodeUI.swift in Sources */,
-				04F63D6D1DD1BA5A004C89E2 /* ViewController.swift in Sources */,
-				04EBF0EA1DD1DFD700104D3F /* KZQREncode.swift in Sources */,
-				04F63D6B1DD1BA5A004C89E2 /* AppDelegate.swift in Sources */,
-				04EBF0E81DD1DFC700104D3F /* KZQRDecode.swift in Sources */,
+				04B9935C1DD95EE0002E1694 /* KZQRManager.swift in Sources */,
+				04B9935F1DD95EE0002E1694 /* KZQRDecodeUI.swift in Sources */,
+				04B9932D1DD95ED7002E1694 /* ViewController.swift in Sources */,
+				04B9935E1DD95EE0002E1694 /* KZQREncode.swift in Sources */,
+				04B9932B1DD95ED7002E1694 /* AppDelegate.swift in Sources */,
+				04B9935D1DD95EE0002E1694 /* KZQRDecode.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04B993371DD95ED7002E1694 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04B993401DD95ED7002E1694 /* KZQRManagerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04B993421DD95ED7002E1694 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04B9934B1DD95ED7002E1694 /* KZQRManagerUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		04B9933D1DD95ED7002E1694 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04B993261DD95ED7002E1694 /* KZQRManager */;
+			targetProxy = 04B9933C1DD95ED7002E1694 /* PBXContainerItemProxy */;
+		};
+		04B993481DD95ED7002E1694 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04B993261DD95ED7002E1694 /* KZQRManager */;
+			targetProxy = 04B993471DD95ED7002E1694 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
-		04F63D6E1DD1BA5A004C89E2 /* Main.storyboard */ = {
+		04B9932E1DD95ED7002E1694 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				04F63D6F1DD1BA5A004C89E2 /* Base */,
+				04B9932F1DD95ED7002E1694 /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		04F63D731DD1BA5A004C89E2 /* LaunchScreen.storyboard */ = {
+		04B993331DD95ED7002E1694 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				04F63D741DD1BA5A004C89E2 /* Base */,
+				04B993341DD95ED7002E1694 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -180,7 +334,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		04F63D771DD1BA5A004C89E2 /* Debug */ = {
+		04B9934D1DD95ED7002E1694 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -229,7 +383,7 @@
 			};
 			name = Debug;
 		};
-		04F63D781DD1BA5A004C89E2 /* Release */ = {
+		04B9934E1DD95ED7002E1694 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -271,13 +425,12 @@
 			};
 			name = Release;
 		};
-		04F63D7A1DD1BA5A004C89E2 /* Debug */ = {
+		04B993501DD95ED7002E1694 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = RK3TNU2KXD;
 				INFOPLIST_FILE = KZQRManager/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.kagen.KZQRManager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -285,13 +438,12 @@
 			};
 			name = Debug;
 		};
-		04F63D7B1DD1BA5A004C89E2 /* Release */ = {
+		04B993511DD95ED7002E1694 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = RK3TNU2KXD;
 				INFOPLIST_FILE = KZQRManager/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.kagen.KZQRManager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -299,28 +451,101 @@
 			};
 			name = Release;
 		};
+		04B993531DD95ED7002E1694 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = RK3TNU2KXD;
+				INFOPLIST_FILE = KZQRManagerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kagen.KZQRManagerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KZQRManager.app/KZQRManager";
+			};
+			name = Debug;
+		};
+		04B993541DD95ED7002E1694 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = RK3TNU2KXD;
+				INFOPLIST_FILE = KZQRManagerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kagen.KZQRManagerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KZQRManager.app/KZQRManager";
+			};
+			name = Release;
+		};
+		04B993561DD95ED7002E1694 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = RK3TNU2KXD;
+				INFOPLIST_FILE = KZQRManagerUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kagen.KZQRManagerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = KZQRManager;
+			};
+			name = Debug;
+		};
+		04B993571DD95ED7002E1694 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = RK3TNU2KXD;
+				INFOPLIST_FILE = KZQRManagerUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kagen.KZQRManagerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = KZQRManager;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		04F63D621DD1BA5A004C89E2 /* Build configuration list for PBXProject "KZQRManager" */ = {
+		04B993221DD95ED7002E1694 /* Build configuration list for PBXProject "KZQRManager" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				04F63D771DD1BA5A004C89E2 /* Debug */,
-				04F63D781DD1BA5A004C89E2 /* Release */,
+				04B9934D1DD95ED7002E1694 /* Debug */,
+				04B9934E1DD95ED7002E1694 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		04F63D791DD1BA5A004C89E2 /* Build configuration list for PBXNativeTarget "KZQRManager" */ = {
+		04B9934F1DD95ED7002E1694 /* Build configuration list for PBXNativeTarget "KZQRManager" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				04F63D7A1DD1BA5A004C89E2 /* Debug */,
-				04F63D7B1DD1BA5A004C89E2 /* Release */,
+				04B993501DD95ED7002E1694 /* Debug */,
+				04B993511DD95ED7002E1694 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+		};
+		04B993521DD95ED7002E1694 /* Build configuration list for PBXNativeTarget "KZQRManagerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04B993531DD95ED7002E1694 /* Debug */,
+				04B993541DD95ED7002E1694 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		04B993551DD95ED7002E1694 /* Build configuration list for PBXNativeTarget "KZQRManagerUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04B993561DD95ED7002E1694 /* Debug */,
+				04B993571DD95ED7002E1694 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 04F63D5F1DD1BA5A004C89E2 /* Project object */;
+	rootObject = 04B9931F1DD95ED7002E1694 /* Project object */;
 }

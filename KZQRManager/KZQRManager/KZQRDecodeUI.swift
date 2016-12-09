@@ -207,20 +207,22 @@ public extension KZQRManager where Type: KZQRDecodeUIProtocol {
             guard let base_strong = base else { return }
             
             let manager = KZQRManager.init(base_strong)
-            
+           
             if manager.kz_sessionAutoStop {
                 
                 manager.stopRunning()
             }
         })
         
-        kz_session!.outputs.forEach {[weak self] (output) in
+        kz_session!.outputs.forEach {[weak base] (output) in
             
-            guard let self_strong = self else { return }
+            guard let base_strong = base else { return }
+            
+            let manager = KZQRManager.init(base_strong)
             
             guard let output = output as? AVCaptureMetadataOutput else { return }
             
-            output.setMetadataObjectsDelegate(self_strong.kz_outputDelegate, queue: .main)
+            output.setMetadataObjectsDelegate(manager.kz_outputDelegate, queue: .main)
         }
         
         kz_session?.startRunning()
